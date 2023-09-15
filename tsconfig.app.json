@@ -12,6 +12,7 @@
       "@/*": ["./src/*"]
     },
     // "types": [ "./" ],
+    "types": ["node"],
     "checkJs": false,
     "noImplicitAny": false,
  

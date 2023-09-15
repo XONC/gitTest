@@ -1,0 +1,519 @@
+.node-wrap {
+  flex-direction: column;
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  display: flex;
+  padding: 0 50px;
+  position: relative
+}
+// 开始节点
+.node-wrap-box.start-node {
+  min-height: 30px;
+  line-height: 30px;
+  height: 30px;
+  background: $blueColor;
+  text-align: center;
+  color: #fff;
+  overflow: hidden;
+  flex-direction: column;
+  position: relative;
+  width: 220px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.node-wrap-box.start-node:before {
+  content: none
+}
+// 结束节点
+.end-node {
+  border-radius: 50%;
+  font-size: 14px;
+  color: rgba(25, 31, 37, .4);
+  text-align: left;
+
+  .end-node-circle {
+    width: 10px;
+    height: 10px;
+    margin: auto;
+    border-radius: 50%;
+    background: #dbdcdc
+  }
+  .end-node-text {
+    margin-top: 5px;
+    text-align: center
+  }
+}
+// 添加节点
+.add-node-btn-box {
+  width: 240px;
+  display: inline-flex;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  position: relative;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+    margin: auto;
+    width: 2px;
+    height: 100%;
+    background-color: #cacaca
+  }
+
+  .add-node-btn {
+    user-select: none;
+    width: 240px;
+    padding: 25px 0 35px;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    flex-shrink: 0;
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    position: relative;
+    z-index: 1;
+  }
+
+  .el-button.is-circle {
+    border-radius: 50%;
+    padding: 8px;
+
+    .el-icon-plus {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+}
+.add-node-popover-body {
+  max-width: 735px;
+  max-height: 500px;
+  overflow: auto;
+}
+.add-node-popover-item {
+  margin: 5px 5px 5px 5px;
+  cursor: pointer;
+  text-align: center;
+  width: 170px;
+  display: inline-block;
+
+  .item-wrapper {
+    user-select: none;
+    display: block;
+    text-align: center;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 5px;
+    background: #fff;
+    border: 1px solid #e2e2e2;
+    box-shadow: $shadow;
+    border-radius: 50%;
+    transition: all .3s cubic-bezier(.645, .045, .355, 1)
+  }
+  p{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .iconfont, i {
+    font-size: 40px;
+    line-height: 58px;
+  }
+}
+.branch-wrap {
+  display: inline-flex;
+  width: 100%
+}
+.branch-box-wrap {
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: 270px;
+  width: 100%;
+  -ms-flex-negative: 0;
+  flex-shrink: 0
+}
+.branch-box {
+  display: flex;
+  overflow: visible;
+  min-height: 180px;
+  height: auto;
+  border-bottom: 2px solid #ccc;
+  border-top: 2px solid #ccc;
+  position: relative;
+  margin-top: 15px
+}
+
+.branch-box .col-box {
+  background: #fff;
+  position: relative;
+}
+.branch-box .col-box:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  margin: auto;
+  width: 2px;
+  height: 100%;
+  background-color: #cacaca
+}
+
+.add-branch {
+  border: none;
+  outline: none;
+  user-select: none;
+  justify-content: center;
+  padding: 0 10px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 15px;
+  color: $blueColor;
+  background: #fff;
+  border: 1px solid #f5f5f5;
+  box-shadow: 1px 2px 4px 0 rgba(0, 0, 0, .1);
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  margin-left: -35px;
+  //transform: translateX(-50%);
+  transform-origin: center center;
+  cursor: pointer;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  -webkit-transition: all .3s cubic-bezier(.645, .045, .355, 1);
+  transition: all .3s cubic-bezier(.645, .045, .355, 1);
+
+  &:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, .1)
+  }
+}
+.condition-node {
+  min-height: 150px;
+  margin-top: 40px;
+}
+
+.condition-node,
+.condition-node-box {
+  display: inline-flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  -webkit-box-flex: 1
+}
+
+.condition-node-box {
+  //padding-top: 30px;
+  padding-right: 50px;
+  padding-left: 50px;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-grow: 1;
+  position: relative
+}
+.condition-node-box:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 2px;
+  height: 100%;
+  background-color: #cacaca
+}
+.auto-judge {
+  position: relative;
+  width: 220px;
+  min-height: 72px;
+  background: #fff;
+  border-radius: 4px;
+  padding: 14px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: all .1s cubic-bezier(.645, .045, .355, 1);
+  box-shadow: 1px 2px 10px 0 rgba(170, 175, 226, 0.55)
+}
+//.auto-judge:after {
+//  pointer-events: none;
+//  content: "";
+//  position: absolute;
+//  top: 0;
+//  bottom: 0;
+//  left: 0;
+//  right: 0;
+//  z-index: 2;
+//  border-radius: 4px;
+//  border: 1px solid transparent;
+//  transition: all .1s cubic-bezier(.645, .045, .355, 1);
+//  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1)
+//}
+.auto-judge.active:after,
+.auto-judge:active:after,
+.auto-judge:hover:after {
+  border: 1px solid #3296fa;
+  box-shadow: 0 0 6px 0 rgba(50, 150, 250, .3)
+}
+.anticon-close {
+  display: none;
+  position: absolute;
+  right: -11px;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  transform: translateY(-50%);
+  color: #bfbfbf;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  z-index: 5;
+  font-size: 18px;
+}
+.auto-judge.active .anticon-close,
+.auto-judge:active .anticon-close,
+.auto-judge:hover .anticon-close,
+.node-wrap-box:hover .anticon-close{
+  display: block
+}
+.auto-judge .title-wrapper {
+  font-size: 12px;
+  color: #15bc83;
+  text-align: left;
+  line-height: 16px
+}
+
+.auto-judge .title-wrapper .editable-title {
+  display: inline-block;
+  max-width: 190px;
+  position: relative;
+}
+.auto-judge .title-wrapper .icon-info {
+  position: absolute;
+  margin-left: 6px;
+}
+.auto-judge .title-wrapper .priority-title {
+  display: inline-block;
+  float: right;
+  margin-right: 10px;
+  color: rgba(25, 31, 37, .56)
+}
+
+// 遮挡线条
+.top-left-cover-line,
+.top-right-cover-line {
+  position: absolute;
+  height: 3px;
+  width: 50%;
+  background-color: #fff;
+  top: -2px
+}
+.bottom-left-cover-line,
+.bottom-right-cover-line {
+  position: absolute;
+  height: 3px;
+  width: 50%;
+  background-color: #fff;
+  bottom: -2px
+}
+.top-right-cover-line, .bottom-right-cover-line {
+  right: -1px
+}
+.top-left-cover-line, .bottom-left-cover-line {
+  left: -1px
+}
+
+.node-wrap-box {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+  width: 220px;
+  min-height: 72px;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer
+}
+
+.node-wrap-box:after {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: all .1s cubic-bezier(.645, .045, .355, 1);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1)
+}
+
+.node-wrap-box.active:after,
+.node-wrap-box:active:after,
+.node-wrap-box:hover:after {
+  border: 1px solid #3296fa;
+  box-shadow: 0 0 6px 0 rgba(50, 150, 250, .3)
+}
+
+.node-wrap-box.active .close,
+.node-wrap-box:active .close,
+.node-wrap-box:hover .close {
+  display: block
+}
+.error_tip {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  transform: translate(150%, 0px);
+  font-size: 24px;
+}
+.active-error {
+  border: 1px solid $red !important;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1) !important;
+}
+.node-wrap-box .title {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+  padding-right: 30px;
+  width: 100%;
+  height: 24px;
+  line-height: 24px;
+  font-size: 12px;
+  color: #fff;
+  text-align: left;
+  background: #576a95;
+  border-radius: 4px 4px 0 0
+}
+
+.node-wrap-box .title .iconfont {
+  font-size: 12px;
+  margin-right: 5px
+}
+
+.node-wrap-box .placeholder {
+  color: #bfbfbf
+}
+
+.node-wrap-box .close {
+  display: none;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px
+}
+
+.node-wrap-box .content {
+  position: relative;
+  font-size: 14px;
+  padding: 16px 30px 16px 16px;
+  text-align: left;
+}
+
+.node-wrap-box .content .text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical
+}
+
+.node-wrap-box .content .arrow {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 14px;
+  font-size: 14px;
+  color: #979797
+}
+
+.start-node.node-wrap-box .content .text {
+  display: block;
+  white-space: nowrap
+}
+
+.node-wrap-box:before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  width: 0;
+  height: 4px;
+  border-style: solid;
+  border-width: 8px 6px 4px;
+  border-color: #cacaca transparent transparent;
+  background: #fff
+}
+
+// 错误弹框
+
+.ant-confirm-body .ant-confirm-title {
+  color: rgba(0, 0, 0, .85);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+  display: block;
+  overflow: hidden
+}
+
+.ant-confirm-body .ant-confirm-content {
+  margin-left: 38px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, .65);
+  margin-top: 8px
+}
+
+.ant-confirm-body>.anticon {
+  font-size: 22px;
+  margin-right: 16px;
+  float: left
+}

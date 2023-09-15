@@ -1,0 +1,240 @@
+// logo 的 mg值
+$logoMgTop: 1rem;
+$logoMgleft: 3.4rem;
+
+// 中央图片的宽高比例
+$centerImgWidth: 8.5rem;
+$centerImgHeight: 6.375rem;
+// 中央图片的位置
+$centerImgTop: 3.9rem;
+$centerImgleft: 3.9125rem;
+// 左边大盒子的宽度
+$sectionLeftWidth: 14.975rem;
+// 右边大盒子的宽度
+$sectionRigthWidth: 9.025rem;
+// 表单的宽高
+$formBoxWidth: 6.45rem;
+$formBoxHeight: 6.625rem;
+// 表单盒子的位置
+$loginFormBoxLeft: .1125rem;
+$loginFormBoxTop: 3.4375rem;
+
+// 三角背景变量
+$bigWidth: 11.9375rem;
+$midWidth: 4.9875rem;
+$smallWidth: 3.125rem;
+$padBottomWidth: .45rem;
+
+$loginMinWidth: 1400px;
+/* 固定icon的大小 */
+.el-message {
+  .el-message__icon {
+    font-size: $defFont;
+  }
+}
+.login {
+  min-width: $loginMinWidth;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100vw;
+}
+.login__section {
+  display: inline-block;
+  &:nth-child(1) {
+    background-image: url("../imgs/login/login_bg.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #ffffff;
+    width: $sectionLeftWidth;
+    height: 100vh;
+    position: relative;
+    &::after {
+      content: '';
+      display: block;
+      background-image: url("../imgs/login/login_bg1.png");
+      background-repeat: no-repeat;
+      background-size: cover;
+      width: $centerImgWidth;
+      height: $centerImgHeight;
+      position: absolute;
+      top: 50%;
+      left: $centerImgleft;
+
+      transform: translate(0px, -50%);
+    }
+    .logo {
+      $imgWidth: .85rem;
+      $h4FontSize: .525rem;
+      $textFontSize: .4rem;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding-top: $logoMgTop;
+      margin-left: $logoMgleft;
+    
+      .logo-img {
+        background-image: url("~@/assets/imgs/logo.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin-right: .325rem;
+        width: $imgWidth;
+        height: $imgWidth;
+        display: block;
+      }
+    
+      .logo-text {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        span {
+          &:nth-child(1) {
+            font-size: $textFontSize;
+            font-weight: bold;
+            color: #34404F;
+      
+          }
+          &:nth-child(2) {
+            display: inline-block;
+            width: 2px;
+            height: .45rem;
+            background: #D7DBE1;
+            margin: 0 .2875rem;
+          }
+          &:nth-child(3) {
+        
+            font-size: $textFontSize;
+            font-weight: normal;
+            color: #85909E;
+         
+            letter-spacing: 2px;
+          }
+        }
+        
+      }
+    }
+  }
+  &:nth-child(2) {
+    vertical-align: bottom;
+    width: $sectionRigthWidth;
+    height: 100vh;
+    position: relative;
+    background: linear-gradient(180deg, #EFF4FF 0%, #FFFFFF 73%, rgba(161,210,255,0.07) 100%);
+    .bg2 {
+      position: absolute;
+      left: 0;
+      z-index: 1;
+      width: $smallWidth;
+      height: 100vh;
+      display: block;
+      background-color: #ffffff;
+      clip-path: polygon(0 0, 0 100vh ,$smallWidth 0);
+    }
+    .bg1 {
+      position: absolute;
+      width: $bigWidth;
+      height: 100vh;
+      background-image: linear-gradient(333deg, #0043E2 0%, #63A1FF 100%);
+      z-index: 1;
+      clip-path: polygon($midWidth 0, $padBottomWidth 100vh, $bigWidth 100vh,  $bigWidth 0 );
+    }
+    .login-form-box {
+      $paddingBoth: .825rem;
+      position: absolute;
+      z-index: 3;
+      left: $loginFormBoxLeft;
+      top: 50%;
+      display: block;
+      width: $formBoxWidth;
+      height: $formBoxHeight;
+      background: #FFFFFF;
+      box-shadow: -0.0625rem -0.0625rem .25rem 0px rgba(174,183,197,0.19);
+      border-radius: .1rem;
+      transform: translate(0px, -50%);
+      &__title {
+        padding: .825rem $paddingBoth .65rem $paddingBoth;
+        height: .35rem;
+        font-size: .375rem;
+        color: #34404F;
+        line-height: .35rem;
+        text-align: center;
+        h4 {
+          font-weight: bold;
+        }
+      }
+      &__body {
+        padding: 0 $paddingBoth;
+
+        .user-login {
+          $height: .6rem;
+          $btnFontSize: .275rem;
+          $baseFontSize: .275rem;
+          $inputSize: .225rem;
+          $errorFontSize: .2rem;
+          $iconFontSize: .25rem;
+          $iconPadding: .1875rem;
+          margin-top: .275rem;
+          width: 100%;
+          height: $height;
+          font-size: $baseFontSize;
+          // background: linear-gradient(240deg, #3772FF 0%, #379FFF 100%);
+          border-radius: .0875rem;
+
+          .input-form-item {
+            margin-bottom: .375rem;
+
+            .el-form-item__content,.el-input.el-input--mini.input-size {
+              height: $height !important;
+              line-height: $height !important;
+
+              input{
+                height: $height !important;
+                line-height: $height !important;
+                font-size: $inputSize;
+              
+              }
+
+              .el-input__prefix {
+                height: $height ;
+                line-height: $height ;
+                left: $iconPadding;
+                color: #616D7D;
+                
+                i {
+                  font-size: $iconFontSize;
+                }
+              }
+
+              .el-input__clear {
+                display: none;
+              }
+            }
+
+            .el-form-item__error {
+              font-size: $errorFontSize;
+            }
+
+            .el-input__suffix {
+              right: $iconPadding;
+              i {
+                font-size: $iconFontSize;
+              }
+            }
+
+            
+          }
+          .login-submit {
+            width: 100%;
+            height: $height;
+            background-image: linear-gradient(240deg, #3772FF 0%, #379FFF 100%);
+            font-size: $btnFontSize;
+            margin-top: .275rem;
+            padding: .1rem .0031rem;
+            margin-bottom: 20px;
+          }
+        }
+        
+      }
+    }
+  }
+}
+

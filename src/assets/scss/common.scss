@@ -1,0 +1,262 @@
+html,
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  //font-family: Microsoft YaHei,Helvetica,Arial,Inter,-apple-system,PingFang SC,Hiragino Sans GB,noto sans,Helvetica Neue,"sans-serif";
+  font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,SimSun,sans-serif;
+}
+body {
+  line-height: 1.666;
+  color: $formColor;
+  font-size: $defFont;
+  //position: relative;
+  height: 100%;
+  min-width: 1280px;
+  padding: 0;
+  background-color: #F5F6FA;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* 定义通用颜色 */
+.theme-color {
+  color: $blueColor;
+}
+
+.danger-color {
+  //color: $danger-color
+}
+
+.warning-green {
+  color: $greenColor;
+}
+
+.warning-color {
+  color: $orange;
+}
+
+.warning-orange {
+  color: orange;
+}
+
+.warning-red {
+  color: $red;
+}
+
+/* 一行显示省略号 */
+.one-line {
+  cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: block;
+}
+.three-line {
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+// 鼠标上移抓手
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* 浮动 */
+.pull-left {
+  float: left;
+}
+.pull-right {
+  float: right;
+}
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+/*居中、居右对齐*/
+.text-center {
+  text-align: center;
+}
+.text-right {
+  text-align: right;
+}
+.text-left {
+  text-align: left;
+}
+
+
+/*
+滚动条
+*/
+::-webkit-scrollbar,
+::-webkit-scrollbar-track-piece {
+  background-color: #f5f5f5;
+  margin: 3px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  padding-top: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #b9c3d2;
+  margin-top: 3px;
+}
+
+/* 列表 */
+.page-table-card.el-card {
+  background: #eee;
+  border-radius: $borderRadius;
+  //min-height: 300px;
+
+  .el-card__header {
+    padding: 0;
+  }
+  .el-card__body {
+    padding: 15px 0;
+    background: #fff;
+    box-shadow: $shadow;
+  }
+}
+.table-link.el-button {
+  //color: #333;
+  font-size: inherit;
+}
+// 为了表格阴影
+.table-shadow {
+  //padding: 4px 4px;
+}
+// 表格图标按钮
+.table-icon-btn, .icon-btn-hook {
+  padding: 0px 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+}
+// 表格操作按钮图标类
+.icon-btn-hook {
+  color: $--color-primary;
+}
+.icon-btn-hook.table-btn-delete {
+  // color: $--color-danger;
+}
+// 表格中
+.el-icon-check.enabled, .enabled.el-icon-upload-success {
+  color: green!important;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* 详情页标题栏 */
+.crumbs-table {
+  display: table;
+  width: 100%;
+
+  .header-title {
+    display: table-cell;
+    width: 70%;
+
+    & > p {
+      width: 50%;
+      display: inline-flex;
+      line-height: 34px;
+    }
+  }
+  .header-button {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: right;
+  }
+}
+
+.one-line {
+  line-height: 30px;
+  margin-bottom: 18px;
+}
+.textUnderline {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+/*文字变颜色*/
+.table-span:hover {
+  color: $blueColor;
+}
+.child-view {
+  padding: 16px;
+}
+
+.disabled{
+  cursor: not-allowed;
+}
+.switch-right {
+  padding-left: 10px;
+  padding-top: 2px;
+  vertical-align: middle
+}
+.flex-justify {
+  display: flex;
+  justify-content: space-between;
+}
+.flex {
+  display: flex;
+}
+.flex-wrap {
+  display: flex;
+  flex-wrap: wrap;
+}
+.flex-1 {
+  flex: 1;
+}
+.margin-top10 {
+  margin-top: 10px;
+}
+.flex-end{
+  display: flex;
+  justify-content: flex-end;
+}
+
+//表格页面
+.table-common-wrap{
+  background: #fff;
+  padding-bottom: 4px;
+}
+.table-common-wrap>.bs-table{
+  margin: 16px 24px;
+}
+
+.table-header-info{
+  flex: 1;
+}
+.over-error .el-form-item.is-error {
+  margin-bottom: 30px;
+}
+
+
+.moneyUpper-form .el-form-item__content{
+  margin-bottom: 6px;
+}
+
+/* chrome */ 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button { 
+  -webkit-appearance: none; 
+}
+/* 火狐浏览器 */
+input[type="number"]{ 
+  -moz-appearance: textfield; 
+}

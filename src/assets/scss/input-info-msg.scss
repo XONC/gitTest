@@ -1,0 +1,37 @@
+@import './variables.scss';
+/* 录入提示文字*/
+.input-info-msg {
+  position: relative;
+  display: inline-block;
+   margin-left: 5px;
+  // padding: 0 30px;
+  padding-left: 20px;
+  font-size: 12px;
+  line-height: 2;
+  color: $blueColor;
+
+  .msg-icon {
+    position: absolute;
+    left: 0px;
+    top: 5px;
+    color: $blueColor;
+    font-size: 15px;
+  }
+
+  &.warning {
+    color: $--color-warning;
+
+    .msg-icon {
+      color: $--color-warning;
+    }
+  }
+
+  &.error {
+    color: $--color-danger;
+    font-size: 12px;
+
+    .msg-icon {
+      color: $--color-danger;
+    }
+  }
+}

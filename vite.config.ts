@@ -70,64 +70,64 @@ export default defineConfig({
       'Access-Control-Allow-Origin': '*'
     },
     proxy: {
-      [devBaseUrl]: {
-        target: DEV_SERVER_PATH,
-        ws: true,
-        changeOrigin: true,
-        // logLevel: 'debug',
-        rewrite: (path)=> path.replace(new RegExp(`^${devBaseUrl}`), '/')
-      },
-      [WF_SERVE]: {
-        target: WF_PATH,
-        ws: true,
-        changeOrigin: true,
-        // logLevel: 'debug',
-        rewrite: (path)=>path.replace(new RegExp(`^${WF_SERVE}`),'/')
-      },
-      [devSubBaseUrl]: {
-        target: DEV_SERVER_PATH,
-        ws: true,
-        changeOrigin: true,
-        // logLevel: 'debug',
-        rewrite: (path)=>path.replace(new RegExp(`^${devSubBaseUrl}`),'/')
-      },
-      [uploaderUrl]: {
-        target: DEV_UPLOAD_PATH,
-        ws: true,
-        changeOrigin: true,
-        rewrite: (path)=>path.replace(new RegExp(`^${uploaderUrl}`),'/')
-      },
-      [pspProcurement]: {
-        target: PSPPROCURMENT_SERVER_PATH + pspProcurement,
-        ws: true,
-        changeOrigin: true,
-        rewrite: (path)=>path.replace(new RegExp(`^${pspProcurement}`),'/')
-      },
-      [previewUrl]: {
-        target: previewPath,
-        ws: true,
-        changeOrigin: true,
-        rewrite: (path)=>path.replace(new RegExp(`^${previewUrl}`),'/')
-      },
-      '/modules-announcement': {
-        target: 'http://192.168.101.101:3333',
-        ws: true,
-        changeOrigin: true,
-        rewrite: (path)=>path.replace(new RegExp('^/dules-announceme'),'/')
-      }
-      // dev环境
-      
-      // '/psp-web/api': {
-      //   target: 'https://dev.gcycloud.cn/psp-gateway/psp-gateway',
-      //   changeOrigin: true,
-      //   rewrite: (path) =>path.replace(/^\/psp-web\/api/, ''),        
-      // },
-      // '/api/admin/psp-admin': {
-      //   target: 'https://dev.gcycloud.cn/psp-gateway/psp-gateway/admin/psp-admin',
+      // [devBaseUrl]: {
+      //   target: DEV_SERVER_PATH,
       //   ws: true,
       //   changeOrigin: true,
-      //   rewrite:  (path) => path.replace(/^\/api\/admin\/psp-admin/,'')
+      //   // logLevel: 'debug',
+      //   rewrite: (path)=> path.replace(new RegExp(`^${devBaseUrl}`), '/')
       // },
+      // [WF_SERVE]: {
+      //   target: WF_PATH,
+      //   ws: true,
+      //   changeOrigin: true,
+      //   // logLevel: 'debug',
+      //   rewrite: (path)=>path.replace(new RegExp(`^${WF_SERVE}`),'/')
+      // },
+      // [devSubBaseUrl]: {
+      //   target: DEV_SERVER_PATH,
+      //   ws: true,
+      //   changeOrigin: true,
+      //   // logLevel: 'debug',
+      //   rewrite: (path)=>path.replace(new RegExp(`^${devSubBaseUrl}`),'/')
+      // },
+      // [uploaderUrl]: {
+      //   target: DEV_UPLOAD_PATH,
+      //   ws: true,
+      //   changeOrigin: true,
+      //   rewrite: (path)=>path.replace(new RegExp(`^${uploaderUrl}`),'/')
+      // },
+      // [pspProcurement]: {
+      //   target: PSPPROCURMENT_SERVER_PATH + pspProcurement,
+      //   ws: true,
+      //   changeOrigin: true,
+      //   rewrite: (path)=>path.replace(new RegExp(`^${pspProcurement}`),'/')
+      // },
+      // [previewUrl]: {
+      //   target: previewPath,
+      //   ws: true,
+      //   changeOrigin: true,
+      //   rewrite: (path)=>path.replace(new RegExp(`^${previewUrl}`),'/')
+      // },
+      // '/modules-announcement': {
+      //   target: 'http://192.168.101.101:3333',
+      //   ws: true,
+      //   changeOrigin: true,
+      //   rewrite: (path)=>path.replace(new RegExp('^/dules-announceme'),'/')
+      // }
+      // dev环境
+      
+      '/psp-web/api': {
+        target: 'https://dev.gcycloud.cn/psp-gateway/psp-gateway',
+        changeOrigin: true,
+        rewrite: (path) =>path.replace(/^\/psp-web\/api/, ''),        
+      },
+      '/api/admin/psp-admin': {
+        target: 'https://dev.gcycloud.cn/psp-gateway/psp-gateway/admin/psp-admin',
+        ws: true,
+        changeOrigin: true,
+        rewrite:  (path) => path.replace(/^\/api\/admin\/psp-admin/,'')
+      },
 
       // test环境
       // '/psp-web/api': {

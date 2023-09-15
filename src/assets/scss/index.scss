@@ -1,0 +1,19 @@
+/* 改变 icon 字体路径变量，必需 */
+// $--font-path: '~element-ui/lib/theme-chalk/fonts';
+// @import "~element-ui/packages/theme-chalk/src/index";
+@import "element-plus/theme-chalk/src/index";
+// @import "element-plus/theme-chalk/src/common/var";
+// 重置标签样式
+@import './reset.scss';
+// 颜色变量
+@import './variables.scss';
+// 公共样式
+@import "./common.scss";
+@import './sidebar.scss';
+@import './element-ui.scss';
+@import './login.scss';
+@import './table-layout.scss';
+@import './input-info-msg.scss';
+@import './workflow.scss';
+@import './work-platform.scss';
+//@import './btn.scss';

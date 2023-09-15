@@ -1,0 +1,31 @@
+export interface UserInfo {
+  year: number;
+  userGuid: string;
+  orgGuid: string;
+  orgCode: string;
+  orgName: string;
+  orgType: number;
+  userType: string;
+  financeDeptGuid: string;
+  financeDeptName: string;
+  regionGuid: string;
+  regionCode: string;
+  regionName: string;
+  loginName: string;
+  userName: string;
+  postName: string;
+  caKey: string;
+  telphone: string;
+  mobile: string;
+  admin: number;
+  accessToken: string;
+  subarea: string;
+  isScience: number;
+  departGuid: string;
+  departName: string;
+  posts: string;
+  orgLinkMan: string;
+  orgLinkPhone: string;
+  orgAddress: string;
+  avatar?: string;
+}
