@@ -1,0 +1,400 @@
+ * { touch-action: pan-y; } 
+.kg-ui-dialog .ui-dialog-body {
+	padding: 10px;
+	/* padding-bottom: 0px; */
+}
+
+.kg-ui-dialog .ui-dialog-button {
+	float: none;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.kg-ui-dialog .ui-dialog-footer button {
+	/* letter-spacing: 5px; */
+	text-indent: 5px;
+	text-algn: center;
+}
+
+.kg-ui-dialog .ui-dialog-footer button.ui-dialog-autofocus {
+	color: var(--primary-color);
+    background-color: var(--primary-background-color);
+    border-color: var(--primary-border-color);
+}
+
+.kg-ui-dialog .ui-dialog-footer button.ui-dialog-autofocus:hover, .ui-dialog-footer button.ui-dialog-autofocus:focus,
+	.ui-dialog-footer button.ui-dialog-autofocus:active {
+	color: var(--primary-hover-color);
+    background-color: var(--primary-hover-background-color);
+    border-color: var(--primary-hover-border-color);
+}
+
+.kg-group input.kg-control {
+	line-height: 1.2em;
+}
+
+.kg-ui-dialog .ui-dialog-button {
+	float: none;
+	display: block;
+}
+
+#kg-handwrite select,
+#kg-handwrite select option{
+	border-radius: 2px;
+	height:20px;
+	width:82px;
+	font-size:12px;
+	margin-left:1px;
+	
+	
+} 
+
+.kg-ui-dialog .ui-dialog-button button {
+	width: 100%;
+	display: block;
+	margin-top: 10px;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+.kg-button {
+	width: calc(100% - 42px);
+	display: block;
+	margin: 10px auto;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	/* letter-spacing: 5px; */
+	text-indent: 5px;
+}
+
+.kg-content{
+	height:310px;
+	position:relative;
+}
+button[i-id="revoke"]{
+  color:var(--default-color);
+  background-color: var(--default-background-color);
+  border-color: var(--default-border-color);
+  transition: all 500ms;
+  position: absolute;
+  bottom:0;
+}
+
+button[i-id="revoke"]:active {
+  color: var(--default-hover-color);
+  background-color: var(--default-hover-background-color);
+  border-color:var(--default-hover-border-color);
+}
+
+.kg-ui-dialog .ui-dialog-footer button+button {
+	margin-left: 0px;
+}
+
+.kg-runSignature .kg-group {
+	padding-top: 15px;
+}
+
+.kg-dialog-info .kg-tab-content {
+	/* padding-top: 5px; */
+	height: auto;
+}
+#kg-barcode{
+	padding-top:10px;
+	position: relative;
+}
+label[data-kgi18n-html='QrCodeContent'],
+#bcId{
+	position: absolute;
+}
+#bcId{
+	right:7px;
+}
+#kg-barcode>label{
+    height: 50px;
+    line-height: 50px;
+}
+
+@media screen and (max-width:700px) {
+	.kg-dialog-info {
+		width: calc(100vw - 40px);
+	}
+	.kg-dialog-info .kg-meta {
+		width: 100%;
+		font-size: calc(14px + 4 * ( 100vw - 600px) / 400);
+	}
+	
+	.kg-dialog-info .kg-content {
+		padding: 0px;
+	}
+	.kg-dialog-info .kg-meta {
+		padding: 0px;
+		margin: 0px;
+	}
+	.kg-dialog-info .kg-meta .kg-item {
+		/* padding: 2px 5px; */
+		position: relative;
+		height:auto;
+	}
+	
+	.kg-dialog-info .kg-meta .kg-item .kg-label {
+		position: absolute;
+		top: 4px;
+		top: calc(4px + 4 * ( 100vw - 700px) / 400);
+		left: 0px;
+		width: 70px;
+		width:  calc((14px + 4 * ( 100vw - 600px) / 400 ) * 6)
+	}
+	.kg-dialog-info .kg-meta .kg-item .kg-value {
+		width: auto;
+		position: static;
+		margin-left: 70px;
+		margin-left: calc((14px + 4 * ( 100vw - 600px) / 400 ) * 6);
+	}
+	
+	
+	.kg-dialog-info .kg-item.kg-nosign .kg-label {
+		display: none;
+		position: static;
+	}
+	.kg-dialog-info .kg-item.kg-nosign {
+		text-align: center;
+		margin: 0 auto;
+		padding: 0px;
+		position: static;
+	}
+	
+	.kg-dialog-info .kg-item.kg-nosign .kg-value {
+		border-bottom: 0px;
+		text-align: center;
+		width: 100%;
+		margin: 0 auto;
+		padding: 0px;
+	}
+	
+.kg-button {
+	width: calc(100% - 40px);
+	display: block;
+	margin: 10px auto;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	/* letter-spacing: 5px; */
+	text-indent: 5px;
+}
+	
+}
+@media screen and (max-width:360px) {
+	.kg-dialog {
+		width: auto;
+	}
+	.kg-dialog-info {
+    	width: calc(100vw - 40px);
+    }
+	.kg-dialog-password {
+		width: 296px;
+		width: calc(100vw - 40px);
+		padding: 0px;
+	}
+	button[type='button'] {
+	    padding: 6px 15px!important;
+	}
+	
+}
+
+@media screen and (max-width:320px) {
+	.kg-dialog-info .kg-meta .kg-item {
+		position: static;
+	}
+	.kg-dialog-info .kg-meta .kg-item .kg-value{
+		margin-left: 0px;
+		
+	}
+	.kg-dialog-info .kg-meta .kg-item .kg-label {
+		position: static;
+		display:none;
+	}
+	
+}
+
+
+.KG_OverlayContainer {
+  display: table;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 40000;
+  background-color: #fff;
+}
+.KG_OverlayContainer::before {
+  content: '请在空白处签字';
+  position: absolute;
+  font-size: 30px;
+  letter-spacing: 10px;
+  color: #aeaeae;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(90deg);
+}
+
+.hidden {
+  display: none !important;
+}
+.tick-btn {
+  position: fixed;
+  width: 28px;
+  height: 28px;
+  top: 62px;
+  left: 18px;
+  background-image: url('../core/image/signaturePad-size.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  transform: rotate(90deg);
+}
+.clear-btn {
+  position: fixed;
+  width: 24px;
+  height: 24px;
+  left: 20px;
+  bottom: 20px;
+  background-image: url('../core/image/signaturePad-clear.png');
+
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  transform: rotate(90deg);
+}
+
+.ticks-list {
+  position: fixed;
+  width:54px;
+  height: 400px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #e9e8e8;
+  box-shadow: 0px 4px 8px -2px rgb(0 0 0 / 16%);
+  top: 10px;
+  left: 60px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease-in-out;
+}
+.tick-title {
+  font-size: 12px;
+  letter-spacing: 4px;
+  transform: rotate(90deg) translateY(5px);
+  width: 80px;
+  height: 20px;
+}
+.ticks-list::after {
+  content: '';
+  display: block;
+  width: 20;
+  height: 20;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 12px solid #e4e4e4;
+  position: absolute;
+  left: -12px;
+  top: 55px;
+}
+
+.tick-column {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  align-items: center;
+}
+.show-list {
+  opacity: 1;
+  pointer-events: auto;
+}
+.ticks-list-drag {
+  position: absolute;
+  height: 32px;
+  width: 32px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow:  3px 3px 5px #a3a3a3,
+             -3px -3px 5px #ffffff;
+             z-index: 300;
+}
+.size-container {
+  width: 100%;
+  height:100%;
+  /* background-color: yellow; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.size-btn {
+  position: relative;
+  /* margin: 6px; */
+  width: 26px;
+  height: 26px;
+  /* margin: 4px; */
+  border-radius: 50%;
+  border: 1px solid #a3a3a3;
+  color: #9c9b9b;
+  background: #fff;
+}
+.size-btn::before {
+  content: attr(data-size);
+  position: absolute;
+  top:12.5%;
+  left:32%;
+  transform: rotate(90deg);
+}
+.size-selected {
+  color: #C62929;
+  border: 1px solid #C62929;
+}
+
+.color-btn {
+  position: fixed;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 4px solid #fff;
+  left: 15px;
+  transition: all 0.2s ease-in-out;
+}
+.selected {
+  box-shadow: -6px 0px 12px -2px rgb(0 0 0 / 32%);
+}
+
+.cancel-btn {
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  bottom: 20px;
+  right: 10px;
+  background-image: url('../core/image/signaturePad-close.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.sign-btn {
+  position: fixed;
+  width: 30px;
+  height: 30px;
+  bottom: 70px;
+  right: 10px;
+  background-image: url('../core/image/signaturePad-apply.png');
+  background-repeat: no-repeat;
+  background-size:contain;
+  background-position: center;
+  transform: rotate(90deg);
+}

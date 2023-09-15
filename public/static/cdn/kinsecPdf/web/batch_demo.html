@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>批量签章</title>
+</head>
+<body>
+<button id="btn">批量固定位置签章</button>
+</body>
+<script src="assets/js/axios.min.js"></script>
+<script src="kinsec_batch_seal.js"></script>
+<script >
+  let initJson = {};
+  initJson.signtype = "1";//1是key批量签章
+  initJson.baseurl = "http://127.0.0.1:8888/pdf";//服务地址
+  // initJson.areacode = "21";//区划
+  kinsecBatchSeal.init(initJson)
+
+  document.getElementById("btn").addEventListener("click",() => {
+    Promise.resolve().then(() => {
+      return new Promise((res,rej) => {
+        kinsecBatchSeal.getSeal((data) => {
+          let d = JSON.parse(data);
+          console.log(d)
+          if(d.code == "0000"){
+            res(d.data);
+          }else{
+            rej(d.msg)
+          }
+        })
+      })
+    }).then((info) => {
+      console.log(info)
+
+      let arr = [];
+      let b1 = {};
+      b1.page = "1";
+      b1.x = 100;
+      b1.y = 100;
+      let b2 = {};
+      b2.page = "2";
+      b2.x = 100;
+      b2.y = 150;
+      arr.push(b1);
+      arr.push(b2);
+
+      let arr2 = [];
+      let b3 = {};
+      b3.page = "3";
+      b3.x = 100;
+      b3.y = 100;
+      arr2.push(b3);
+
+      let xy = [];
+      let j = {}
+      j.auto = "1";//1是自动合成，2是返回签章数据，业务合成
+      j.mode = "3";//3是固定位置签章  ，4是关键字签章
+      j.seal = info;
+      j.path = "K1.pdf";
+      j.xyArr = arr;
+      j.remark = "备注1";
+      let j2 = {}
+      j2.auto = "2";//1是自动合成，2是返回签章数据，业务合成
+      j2.mode = "3";//3是固定位置签章  ，4是关键字签章
+      j2.seal = info;
+      j2.path = "K2.pdf";
+      j2.xyArr = arr2;
+      j2.remark = "备注2";
+      let j3 = {}
+      j3.auto = "1";//1是自动合成，2是返回签章数据，业务合成
+      j3.mode = "4";//3是固定位置签章  ，4是关键字签章
+      j3.seal = info;
+      j3.path = "K3.pdf";
+      j3.key = "营业执照号";
+      j3.remark = "备注3";
+      xy.push(j);
+      xy.push(j2);
+      xy.push(j3);
+
+      let p = Promise.resolve();
+      for (let i = 0; i < xy.length; i++) {
+        p = p.then(() => {
+          return new Promise((res,rej) => {
+            kinsecBatchSeal.stamp(xy[i],(data) => {
+              console.log("data")
+              console.log(data)
+              let d = JSON.parse(data);
+              if(d.code == "0000"){
+                res(d.data)
+              }else{
+                rej(d.msg)
+              }
+
+            })
+
+          })
+        }).then((ddata) => {
+          console.log("ddata")
+          console.log(ddata)
+          //继续单文件服务逻辑操作
+          console.log("模式：" + ddata.auto)
+		  //非自动合成模式则需要业务系统自己调用合成接口,pafjar.jar中的genPdf方法
+
+        })
+      }
+      return p;
+    }).then(() => {
+      console.log("success");
+      //代表全部成功，继续业务操作
+
+    }).catch((err) => {
+      console.error("error")
+      console.error(err)
+      //代表有失败，服务文件要还原
+
+    })
+  })
+
+
+
+
+</script>
+</html>

@@ -1,0 +1,6305 @@
+/* Copyright 2014 Mozilla Foundation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.textLayer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  opacity: 0.2;
+  line-height: 1.0;
+}
+
+.textLayer > div {
+  color: transparent;
+  position: absolute;
+  white-space: pre;
+  cursor: text;
+  -webkit-transform-origin: 0% 0%;
+  -moz-transform-origin: 0% 0%;
+  -o-transform-origin: 0% 0%;
+  -ms-transform-origin: 0% 0%;
+  transform-origin: 0% 0%;
+}
+
+.textLayer .highlight {
+  margin: -1px;
+  padding: 1px;
+
+  background-color: rgb(180, 0, 170);
+  border-radius: 4px;
+}
+
+.textLayer .highlight.begin {
+  border-radius: 4px 0px 0px 4px;
+}
+
+.textLayer .highlight.end {
+  border-radius: 0px 4px 4px 0px;
+}
+
+.textLayer .highlight.middle {
+  border-radius: 0px;
+}
+
+.textLayer .highlight.selected {
+  background-color: rgb(0, 100, 0);
+}
+
+.textLayer ::selection { background: rgb(0,0,255); }
+.textLayer ::-moz-selection { background: rgb(0,0,255); }
+
+.textLayer .endOfContent {
+  display: block;
+  position: absolute;
+  left: 0px;
+  top: 100%;
+  right: 0px;
+  bottom: 0px;
+  z-index: -1;
+  cursor: default;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+}
+
+.textLayer .endOfContent.active {
+  top: 0px;
+}
+
+
+.annotationLayer section {
+  position: absolute;
+}
+
+.annotationLayer .linkAnnotation > a {
+  position: absolute;
+  font-size: 1em;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.annotationLayer .linkAnnotation > a /* -ms-a */  {
+  background: url("data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7") 0 0 repeat;
+}
+
+.annotationLayer .linkAnnotation > a:hover {
+  opacity: 0.2;
+  background: #ff0;
+  box-shadow: 0px 2px 10px #ff0;
+}
+
+.annotationLayer .textAnnotation img {
+  position: absolute;
+  cursor: pointer;
+}
+
+.annotationLayer .textWidgetAnnotation input,
+.annotationLayer .textWidgetAnnotation textarea,
+.annotationLayer .choiceWidgetAnnotation select,
+.annotationLayer .buttonWidgetAnnotation.checkBox input,
+.annotationLayer .buttonWidgetAnnotation.radioButton input {
+  background-color: rgba(0, 54, 255, 0.13);
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  font-size: 9px;
+  height: 100%;
+  margin: 0;
+  padding: 0 3px;
+  vertical-align: top;
+  width: 100%;
+}
+
+.annotationLayer .choiceWidgetAnnotation select option {
+  padding: 0;
+}
+
+.annotationLayer .buttonWidgetAnnotation.radioButton input {
+  border-radius: 50%;
+}
+
+.annotationLayer .textWidgetAnnotation textarea {
+  font: message-box;
+  font-size: 9px;
+  resize: none;
+}
+
+.annotationLayer .textWidgetAnnotation input[disabled],
+.annotationLayer .textWidgetAnnotation textarea[disabled],
+.annotationLayer .choiceWidgetAnnotation select[disabled],
+.annotationLayer .buttonWidgetAnnotation.checkBox input[disabled],
+.annotationLayer .buttonWidgetAnnotation.radioButton input[disabled] {
+  background: none;
+  border: 1px solid transparent;
+  cursor: not-allowed;
+}
+
+.annotationLayer .textWidgetAnnotation input:hover,
+.annotationLayer .textWidgetAnnotation textarea:hover,
+.annotationLayer .choiceWidgetAnnotation select:hover,
+.annotationLayer .buttonWidgetAnnotation.checkBox input:hover,
+.annotationLayer .buttonWidgetAnnotation.radioButton input:hover {
+  border: 1px solid #000;
+}
+
+.annotationLayer .textWidgetAnnotation input:focus,
+.annotationLayer .textWidgetAnnotation textarea:focus,
+.annotationLayer .choiceWidgetAnnotation select:focus {
+  background: none;
+  border: 1px solid transparent;
+}
+
+.annotationLayer .buttonWidgetAnnotation.checkBox input:checked:before,
+.annotationLayer .buttonWidgetAnnotation.checkBox input:checked:after,
+.annotationLayer .buttonWidgetAnnotation.radioButton input:checked:before {
+  background-color: #000;
+  content: '';
+  display: block;
+  position: absolute;
+}
+
+.annotationLayer .buttonWidgetAnnotation.checkBox input:checked:before,
+.annotationLayer .buttonWidgetAnnotation.checkBox input:checked:after {
+  /* height: 80%; */
+  left: 45%;
+  width: 1px;
+} 
+
+/* .annotationLayer .buttonWidgetAnnotation.checkBox input:checked:before {
+  transform: rotate(45deg);
+}
+
+.annotationLayer .buttonWidgetAnnotation.checkBox input:checked:after {
+  transform: rotate(-45deg);
+} */
+
+.annotationLayer .buttonWidgetAnnotation.checkBox input:checked:before{
+  background-color: transparent;
+  content: '✔';
+  height: 100%;
+  width:  100%;
+  text-align: center;
+  left: 0;
+  right: 0;
+  bottom:0;
+  top:0;
+}
+
+.annotationLayer .buttonWidgetAnnotation.radioButton input:checked:before {
+  border-radius: 50%;
+  height: 40%;
+  left: 30%;
+  right: 0;
+  width: 40%;
+  top: 30%;
+}
+
+.annotationLayer .textWidgetAnnotation input.comb {
+  font-family: monospace;
+  padding-left: 2px;
+  padding-right: 0;
+}
+
+.annotationLayer .textWidgetAnnotation input.comb:focus {
+  /*
+   * Letter spacing is placed on the right side of each character. Hence, the
+   * letter spacing of the last character may be placed outside the visible
+   * area, causing horizontal scrolling. We avoid this by extending the width
+   * when the element has focus and revert this when it loses focus.
+   */
+  width: 115%;
+}
+
+.annotationLayer .buttonWidgetAnnotation.checkBox input,
+.annotationLayer .buttonWidgetAnnotation.radioButton input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  appearance: none;
+  padding: 0;
+}
+
+.annotationLayer .popupWrapper {
+  position: absolute;
+  width: 20em;
+}
+
+.annotationLayer .popup {
+  position: absolute;
+  z-index: 200;
+  max-width: 20em;
+  background-color: #FFFF99;
+  box-shadow: 0px 2px 5px #333;
+  border-radius: 2px;
+  padding: 0.6em;
+  margin-left: 5px;
+  cursor: pointer;
+  font: message-box;
+  word-wrap: break-word;
+}
+
+.annotationLayer .popup h1 {
+  font-size: 1em;
+  border-bottom: 1px solid #000000;
+  margin: 0;
+  padding-bottom: 0.2em;
+}
+
+.annotationLayer .popup p {
+  margin: 0;
+  padding-top: 0.2em;
+}
+
+.annotationLayer .highlightAnnotation,
+.annotationLayer .underlineAnnotation,
+.annotationLayer .squigglyAnnotation,
+.annotationLayer .strikeoutAnnotation,
+.annotationLayer .lineAnnotation svg line,
+.annotationLayer .squareAnnotation svg rect,
+.annotationLayer .circleAnnotation svg ellipse,
+.annotationLayer .polylineAnnotation svg polyline,
+.annotationLayer .polygonAnnotation svg polygon,
+.annotationLayer .stampAnnotation,
+.annotationLayer .fileAttachmentAnnotation {
+  cursor: pointer;
+}
+
+.pdfViewer .canvasWrapper {
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.pdfViewer .page {
+  direction: ltr;
+  width: 816px;
+  height: 1056px;
+  position: relative;
+  overflow: visible;
+  background-clip: content-box;
+  background-color: white;
+  overflow: hidden;
+  border: none;
+  margin: 12px auto;
+  box-shadow: 0px 1px 2px -2px rgba(0, 0, 0, 0.16),
+    0px 3px 6px 0px rgba(0, 0, 0, 0.12), 0px 5px 12px 4px rgba(0, 0, 0, 0.09);
+}
+
+.pdfViewer.removePageBorders .page {
+  margin: 0px auto 10px auto;
+  border: none;
+}
+
+.pdfViewer.singlePageView {
+  display: inline-block;
+}
+
+.pdfViewer.singlePageView .page {
+  margin: 0;
+  border: none;
+}
+
+.pdfViewer .page canvas {
+  margin: 0;
+  display: block;
+}
+
+.pdfViewer .page canvas[hidden] {
+  display: none;
+}
+
+.pdfViewer .page .loadingIcon {
+  position: absolute;
+  display: block;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: url('images/loading-icon.gif') center no-repeat;
+}
+
+.pdfPresentationMode:-webkit-full-screen .pdfViewer .page {
+  margin-bottom: 100%;
+  border: 0;
+}
+
+.pdfPresentationMode:-moz-full-screen .pdfViewer .page {
+  margin-bottom: 100%;
+  border: 0;
+}
+
+.pdfPresentationMode:-ms-fullscreen .pdfViewer .page {
+  margin-bottom: 100% !important;
+  border: 0;
+}
+
+.pdfPresentationMode:fullscreen .pdfViewer .page {
+  margin-bottom: 100%;
+  border: 0;
+}
+
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?dh8ybp');
+  src:  url('fonts/icomoon.eot?dh8ybp#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?dh8ybp') format('truetype'),
+    url('fonts/icomoon.woff?dh8ybp') format('woff'),
+    url('fonts/icomoon.svg?dh8ybp#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-indicateSeal:before {
+  content: "\e931";
+}
+.icon-info:before {
+  content: "\e930";
+}
+.icon-uniE92F:before {
+  content: "\e92f";
+}
+.icon-delete:before {
+  content: "\e92d";
+}
+.icon-export:before {
+  content: "\e92a";
+}
+.icon-save:before {
+  content: "\e92b";
+}
+.icon-uniE92C:before {
+  content: "\e92c";
+  color: #707070;
+}
+.icon-minus:before {
+  content: "\e928";
+}
+.icon-plus:before {
+  content: "\e929";
+}
+.icon-down-circle:before {
+  content: "\e925";
+}
+.icon-setting:before {
+  content: "\e926";
+}
+.icon-up-circle:before {
+  content: "\e927";
+}
+.icon-loading:before {
+  content: "\e924";
+}
+.icon-minus-circle:before {
+  content: "\e922";
+}
+.icon-plus-circle:before {
+  content: "\e923";
+}
+.icon-vertical-left:before {
+  content: "\e91e";
+}
+.icon-vertical-right:before {
+  content: "\e91f";
+}
+.icon-vertical-align-bottom:before {
+  content: "\e920";
+}
+.icon-vertical-align-top:before {
+  content: "\e921";
+}
+.icon-hand:before {
+  content: "\e91c";
+}
+.icon-cursor:before {
+  content: "\e91d";
+}
+.icon-down:before {
+  content: "\e91a";
+}
+.icon-up:before {
+  content: "\e91b";
+}
+.icon-fullscreen:before {
+  content: "\e918";
+}
+.icon-book:before {
+  content: "\e919";
+}
+.icon-attachment:before {
+  content: "\e900";
+}
+.icon-audit:before {
+  content: "\e901";
+}
+.icon-check-circle-fill:before {
+  content: "\e902";
+}
+.icon-close:before {
+  content: "\e903";
+}
+.icon-close-circle-fill:before {
+  content: "\e904";
+}
+.icon-download:before {
+  content: "\e905";
+}
+.icon-edit:before {
+  content: "\e906";
+}
+.icon-ellipsis:before {
+  content: "\e907";
+}
+.icon-file-pdf:before {
+  content: "\e908";
+}
+.icon-folder-open:before {
+  content: "\e909";
+}
+.icon-image:before {
+  content: "\e90a";
+}
+.icon-info-circle:before {
+  content: "\e90b";
+}
+.icon-left:before {
+  content: "\e90c";
+}
+.icon-menu:before {
+  content: "\e90d";
+  color: #5a5a5a;
+}
+.icon-printer:before {
+  content: "\e90e";
+}
+.icon-right:before {
+  content: "\e90f";
+}
+.icon-rotate-left:before {
+  content: "\e910";
+}
+.icon-rotate-right:before {
+  content: "\e911";
+}
+.icon-scan:before {
+  content: "\e912";
+}
+.icon-search:before {
+  content: "\e913";
+}
+.icon-tags:before {
+  content: "\e914";
+}
+.icon-unordered-list:before {
+  content: "\e915";
+}
+.icon-zoom-in:before {
+  content: "\e916";
+}
+.icon-zoom-out:before {
+  content: "\e917";
+}
+.icon-pencil2:before {
+  content: "\e92e";
+}
+.icon-checkbox-checked:before {
+  content: "\ea52";
+}
+.icon-checkbox-unchecked:before {
+  content: "\ea53";
+}
+.icon-radio-checked:before {
+  content: "\ea54";
+}
+.icon-radio-unchecked:before {
+  content: "\ea56";
+}
+
+.KG_Clearfix:before,
+.KG_Clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.KG_Clearfix:after {
+    clear: both;
+}
+
+.KG_OverlayContainer {
+    display: table;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: hsla(0, 0%, 0%, .2);
+    z-index: 40000;
+}
+
+.KG_OverlayContainer > .container,
+.KG_OverlayContainer > .kgcontainer {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.KG_OverlayContainer > .kgcontainer > .kgdialog {
+    display: inline-block;
+    border-spacing: 4px;
+    color: black;
+    font-family: Helvetica, arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    background-color: white;
+    border: 1px solid #999;
+    border-radius: 4px;
+    text-align: left;
+  }
+
+.KG_Form_Legend {
+    text-align: left;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.KG_Form_Fieldset {
+    padding: 12px 16px;
+    border: 1px solid rgb(229, 229, 229);
+    margin-bottom: 12px;
+}
+
+.KG_Form_Fieldset:last-child {
+    margin-bottom: 0;
+}
+
+.KG_Form_Label {
+    display: inline-block;
+    text-align: right;
+    margin-right: 6px;
+    width: 70px;
+    vertical-align: middle;
+}
+
+.KG_Form_Item {
+    margin-bottom: 6px;
+    min-height: 24px;
+    line-height: 24px;
+}
+
+.KG_Form_Item:last-child {
+    margin-bottom: 0;
+}
+
+.KG_Form_Item input,
+.KG_Form_Item select,
+.KG_Form_Item button {
+    vertical-align: middle;
+}
+
+.KG_Form_Footer {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.KG_CheckBox {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #d9d9d9;
+}
+
+.KG_Input_Disabled {
+    color: #d9d9d9 !important;
+    background-color: #e9e9e9 !important;
+    cursor: not-allowed;
+}
+
+.KG_Input_Disabled:hover {
+    border: 1px solid #d9d9d9 !important;
+    background-color: #e9e9e9 !important;
+}
+
+.KG_Input_Error,
+.KG_Input_Error:hover {
+    border: 1px solid #e91e1e !important;
+}
+
+.KG_Btn_Disabled {
+    background-color: #e9e9e9 !important;
+    border-color: #d9d9d9 !important;
+    color: #d9d9d9 !important;
+    cursor: not-allowed;
+}
+
+
+@media all and (max-width: 720px) {
+    .KG_Form_Label {
+        width: 80px;
+    }
+}
+#KG_AdditionTextOverlay .KG_AdditionText_ConfigContainer {
+    float: left;
+    width: 290px;
+}
+
+#KG_AdditionTextOverlay .KG_AdditionText_ConfigContainer input,
+#KG_AdditionTextOverlay .KG_AdditionText_ConfigContainer select,
+#KG_AdditionTextOverlay .KG_AdditionText_ConfigContainer textarea {
+    width: 180px;
+}
+
+#KG_AdditionTextOverlay .KG_AdditionText_ConfigContainer textarea {
+    height: 60px;
+    vertical-align: top;
+}
+
+#KG_AdditionTextOverlay .KG_AdditionText_ConfigContainer .kg-additionText-raido-item,
+#KG_AdditionTextOverlay .KG_AdditionText_ConfigContainer .kg-additionText-options {
+    display: inline-block;
+    width: auto;
+    cursor: pointer
+}
+
+#KG_AdditionTextOverlay .KG_AdditionText_ConfigContainer .kg-additionText-options {
+    margin-right: 4px;
+    margin-top: -2px;
+    cursor: pointer
+}
+
+#KG_AdditionTextOverlay .KG_AdditionText_ConfigContainer .kg-additionText-raido-item {
+    margin-right: 8px;
+    cursor: pointer
+}
+
+#KG_AdditionTextOverlay .KG_AdditionText_ConfigContainer .kg-additionText-label {
+    cursor: pointer
+}
+
+#KG_AdditionTextOverlay .KG_AdditionText_PreviewContainer {
+    height: 434px;
+    float: left;
+    width: 360px;
+    margin-left: 10px;
+}
+
+#KG_AdditionTextOverlay .kg-additionText-previewCanvasDragWarp {
+    height: 100%;
+    width:100%;
+    position: relative;
+    overflow: hidden;
+}
+
+#KG_AdditionTextOverlay .kg-additionText-previewCanvasDragWarp .kg-additionText-previewCanvasDragCanvas {
+    position: absolute;
+    left:0;
+    top:0;
+    margin: 0!important;
+    pointer-events: none;
+}
+
+#KG_AdditionTextOverlay .kg-additionText-moveDom {
+    position: absolute;
+    cursor: all-scroll;
+    user-select: none;
+}
+
+#KG_AdditionTextOverlay .kg-additionText-moveDom div {
+    opacity: 0;
+}
+
+#KG_AdditionTextOverlay .KG_AdditionText_PreviewContainer .pointerEventsNone{
+    pointer-events: none;
+}
+
+
+#KG_AdditionTextOverlay .KG_AdditionText_PreviewContainer fieldset {
+    height: calc(100% + 50px);
+    text-align: center;
+}
+
+#KG_AdditionTextOverlay .KG_AdditionText_PreviewContainer canvas {
+    margin-top: 60%;
+    transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    position: relative;
+}
+
+#KG_AdditionTextOverlay .kg-additionTextDOM-moving{
+    border : 2px dashed rgb(175, 175, 175);
+    box-sizing: border-box;
+}
+
+#KG_AdditionTextOverlay .KG_AdditionText_ConfigContainer .precentInput{
+    width: 50px;
+    margin: 0 5px;
+}
+
+.kgInput_MinWidth {
+    width: 105px !important;
+    transition: none !important;
+}
+
+
+#KG_AdditionTextOverlay .kg-additionText-mobilePreview{
+    display: none;
+    color: #1890ff;
+}
+
+#KG_AdditionTextOverlay .KG_AdditionText_PreviewContainer_mobile .kg-additionText-text,
+#KG_AdditionTextOverlay .KG_AdditionText_PreviewContainer .kg-additionText-text{
+    text-align: left;
+}
+
+@media all and (max-width: 720px) {
+    #KG_AdditionTextOverlay .KG_AdditionText_PreviewContainer {
+        display: none;
+    }
+
+    #KG_AdditionTextOverlay .KG_AdditionText_ConfigContainer {
+        float: left;
+        width: 320px;
+    }
+
+    #KG_AdditionTextOverlay .KG_AdditionText_ConfigContainer input,
+    #KG_AdditionTextOverlay .KG_AdditionText_ConfigContainer select,
+    #KG_AdditionTextOverlay .KG_AdditionText_ConfigContainer textarea {
+        width: 200px;
+    }
+
+    #KG_AdditionTextOverlay .KG_AdditionText_PreviewContainer_mobile .kg-additionText-previewCanvasDragWarp {
+        height: 450px;
+        width:100%;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .kgInput_MinWidth {
+        width: 125px !important;
+    }
+}
+#KG_CaptchaOverlay > .dialog,
+#KG_CaptchaOverlay > .kg_dialog_header {
+    width: 293px;
+}
+
+#KG_CaptchaOverlay form {
+    margin-top: 10px;
+}
+
+#KG_CaptchaOverlay form .kgInput {
+    width: 150px;
+    vertical-align: middle;
+}
+
+#KG_CaptchaOverlay form .btn {
+    margin-left: 5px;
+    padding: 0 5px;
+    width: 90px;
+    vertical-align: middle;
+}
+
+#KG_CaptchaOverlay form .btn-disabled {
+    color: #a9a9a9;
+    cursor: not-allowed;
+}
+#KG_CaptchaOverlay form .btn-disabled:hover,
+#KG_CaptchaOverlay form .btn-disabled:focus {
+    text-decoration: none;
+    color: #a9a9a9;
+    border-color: #a9a9a9;
+}
+
+#KG_CaptchaOverlay .KG_Captcha_BtnContainer {
+    margin-top: 6px;
+    text-align: center;
+}
+
+#KG_CaptchaOverlay .KG_Captcha_BtnContainer button:first-child {
+    margin-right: 15px;
+}
+
+#KG_StampConfirmOverlay {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    cursor: default;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#KG_StampConfirmOverlay > div {
+    float: none;
+    display: inline-block;
+    width: 72px;
+    border-radius: 4px;
+    height: 34px;
+    line-height: 34px;
+    margin-top: 6px;
+    margin-left: 24px;
+}
+
+#KG_StampConfirmOverlay > div:first-child {
+    margin-left: 0;
+}
+
+#KG_WatermarkOverlay > .dialog,
+#KG_WatermarkOverlay > .kg_dialog_header {
+    width: 765px;
+    box-sizing: content-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: content-box;
+}
+
+#KG_WatermarkOverlay .KG_Watermark_ConfigContainer {
+    float: left;
+}
+
+#KG_WatermarkOverlay .KG_Watermark_ConfigContainer input[type="text"],
+#KG_WatermarkOverlay .KG_Watermark_ConfigContainer input[type="number"],
+#KG_WatermarkOverlay .KG_Watermark_ConfigContainer select {
+    width: 96px;
+}
+
+#KG_WatermarkOverlay .kg_radio_wrapper,
+#KG_WatermarkOverlay .kg_checkbox_wrapper {
+    height: 34px;
+    line-height: 34px;
+}
+
+#KG_WatermarkOverlay .kg_radio_wrapper:before {
+    left: 77px;
+    top: 10px;
+}
+
+#KG_WatermarkOverlay .kg_checkbox_wrapper:before {
+    left: 77px;
+    top: 10px;
+}
+
+#KG_WatermarkOverlay .KG_Watermark_PreviewContainer {
+    float: right;
+    /* margin-left: 10px; */
+}
+
+#KG_WatermarkOverlay .KG_Watermark_PreviewContainer canvas {
+    border: 1px solid rgb(229, 229, 229);
+}
+
+@media screen and (max-width: 768px) {
+    #KG_WatermarkOverlay .KG_Watermark_PreviewContainer {
+        display: none;
+    }
+}
+
+#KG_WatermarkConfirmOverlay {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    cursor: default;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, .7);
+
+}
+
+#KG_WatermarkConfirmOverlay > div {
+    float: none;
+    display: inline-block;
+    width: 72px;
+    border-radius: 4px;
+    height: 34px;
+    line-height: 34px;
+    margin-top: 6px;
+    margin-left: 24px;
+}
+
+#KG_WatermarkConfirmOverlay > div:first-child {
+    margin-left: 0;
+}
+
+#KG_PagingSealOverlay input[type="text"],
+#KG_PagingSealOverlay input[type="number"],
+#KG_PagingSealOverlay select {
+    width: 60px;
+}
+
+#KG_PagingSealOverlay .kg_radio_wrapper {
+    display: inline;
+}
+
+#KG_PagingSealOverlay .kg_radio_wrapper:before {
+    height: 16px;
+    line-height: 18px;
+}
+
+#KG_PagingSealOverlay input[type="radio"] + .KG_Form_Label {
+    text-align: left;
+    vertical-align: auto;
+    margin-right: 0;
+}
+
+#KG_VerifySealPromptOverlay > .dialog,
+#KG_VerifySealPromptOverlay > .kg_dialog_header {
+    width: 450px;
+}
+
+#KG_VerifySealPromptOverlay > .dialog {
+    min-height: 465px;
+    position: relative;
+}
+
+.KG_VerifySealPrompt_ResultIcon {
+    font-size: 56px;
+    margin: 0 auto 16px;
+    text-align: center;
+}
+
+.KG_VerifySealPrompt_ResultIcon_Success {
+    color: #52c41a;
+}
+
+.KG_VerifySealPrompt_ResultIcon_Success:before {
+    content: "\e902";
+}
+
+.KG_VerifySealPrompt_ResultIcon_Fail {
+    color: #ff4d4f;
+}
+
+.KG_VerifySealPrompt_ResultIcon_Fail:before {
+    content: "\e904";
+}
+
+.KG_VerifySealPrompt_Result {
+    color: #101010;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.KG_VerifySealPrompt_Tabs {
+    border-bottom: 1px solid #f0f0f0;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.KG_VerifySealPrompt_Tab {
+    display: inline-block;
+    padding: 12px 16px;
+    color: rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.KG_VerifySealPrompt_Tab:hover {
+    color: #1890ff;
+}
+
+.KG_VerifySealPrompt_Tab.active {
+    color: #1890ff;
+    border-bottom: 2px solid #1890ff;
+}
+
+.KG_VerifySealPrompt_Item {
+    border-spacing: initial;
+    margin-bottom: 8px;
+    width: 435px;
+}
+
+@media all and (max-width: 720px) {
+    .KG_VerifySealPrompt_Tip.doorHanger {
+        width: calc(100vw - 80px) !important;
+    }
+
+    .KG_VerifySealPrompt_Item {
+        width: auto;
+    }
+
+    .KG_VerifySealPrompt_Item span {
+        max-width: calc(100vw - 132px);
+    }
+
+    .KG_VerifySealPrompt_Item span {
+        width:200px !important;
+    }
+
+    .KG_VerifySealPrompt_Tab {
+        padding: 12px 10px;
+    }
+  
+}
+
+.KG_VerifySealPrompt_Item label {
+    width: 100px;
+    float: left;
+    text-align: right;
+}
+
+.KG_VerifySealPrompt_Item span {
+    float: left;
+    text-align: left;
+    width:300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.KG_VerifySealPrompt_CompanyName {
+    display: none;
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    width: 300px;
+    height: 22px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: right;
+}
+
+.KG_VerifySealPrompt_SignSN {
+    cursor: pointer;
+}
+
+.KG_VerifySealPrompt_Tip.doorHanger {
+    border: none;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 336px;
+    border-radius: 4px;
+    padding: 8px;
+    box-shadow: -1px 0px 2px -2px rgba(0, 0, 0, 0.16), -3px 0px 6px 0px rgba(0, 0, 0, 0.12),
+        -5px 0px 12px 4px rgba(0, 0, 0, 0.09);
+}
+
+.KG_VerifySealPrompt_Tip.doorHanger:before,
+.KG_VerifySealPrompt_Tip.doorHanger:after {
+    border-top-color: rgba(0, 0, 0, 0.4);
+    border-bottom-color: transparent;
+    top: 100%;
+    left: 24px !important;
+}
+
+.KG_VerifySealPrompt_Tip_Text {
+    color: #fff;
+    word-break: break-all;
+    display: inline-block;
+}
+
+.KG_VerifySealPrompt_Tip_Copy {
+    color: #1890ff;
+    cursor: pointer;
+    display: inline-block;
+}
+
+#KG_GuideTipOverlay.doorHanger {
+    position: fixed;
+    z-index: 1000;
+    top: 64px;
+    box-sizing: border-box;
+    width: 300px;
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    border-radius: 4px;
+    box-shadow: -1px 0px 2px -2px rgba(0, 0, 0, 0.16), -3px 0px 6px 0px rgba(0, 0, 0, 0.12),
+        -5px 0px 12px 4px rgba(0, 0, 0, 0.09);
+}
+
+#KG_GuideTipOverlay.doorHanger:before,
+#KG_GuideTipOverlay.doorHanger:after {
+    border-bottom-color: rgba(0, 0, 0, 0.4);
+    margin-left: 0;
+}
+
+#KG_GuideTipOverlay.left.doorHanger:before,
+#KG_GuideTipOverlay.left.doorHanger:after {
+    left: 16px;
+    right: auto;
+}
+
+#KG_GuideTipOverlay.middleRight.doorHanger:before,
+#KG_GuideTipOverlay.middleRight.doorHanger:after {
+    right: 150px;
+    left: auto;
+}
+
+#KG_GuideTipOverlay.right.doorHanger:before,
+#KG_GuideTipOverlay.right.doorHanger:after {
+    right: 16px;
+    left: auto;
+}
+
+@media all and (max-width: 768px) {
+    #KG_GuideTipOverlay.left.doorHanger:before,
+    #KG_GuideTipOverlay.left.doorHanger:after {
+        left: 8px;
+        right: auto;
+    }
+
+    #KG_GuideTipOverlay.middleRight.doorHanger:before,
+    #KG_GuideTipOverlay.middleRight.doorHanger:after {
+        right: 60px;
+        left: auto;
+    }
+
+    #KG_GuideTipOverlay.right.doorHanger:before,
+    #KG_GuideTipOverlay.right.doorHanger:after {
+        right: 8px;
+        left: auto;
+    }
+}
+
+.KG_GuideTip_Title,
+.KG_GuideTip_Content {
+    font-size: 14px;
+    line-height: 22px;
+    color: #fff;
+}
+
+.KG_GuideTip_Title {
+    font-weight: bolder;
+    margin-bottom: 8px;
+}
+
+.KG_GuideTip_Content {
+    margin-bottom: 12px;
+}
+
+#KG_GuideTipOverlay .KG_GuideTip_Close,
+#KG_GuideTipOverlay .KG_GuideTip_Next,
+.KG_GuideTip_NeverShow {
+    font-size: 12px;
+    line-height: 28px;
+    float: right;
+    margin-left: 12px;
+}
+
+#KG_GuideTipOverlay .KG_GuideTip_Close,
+#KG_GuideTipOverlay .KG_GuideTip_Next {
+    width: 64px;
+    height: 28px;
+    padding: 0;
+}
+
+.KG_GuideTip_NeverShow {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.KG_GuideTip_NeverShow:hover {
+    color: #1890ff;
+}
+
+#KG_PrepareStamp.toolbarButton::before,
+#secondaryKG_PrepareStamp.secondaryToolbarButton::before {
+    content: "\e901";
+}
+
+.KG_PrepareStamp_activeSeal {
+    cursor: move;
+}
+
+#KG_VerifySealPromptOverlay .KG_Block_Loading {
+    text-align: center;
+    position: relative;
+    margin: 8px 0;
+}
+
+#KG_VerifySealPromptOverlay .KG_Block_Loading:before {
+    content: "\e924";
+    vertical-align: text-top;
+    font-size: 16px;
+    display: inline-block;
+    -webkit-animation: loadingCircle 1s infinite linear;
+    -moz-animation: loadingCircle 1s infinite linear;
+    -o-animation: loadingCircle 1s infinite linear;
+    animation: loadingCircle 1s infinite linear;
+}
+
+#KG_BlockChainPromptOverlay > .dialog,
+#KG_BlockChainPromptOverlay > .kg_dialog_header {
+    width: 450px;
+}
+
+#KG_BlockChainPromptOverlay > .dialog {
+    height: 465px;
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#KG_VerifySealPromptOverlay .KG_Block_Item,
+#KG_BlockChainPromptOverlay .KG_Block_Item {
+    border-spacing: initial;
+    margin-bottom: 8px;
+    width: 402px;
+    height: 24px;
+    position: relative;
+}
+
+#KG_VerifySealPromptOverlay .KG_Block_Item label,
+#KG_BlockChainPromptOverlay .KG_Block_Item label {
+    width: 98px;
+    line-height: 24px;
+    float: left;
+    text-align: right;
+}
+
+#KG_BlockChainPromptOverlay .KG_Block_Item .KG_Block_Title {
+    float: none !important;
+    width: auto !important;
+    color: #000;
+    font-weight: bold;
+    font-size: 15px;
+    white-space: nowrap !important;
+    text-align: center !important;
+    padding: 0 8px;
+    margin-left: 12px;
+}
+
+#KG_BlockChainPromptOverlay .KG_Block_Item.KG_Block_Title_Container::before {
+    position: absolute;
+    top: 10px;
+    width: 12px;
+    border-top: 1px solid #f0f0f0;
+    content: "";
+}
+
+#KG_BlockChainPromptOverlay .KG_Block_Item.KG_Block_Title_Container::after {
+    position: absolute;
+    top: 10px;
+    width: 288px;
+    border-top: 1px solid #f0f0f0;
+    content: "";
+}
+
+#KG_VerifySealPromptOverlay .KG_Block_Item .KG_Block_Data,
+#KG_BlockChainPromptOverlay .KG_Block_Item .KG_Block_Data {
+    float: left;
+    text-align: left;
+    width: 262px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#KG_VerifySealPromptOverlay .KG_Block_Item .KG_VerifySealPrompt_Tip_Copy,
+#KG_BlockChainPromptOverlay .KG_Block_Item .KG_VerifySealPrompt_Tip_Copy {
+    width: 42px;
+    float: left;
+    text-align: left;
+}
+
+#KG_VerifySealPromptOverlay .KG_Block_Item .kg_copyright_status,
+#KG_BlockChainPromptOverlay .KG_Block_Item .kg_copyright_status {
+    width: auto;
+    margin-top: 0;
+}
+
+@media all and (max-width: 720px) {
+    #KG_VerifySealPromptOverlay .KG_Block_Item .KG_Block_Data,
+    #KG_BlockChainPromptOverlay .KG_Block_Item .KG_Block_Data {
+        width: 180px;
+    }
+
+    .KG_Tooltip_Wrapper .KG_Tooltip {
+      left: -320px!important;
+      width:300px!important;
+    }
+}
+
+.KG_Tooltip_Wrapper {
+    cursor: pointer;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+}
+
+.KG_Tooltip_Wrapper .KG_Tooltip {
+    background: rgba(0, 0, 0, 0.5);
+    bottom: 100%;
+    color: #fff;
+    display: block;
+    left: -360px;
+    width: 320px;
+    margin-bottom: 12px;
+    opacity: 0;
+    padding: 8px;
+    pointer-events: none;
+    position: absolute;
+    white-space: normal;
+    word-break: break-all;
+    -webkit-transform: translateY(10px);
+    -moz-transform: translateY(10px);
+    -ms-transform: translateY(10px);
+    -o-transform: translateY(10px);
+    transform: translateY(10px);
+    -webkit-transition: all 0.25s ease-out;
+    -moz-transition: all 0.25s ease-out;
+    -ms-transition: all 0.25s ease-out;
+    -o-transition: all 0.25s ease-out;
+    transition: all 0.25s ease-out;
+    -webkit-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+    -moz-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+    -ms-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+    -o-box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.28);
+}
+
+/* This bridges the gap so you can mouse into the tooltip without it disappearing */
+.KG_Tooltip_Wrapper .KG_Tooltip:before {
+    bottom: -20px;
+    content: " ";
+    display: block;
+    height: 20px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+}
+
+/* CSS Triangles - see Trevor's post */
+.KG_Tooltip_Wrapper .KG_Tooltip:after {
+    border-left: solid transparent 10px;
+    border-right: solid transparent 10px;
+    border-top: solid rgba(0, 0, 0, 0.4) 10px;
+    bottom: -10px;
+    content: " ";
+    height: 0;
+    left: 50%;
+    margin-left: -13px;
+    position: absolute;
+    width: 0;
+}
+
+.KG_Tooltip_Wrapper.KG_Show_Tooltip .KG_Tooltip {
+    opacity: 1;
+    pointer-events: auto;
+    -webkit-transform: translateY(0px);
+    -moz-transform: translateY(0px);
+    -ms-transform: translateY(0px);
+    -o-transform: translateY(0px);
+    transform: translateY(0px);
+}
+
+#TimeAnnotationContainer {
+    position: relative;
+    width: 300px;
+    z-index: 1024;
+}
+
+#kg-AnnotationBoard {
+    width: 768px;
+    margin: 0px auto;
+    padding: 10px 0;
+    background: white;
+}
+
+#KG_ExtendContainer .kg-extend-item {
+    float: left;
+}
+
+#KG_ExtendContainer .kg-extend-item select {
+    width: 86px;
+    margin-top: 2px;
+}
+
+#KG_ExtendContainer .kg-extend-item checkbox {
+    background: #ec6337;
+}
+
+#KG_ExtendContainer .kg_checkbox_wrapper::before {
+    margin-top: 8px;
+}
+
+#KG_ExtendContainer .kg_radio_wrapper::before {
+    margin-top: 9px;
+}
+
+#KG_ExtendContainer .kg-extend-label {
+    float: left;
+    height: 32px;
+    line-height: 32px;
+    margin-right: 10px;
+}
+
+#KG_ExtendContainer .kg-extend-radio-item,
+#KG_ExtendContainer .kg-extend-checkbox-item {
+    float: left;
+    height: 32px;
+    line-height: 32px;
+    text-align: left;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#KG_ExtendContainer .kg-extend-radio-item label,
+#KG_ExtendContainer .kg-extend-checkbox-item label {
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 6px;
+    user-select: none;
+    pointer-events: none;
+}
+
+#KG_TimeSignaturePanel {
+    padding: 15px;
+    position: absolute;
+    cursor: pointer;
+    user-select: none;
+    font-size: 14px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    width: 300px;
+    box-sizing: border-box;
+    top: 38px;
+    right: 0;
+    -webkit-box-shadow: 0 1px 6px rgba(183, 183, 183, .3);
+    box-shadow: 0 1px 6px rgba(183, 183, 183, .3);
+    opacity: 0;
+    transition: all 500ms;
+    background: white;
+}
+
+#KG_TimeSignaturePanel .kg-time-item {
+    height: 26px;
+    line-height: 26px;
+}
+
+#KG_TimeSignaturePanel label {
+    cursor: pointer;
+    margin-left: 10px;
+    display: inline-block;
+    width: 80%;
+    text-align: left;
+}
+
+#KG_TimeSignaturePanel .btnContainer {
+    margin-top: 10px;
+}
+
+#TimeSignatureCancelBtn {
+    margin: 0 15px;
+}
+
+#TimeSignatureSelectBtn {
+    float: right;
+}
+
+/* 通用代码 */
+.kg-button {
+    box-sizing: border-box;
+    line-height: 1.5;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 0 20px;
+    height: 28px;
+    font-size: 14px;
+    line-height: 28px;
+    font-size: 14px;
+    border-radius: 4px;
+    /* width: 72px;
+    height: 34px; */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    position: relative;
+    -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+    color: rgba(0, 0, 0, 0.65);
+    background-color: #fff;
+    border-color: #d9d9d9;
+}
+
+.kg-button-primary {
+    background-color: rgb(24, 144, 255) !important;
+    border-color: rgb(24, 144, 255) !important;
+    color: white;
+}
+
+.kg-widget-item {
+    float: left;
+    height: 28px;
+    line-height: 28px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    position: relative;
+    z-index: 10;
+}
+
+.kg-widget-item label {
+    margin-right: 10px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.kg-widget-item select {
+    width: 86px;
+}
+
+.kg-widget-item:last-child {
+    position: absolute;
+    right: 0;
+    margin-right: 0px;
+    z-index: 0;
+}
+
+.kg-widget-container {
+    box-sizing: border-box;
+    width: 720px;
+    margin: 0 auto;
+    font-size: 14px;
+    position: relative;
+}
+
+.kg-widget-input {
+    font-family: "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-variant: tabular-nums;
+    box-sizing: border-box;
+    margin: 0;
+    list-style: none;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 28px;
+    font-size: 14px;
+    line-height: 28px;
+    color: rgba(0, 0, 0, 0.65);
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.kg-widget-input:focus,
+.kg-widget-input:hover {
+    border: 1px solid #1890ff;
+}
+
+.kg-widget-inpuselect {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+}
+
+.kg-textArea {
+    width: 720px;
+    height: 360px;
+    box-sizing: border-box;
+    margin: 5px auto 0;
+    text-align: left;
+    border: 1px solid #d9d9d9;
+    overflow: hidden;
+}
+
+.kg-textArea textarea {
+    resize: none;
+    padding: 1px 1px 0 0;
+    outline: none;
+    width: 720px;
+    height: 360px;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    overflow: hidden;
+    font-style: normal;
+    /* background: url('../../images/annotation-textare-bg.gif') no-repeat right bottom; */
+    word-break: break-all;
+
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+    -webkit-appearance: none;
+}
+
+.kg-textArea .kg-hideText {
+    width: 720px;
+    height: 360px;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    position: relative;
+    font-style: normal;
+    top: -364px;
+    z-index: -1;
+    opacity: 0;
+    overflow: hidden;
+    word-break: break-all;
+    text-align: left;
+}
+
+.kg-disable{
+    background-color: #e9e9e9 !important;
+    border-color: #d9d9d9 !important;
+    color: #d9d9d9 !important;
+    cursor: not-allowed;
+}
+
+.kg-textArea canvas {
+    border: 1px solid #d9d9d9;
+    box-sizing: border-box;
+    z-index: -1;
+}
+
+
+.clearfix:after {
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+@media all and (max-width: 768px) {
+    .kg-textArea {
+        max-width: calc(100vw - 36px);
+        height: calc(100vh - 266px);
+        margin: 2px auto 0;
+    }
+
+    .kg-textArea textarea {
+        padding: 1px 1px 0 0;
+        outline: none;
+        max-width: calc(100vw - 36px);
+        height: calc(100vh - 266px);
+        box-sizing: border-box;
+        border: 1px solid #d9d9d9;
+        overflow: hidden;
+        font-style: normal;
+        word-break: break-all;
+    }
+
+    .kg-textArea .kg-hideText {
+        max-width: calc(100vw - 36px);
+        height: calc(100vh - 266px);
+        box-sizing: border-box;
+        border: 1px solid #d9d9d9;
+        position: relative;
+        font-style: normal;
+        top: 0;
+        z-index: -1;
+        opacity: 0;
+        overflow: hidden;
+        word-break: break-all;
+        text-align: left;
+    }
+
+    .kg-widget-container {
+        box-sizing: border-box;
+        max-width: calc(100vw - 36px);
+        margin: 0 auto;
+        font-size: 14px;
+        position: relative;
+    }
+
+    #kg-AnnotationBoard {
+        max-width: calc(100vw - 16px);
+        background: white;
+        /* height: calc(100vh - 200px); */
+    }
+
+    .kg-widget-item {
+        margin-bottom: 5px;
+    }
+
+    .kg-widget-item select {
+        width: 86px;
+    }
+
+    .kg-widget-item-label {
+        margin-right: 5px;
+    }
+
+    #TimeSignatureSelectBtn {
+        padding: 0 10px;
+    }
+
+    #kg-widget-fontFamily {
+        display: none;
+    }
+
+}
+#KG_CertValidityOverlay .btn {
+    width: 90px;
+    text-align: center;
+    margin: 0 4px;
+}
+
+#KG_CertValidityOverlay .certDays {
+    font-weight: bold;
+}
+
+#KG_CertValidityOverlay .KG_Form_Footer {
+    text-align: right;
+}
+
+#KG_CertValidityOverlay .KG_AlertPrompt_Content {
+    text-align: center;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    height: 18px;
+    line-height: 18px;
+}
+
+#KG_CertValidityOverlay .KG_AlertPrompt_Content::before {
+    font-size: 18px;
+    color: #5a5a5a;
+    vertical-align: top;
+    margin-right: 6px;
+}
+
+#KG_CertValidityOverlay .kg_checkbox_wrapper {
+    float: left;
+    margin-top: 9px;
+    width: 160px;
+}
+
+#KG_CertValidityOverlay .kg_checkbox_wrapper input[type='checkbox'] {
+    position: absolute;
+    left: 0;
+    margin: 0;
+    width: 16px;
+    height: 16px;
+}
+
+#KG_CertValidityOverlay .kg_checkbox_wrapper span {
+    line-height: 16px;
+    font-size: 14px;
+    position: absolute;
+    user-select: none;
+    left: 20px;
+    width: 140px;
+}
+
+#KG_QrCodeOverlay > .dialog,
+#KG_QrCodeOverlay > .kg_dialog_header {
+    width: 306px;
+}
+
+#KG_QrCodeOverlay > .dialog {
+    position: relative;
+    text-align: center;
+}
+
+#KG_QrCodeOverlay .qrCodeImgForeground {
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    z-index: 10;
+    left: 28px;
+    top: 25px;
+    background-color: #fff;
+    opacity: 0.9;
+    cursor: pointer;
+    display: none;
+    color: red;
+    text-align: center;
+    line-height: 250px;
+    font-size: 15px;
+    user-select: none;
+}
+
+#KG_QrCodeOverlay .qrCodeCountdown {
+    text-align: center;
+    user-select: none;
+}
+
+#KG_QrCodeOverlay img {
+    width: 250px;
+    height: 250px;
+    margin: 0;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+}
+
+#KG_QrCodeOverlay .kg_dialog_right,
+#KG_QrCodeOverlay .kg_dialog_left{
+    display: inline-block;
+}
+
+#KG_QrCodeOverlay .kg_dialog_left{
+    vertical-align: top;
+    position: relative;
+    transform: translateY(10%);
+}
+
+#KG_QrCodeOverlay .kg_dialog_right{
+    position: relative;
+    margin-left: 40px;
+}
+
+#KG_QrCodeOverlay .kg_dialog_left .qrCodeImgForeground{
+    left: 13px!important;
+    top: 1px!important;
+    background-repeat: no-repeat;
+}
+
+#KG_QrCodeOverlay .kg_dialog_left p{
+    margin:10px 0;
+}
+
+#KG_QrCodeOverlay .kg_extent_width{
+    width: 768px;
+}
+
+#KG_QrCodeOverlay .kg_extend_img {
+    border:0px!important;
+    display: inline-block;
+    height:80%!important;
+    width: 80%!important;
+    vertical-align: middle;
+}
+
+#KG_QrCodeOverlay .kg_dialog_left img {
+    padding:20px!important;
+    margin: 0!important;
+    border-radius: 0!important;
+    border:0!important;
+    width: 211px!important;
+    height: 211px!important;
+}
+
+#KG_QrCodeOverlay .kg_dialog_left .qrCodeImgForeground {
+    padding:10px;
+    width: 229px!important;
+    height: 229px!important;
+    line-height: 229px!important;
+}
+
+#kg_exitSessionContainer{
+    display: none!important;
+    justify-content: center;
+}
+
+
+#KG_QrCodeOverlay .kg_copyright_scan{
+    padding: 36px 10px 0;
+    font-size: 16px;
+    color: #848484;
+    letter-spacing: 1px;
+}
+
+
+#KG_ProgressPromptOverlay > .dialog,
+#KG_ProgressPromptOverlay > .kg_dialog_header {
+    width: 280px;
+}
+
+.kg_progress {
+    height: 2px;
+    width: 100%;
+    background-color: #c9c9c9;
+    position: relative;
+}
+
+@media all and (max-width: 768px) {
+    .kg_progress {
+        margin-top: 16px;
+    }
+}
+
+.kg_progress_active {
+    height: 2px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#KG_IndicateSealOverlay > .dialog,
+#KG_IndicateSealOverlay > .kg_dialog_header {
+    width: 462px;
+}
+
+#KG_IndicateSealOverlay > .dialog {
+    position: relative;
+    text-align: center;
+}
+
+#KG_IndicateSeal.toolbarButton::before,
+#secondaryKG_IndicateSeal.secondaryToolbarButton::before {
+    content: "\e931";
+}
+
+#KG_IndicateSealOverlay form {
+    text-align: left;
+}
+
+#KG_IndicateSealOverlay form label {
+    width: 70px;
+}
+
+#KG_IndicateSealOverlay form label:nth-child(odd) {
+    margin-left: 10px;
+}
+
+#KG_IndicateSealOverlay input {
+    width: 120px;
+    margin-bottom: 10px;
+}
+
+.KG_IndicateSeal-canvas {
+    border-radius: 4px;
+    border: 1px solid #d9d9d9;
+    padding-left: calc(50% - 160px);
+    height: 180px;
+}
+
+#KG_IndicateSealOverlay .btn.btn-primary {
+    margin-left: 15px;
+}
+
+@media (max-width: 768px) {
+    #KG_IndicateSealOverlay input {
+        width: calc(100% - 86px);
+    }
+}
+
+#KG_TextConfirmOverlay {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    cursor: default;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#KG_TextConfirmOverlay > div {
+    float: none;
+    display: inline-block;
+    width: 72px;
+    border-radius: 4px;
+    height: 34px;
+    line-height: 34px;
+    margin-top: 6px;
+    margin-left: 24px;
+}
+
+#KG_TextConfirmOverlay > div:first-child {
+    margin-left: 0;
+}
+
+#KG_DocSignConfirmOverlay {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    height: 60px;
+    z-index:201;
+    line-height: 60px;
+    text-align: center;
+    cursor: default;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, .7);
+
+}
+
+#KG_DocSignConfirmOverlay > div {
+    float: none;
+    display: inline-block;
+    width: 72px;
+    border-radius: 4px;
+    height: 34px;
+    line-height: 34px;
+    margin-top: 6px;
+    margin-left: 24px;
+}
+
+#KG_DocSignConfirmOverlay > div:first-child {
+    margin-left: 0;
+}
+
+#KG_DocSignToolOverlay {
+    display: flex;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background: white;
+    border-radius: 2px;
+    z-index: 999;
+    width: calc(100% - 10px);
+    max-width: 375px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.4);
+    padding: 0 0 0 6px;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+
+}
+
+#KG_DocSignToolOverlay .KG_tool_button_left {
+    flex: .76;
+    display: flex;
+}
+
+#KG_DocSignToolOverlay .KG_tool_button_right {
+    flex: .9;
+    display: flex;
+}
+
+#KG_DocSignToolOverlay .KG_tool_button_close {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 28px;
+}
+
+#KG_DocSignToolOverlay .KG_tool_button {
+    display: inline-block;
+    height: 48px;
+    width: 48px;
+    cursor: pointer;
+    line-height: 60px;
+    text-align: center;
+    transform: scale(0.8);
+}
+
+#KG_DocSignToolOverlay .KG_tool_button svg {
+    pointer-events: none;
+    display: inline-block;
+}
+
+#KG_DocSignToolOverlay .KG_DocSign_Input {
+    width: 28px;
+    height: 18px;
+    font-size: 12px;
+    line-height: 18px;
+    padding: 0px 0 0 6px;
+    cursor: default;
+}
+
+#kg_tool_lineWidth {
+    width: 40px!important;
+    height: 20px!important;
+}
+
+#KG_DocSignToolOverlay .KG_DocSign_Label {
+    font-size: 12px;
+    text-align: left;
+    width: auto;
+    margin-left: 4px;
+    margin-right: 6px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+#KG_DocSignToolOverlay .KG_tool_button_close {
+    cursor: default;
+}
+
+#KG_DocSignToolOverlay .KG_DocSign_Item {
+    line-height: 24px;
+    display: inline-block;
+    text-align: right;
+    width: 70px;
+    vertical-align: middle;
+    flex: 1;
+}
+
+#KG_DocSignToolOverlay .KG_DocSign_Item:first-child {
+    border-left: 1px solid rgb(0 0 0 / 20%);
+    margin-right: 3px;
+}
+
+#KG_DocSignToolOverlay .KG_DocSign_Item:last-child {
+    padding-right: 18px;
+    /* border-right: 1px solid rgb(0 0 0 / 20%); */
+}
+#KG_FJRS_QrCodeOverlay .kg_extent_width {
+  width: 400px;
+}
+
+#FJRS_qrcode_box {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: auto;
+}
+
+#KG_FJRS_QrCodeOverlay .dialog {
+  position: relative;
+  padding-top: 40px;
+}
+
+#KG_FJRS_QrCodeOverlay .dialog .tips {
+  position: absolute;
+  width: 100%;
+  left: 0px;
+  margin-bottom: 8px;
+  font-weight: bold;
+  font-size: 15px;
+  top: 10px;
+  z-index: 12;
+  text-align: center;
+}
+
+#KG_FJRS_QrCodeOverlay .dialog .qrCodeImgForeground {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  display: none;
+  color: red;
+  text-align: center;
+  line-height: 300px;
+  font-size: 15px;
+  user-select: none;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  #KG_FJRS_QrCodeOverlay .dialog {
+    padding: 40px 16px 16px 16px;
+  }
+}
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    height: 100%;
+    width: 100%;
+    /* Font size is needed to make the activity bar the correct size. */
+    font-size: 10px;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #f0f0f2;
+    background-image: none;
+}
+
+body,
+input,
+button,
+select {
+    font: message-box;
+    outline: none;
+}
+
+.hidden {
+    display: none !important;
+}
+.activeZindex {
+    z-index: 999;
+}
+[hidden] {
+    display: none !important;
+}
+
+#viewerContainer.pdfPresentationMode:-webkit-full-screen {
+    top: 0;
+    border-top: 2px solid transparent;
+    background-color: #000;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: none;
+    -webkit-user-select: none;
+}
+
+#viewerContainer.pdfPresentationMode:-moz-full-screen {
+    top: 0;
+    border-top: 2px solid transparent;
+    background-color: #000;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: none;
+    -moz-user-select: none;
+}
+
+#viewerContainer.pdfPresentationMode:-ms-fullscreen {
+    top: 0 !important;
+    border-top: 2px solid transparent;
+    width: 100%;
+    height: 100%;
+    overflow: hidden !important;
+    cursor: none;
+    -ms-user-select: none;
+}
+
+#viewerContainer.pdfPresentationMode:-ms-fullscreen::-ms-backdrop {
+    background-color: #000;
+}
+
+#viewerContainer.pdfPresentationMode:fullscreen {
+    top: 0;
+    border-top: 2px solid transparent;
+    background-color: #000;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.pdfPresentationMode:-webkit-full-screen a:not(.internalLink) {
+    display: none;
+}
+
+.pdfPresentationMode:-moz-full-screen a:not(.internalLink) {
+    display: none;
+}
+
+.pdfPresentationMode:-ms-fullscreen a:not(.internalLink) {
+    display: none !important;
+}
+
+.pdfPresentationMode:fullscreen a:not(.internalLink) {
+    display: none;
+}
+
+.pdfPresentationMode:-webkit-full-screen .textLayer > div {
+    cursor: none;
+}
+
+.pdfPresentationMode:-moz-full-screen .textLayer > div {
+    cursor: none;
+}
+
+.pdfPresentationMode:-ms-fullscreen .textLayer > div {
+    cursor: none;
+}
+
+.pdfPresentationMode:fullscreen .textLayer > div {
+    cursor: none;
+}
+
+.pdfPresentationMode.pdfPresentationModeControls > *,
+.pdfPresentationMode.pdfPresentationModeControls .textLayer > div {
+    cursor: default;
+}
+
+#outerContainer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#sidebarContainer {
+    position: absolute;
+    bottom: 0;
+    width: 254px;
+    top: 48px;
+    z-index: 10;
+    transition: none;
+    visibility: visible;
+}
+
+html[dir="ltr"] #sidebarContainer {
+    -webkit-transition-property: left;
+    transition-property: left;
+    left: 0;
+    box-shadow: 1px 0px 2px -2px rgba(0, 0, 0, 0.16), 3px 0px 6px 0px rgba(0, 0, 0, 0.12),
+        5px 0px 12px 4px rgba(0, 0, 0, 0.09);
+}
+
+html[dir="rtl"] #sidebarContainer {
+    -webkit-transition-property: right;
+    transition-property: right;
+    right: 0;
+    box-shadow: -1px 0px 2px -2px rgba(0, 0, 0, 0.16), -3px 0px 6px 0px rgba(0, 0, 0, 0.12),
+        -5px 0px 12px 4px rgba(0, 0, 0, 0.09);
+}
+
+#outerContainer.sidebarMoving > #sidebarContainer,
+#outerContainer.sidebarOpen > #sidebarContainer {
+    visibility: visible;
+}
+
+html[dir="ltr"] #outerContainer.sidebarOpen > #sidebarContainer {
+    left: 0;
+}
+
+html[dir="rtl"] #outerContainer.sidebarOpen > #sidebarContainer {
+    right: 0;
+}
+
+#mainContainer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    min-width: 320px;
+    -webkit-transition-duration: 200ms;
+    -webkit-transition-timing-function: ease;
+    transition-duration: 200ms;
+    transition-timing-function: ease;
+}
+
+html[dir="ltr"] #outerContainer.sidebarOpen > #mainContainer {
+    -webkit-transition-property: left;
+    transition-property: left;
+    left: 200px;
+}
+
+html[dir="rtl"] #outerContainer.sidebarOpen > #mainContainer {
+    -webkit-transition-property: right;
+    transition-property: right;
+    right: 200px;
+}
+
+#sidebarContent {
+    bottom: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    position: absolute;
+    width: 254px;
+    top: 64px;
+    border-top: 1px solid #e5e5e5;
+    background-color: #fff;
+}
+
+html[dir="ltr"] #sidebarContent {
+    left: 0;
+}
+
+html[dir="rtl"] #sidebarContent {
+    right: 0;
+}
+
+#viewerContainer {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    position: absolute;
+    top: 48px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    outline: none;
+    padding-left: calc(100vw - 100%);
+}
+
+html[dir="ltr"] #viewerContainer {
+    box-shadow: inset 1px 0 0 hsla(0, 0%, 100%, 0.05);
+}
+
+html[dir="rtl"] #viewerContainer {
+    box-shadow: inset -1px 0 0 hsla(0, 0%, 100%, 0.05);
+}
+
+.kg_disabled{
+    color: #a7a7a7!important;
+    pointer-events: none!important;
+}
+
+.toolbar {
+    position: relative;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    cursor: default;
+}
+
+#toolbarContainer {
+    background-color: #fff;
+    background-image: none;
+    border-bottom: 1px solid #e5e5e5;
+    width: 100%;
+    height: 48px;
+}
+
+#toolbarSidebar {
+    width: 254px;
+    height: 64px;
+    background-color: #fff;
+    background-image: none;
+}
+
+.findbar {
+    position: absolute;
+    z-index: 10000;
+    top: 60px;
+    height: auto;
+    padding: 24px 24px 18px 24px;
+    margin: 0;
+    color: #5a5a5a;
+    font-size: 14px;
+    line-height: 22px;
+    background-color: #fff;
+    background-image: none;
+}
+
+.findbar.doorHanger {
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    box-shadow: 0px 1px 2px -2px rgba(0, 0, 0, 0.16), 0px 3px 6px 0px rgba(0, 0, 0, 0.12),
+        0px 5px 12px 4px rgba(0, 0, 0, 0.09);
+}
+
+.findbar.doorHanger:before,
+.findbar.doorHanger:after {
+    border-bottom-color: #fff;
+}
+
+html[dir="ltr"] .findbar.doorHanger:before,
+html[dir="ltr"] .findbar.doorHanger:after {
+    left: auto;
+    right: 56px;
+}
+
+html[dir="rtl"] .findbar.doorHanger:before,
+html[dir="rtl"] .findbar.doorHanger:after {
+    left: 56px;
+    right: auto;
+}
+
+#toolbarViewer {
+    height: 48px;
+}
+
+#loadingBar {
+    position: relative;
+    width: 100%;
+    height: 4px;
+    background-color: #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+#loadingBar .progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: #1890ff;
+    overflow: hidden;
+    -webkit-transition: width 200ms;
+    transition: width 200ms;
+}
+
+@-webkit-keyframes progressIndeterminate {
+    0% {
+        left: -142px;
+    }
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes progressIndeterminate {
+    0% {
+        left: -142px;
+    }
+    100% {
+        left: 0;
+    }
+}
+
+#loadingBar .progress.indeterminate {
+    background-color: #999;
+    -webkit-transition: none;
+    transition: none;
+}
+
+#loadingBar .progress.indeterminate .glimmer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: calc(100% + 150px);
+
+    background: repeating-linear-gradient(135deg, #bbb 0, #999 5px, #999 45px, #ddd 55px, #ddd 95px, #bbb 100px);
+
+    -webkit-animation: progressIndeterminate 950ms linear infinite;
+    animation: progressIndeterminate 950ms linear infinite;
+}
+
+.findbar > div {
+    height: 32px;
+}
+
+.findbar.wrapContainers > div {
+    clear: both;
+}
+
+.findbar.wrapContainers > div#findbarMessageContainer {
+    height: auto;
+}
+
+html[dir="ltr"] .findbar {
+    left: auto;
+    right: 12px;
+}
+
+html[dir="rtl"] .findbar {
+    left: 12px;
+    right: auto;
+}
+
+@media all and (max-width: 768px) {
+    html[dir="ltr"] .findbar {
+        left: calc(100% - 310px);
+        right: 8px;
+    }
+
+    html[dir="rtl"] .findbar {
+        left: 8px;
+        right: calc(100% - 310px);
+    }
+
+    html .findbar {
+        padding: 16px 16px 12px 16px;
+    }
+
+    html #findInput {
+        width: calc(100% - 124px);
+    }
+
+    html[dir="ltr"] .findbar.doorHanger:before,
+    html[dir="ltr"] .findbar.doorHanger:after {
+        left: auto;
+        right: 48px;
+    }
+
+    html[dir="rtl"] .findbar.doorHanger:before,
+    html[dir="rtl"] .findbar.doorHanger:after {
+        left: 48px;
+        right: auto;
+    }
+}
+
+.findbar label {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+#findbarInputContainer .toolbarButton {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    border-radius: 0;
+    font-size: 18px;
+}
+
+html[dir="ltr"] #findbarInputContainer .toolbarButton:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+}
+
+html[dir="rtl"] #findbarInputContainer .toolbarButton:last-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-left: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+}
+
+#findInput {
+    width: 200px;
+    padding: 0 30px;
+    height: 30px;
+}
+
+#findInput[data-status="pending"] {
+    background-image: url(images/loading-small.png);
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+html[dir="rtl"] #findInput[data-status="pending"] {
+    background-position: left;
+}
+
+html[dir="ltr"] #findInput {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+html[dir="rtl"] #findInput {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.secondaryToolbar {
+    height: auto;
+    position: absolute;
+    min-width: 16px;
+    color: hsl(0, 0%, 85%);
+    font-size: 12px;
+    line-height: 14px;
+    text-align: left;
+    cursor: default;
+    padding: 0;
+    top: 48px;
+    margin: 0;
+    background-color: #fff;
+    background-image: none;
+    z-index: 200;
+}
+
+html[dir="ltr"] .secondaryToolbar {
+    right: 0px;
+    box-shadow: -1px 0px 2px -2px rgba(0, 0, 0, 0.16), -3px 0px 6px 0px rgba(0, 0, 0, 0.12),
+        -5px 0px 12px 4px rgba(0, 0, 0, 0.09);
+}
+
+html[dir="rtl"] .secondaryToolbar {
+    left: 0px;
+    box-shadow: 1px 0px 2px -2px rgba(0, 0, 0, 0.16), 3px 0px 6px 0px rgba(0, 0, 0, 0.12),
+        5px 0px 12px 4px rgba(0, 0, 0, 0.09);
+}
+
+#secondaryToolbarButtonContainer {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: -4px;
+    padding: 16px 24px 120px;
+    margin: 0;
+    max-height: calc(100vh - 184px);
+    min-height: calc(100vh - 184px);
+    max-width: 240px;
+}
+
+.doorHanger,
+.doorHangerRight {
+    border: 1px solid hsla(0, 0%, 0%, 0.5);
+    border-radius: 2px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.doorHanger:after,
+.doorHanger:before,
+.doorHangerRight:after,
+.doorHangerRight:before {
+    bottom: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.doorHanger:after,
+.doorHangerRight:after {
+    border-bottom-color: hsla(0, 0%, 32%, 0.99);
+    border-width: 8px;
+}
+
+.doorHanger:before,
+.doorHangerRight:before {
+    border-bottom-color: hsla(0, 0%, 0%, 0.5);
+    border-width: 9px;
+}
+
+html[dir="ltr"] .doorHanger:after,
+html[dir="rtl"] .doorHangerRight:after {
+    left: 13px;
+    margin-left: -8px;
+}
+
+html[dir="ltr"] .doorHanger:before,
+html[dir="rtl"] .doorHangerRight:before {
+    left: 13px;
+    margin-left: -9px;
+}
+
+html[dir="rtl"] .doorHanger:after,
+html[dir="ltr"] .doorHangerRight:after {
+    right: 13px;
+    margin-right: -8px;
+}
+
+html[dir="rtl"] .doorHanger:before,
+html[dir="ltr"] .doorHangerRight:before {
+    right: 13px;
+    margin-right: -9px;
+}
+
+#findResultsCount {
+    color: hsl(0, 0%, 32%);
+    text-align: center;
+    position: absolute;
+    z-index: 1;
+    top: 1px;
+    background: transparent;
+    height: 28px;
+    padding: 0;
+    line-height: 30px;
+}
+
+html[dir="ltr"] #findResultsCount {
+    right: 70px;
+}
+
+html[dir="rtl"] #findResultsCount {
+    left: 70px;
+}
+
+#kg_findIcon {
+    position: absolute;
+    top: 1px;
+    width: 30px;
+    height: 30px;
+    z-index: 1;
+    font-size: 22px;
+    text-align: center;
+    line-height: 30px;
+}
+
+html[dir="ltr"] #kg_findIcon {
+    left: 1px;
+}
+
+html[dir="rtl"] #kg_findIcon {
+    right: 1px;
+}
+
+#kg_findIcon::before {
+    content: "\e913";
+}
+
+#findMsg {
+    font-style: normal;
+    color: #ff4d4f;
+    padding: 0;
+    line-height: 24px;
+    border: none;
+}
+
+#findMsg:empty {
+    display: none;
+}
+
+#findInput.notFound {
+    background-color: #fff;
+    border: 1px solid #ff4d4f;
+    box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+}
+
+#findbarOptionsContainer {
+    height: 16px;
+}
+
+#findbarOptionsContainer .kg_checkbox_wrapper {
+    display: inline;
+}
+
+#findbarOptionsContainer .toolbarField[type="checkbox"] {
+    margin: 0;
+    width: 16px;
+    height: 16px;
+}
+
+#findbarOptionsContainer .toolbarLabel {
+    padding: 0;
+    margin: 0 12px 0 6px;
+    height: 16px;
+    line-height: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.findbar.wrapContainers > div#findbarMessageContainer {
+    height: 24px;
+}
+
+#toolbarViewerMiddle,
+#toolbarIWebAuth {
+    position: absolute;
+    left: 48%;
+    transform: translateX(-50%);
+    padding-left: calc(100vw - 100%);
+}
+
+#toolbarIWebAuth {
+    user-select: none;
+    margin-top: 13px;
+}
+
+#iWebAuth_Provider {
+    color: #2b2b2b;
+    padding: 0;
+    display: inline-block;
+
+    text-align: right;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#iWebAuth_Toggle {
+    padding: 2px 6px;
+    border-radius: 5px;
+    color: rgb(24, 144, 255);
+    cursor: pointer;
+    vertical-align: top;
+}
+
+#iWebAuth_Toggle :hover {
+    background: rgba(0, 0, 255, 0.3);
+}
+
+
+html[dir="ltr"] #toolbarViewerLeft,
+html[dir="rtl"] #toolbarViewerRight {
+    float: left;
+    margin-left: 6px;
+}
+
+html[dir="ltr"] #toolbarViewerRight,
+html[dir="rtl"] #toolbarViewerLeft {
+    float: right;
+    margin-right: 6px;
+}
+
+@media all and (max-width: 768px) {
+    html[dir="ltr"] #toolbarViewerLeft,
+    html[dir="rtl"] #toolbarViewerRight {
+        margin-left: 0px;
+    }
+
+    html[dir="ltr"] #toolbarViewerRight,
+    html[dir="rtl"] #toolbarViewerLeft {
+        margin-right: 0px;
+    }
+}
+
+html[dir="ltr"] #toolbarViewerLeft > *,
+html[dir="ltr"] #toolbarViewerMiddle > *,
+html[dir="ltr"] #toolbarViewerRight > *,
+html[dir="ltr"] .findbar * {
+    position: relative;
+    float: left;
+}
+
+html[dir="rtl"] #toolbarViewerLeft > *,
+html[dir="rtl"] #toolbarViewerMiddle > *,
+html[dir="rtl"] #toolbarViewerRight > *,
+html[dir="rtl"] .findbar * {
+    position: relative;
+    float: right;
+}
+
+#toolbarSidebar > .splitToolbarButton {
+    width: 100%;
+    height: 64px;
+}
+
+html[dir="ltr"] .splitToolbarButton {
+    margin: 0;
+    display: inline-block;
+}
+
+html[dir="rtl"] .splitToolbarButton {
+    margin: 0;
+    display: inline-block;
+}
+
+#toolbarSidebar > .splitToolbarButton > .toolbarButton {
+    width: 64px;
+    height: 64px;
+}
+
+#toolbarSidebar > .splitToolbarButton > .toolbarButton::before {
+    position: relative;
+}
+
+#toolbarSidebar > .splitToolbarButton > .toolbarButton > span {
+    display: block;
+    font-size: 12px;
+    text-align: center;
+    line-height: 22px;
+    position: relative;
+    top: -12px;
+    width: 56px;
+    margin-left: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+html[dir="ltr"] .splitToolbarButton > .toolbarButton {
+    border-radius: 0;
+    float: left;
+}
+
+html[dir="rtl"] .splitToolbarButton > .toolbarButton {
+    border-radius: 0;
+    float: right;
+}
+
+.toolbarButton,
+.secondaryToolbarButton,
+.outlineItemToggler,
+.kg_icon {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: "icomoon" !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.toolbarButton {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    /* Opera does not support user-select, use <... unselectable="on"> instead */
+    -webkit-transition-property: color;
+    -webkit-transition-duration: 300ms;
+    -webkit-transition-timing-function: ease;
+    transition-property: color;
+    transition-duration: 300ms;
+    transition-timing-function: ease;
+
+    min-width: auto;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    color: #5a5a5a;
+    font-size: 22px;
+    line-height: 48px;
+    user-select: none;
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    text-align: center;
+    background-color: transparent;
+}
+
+.overlayButton {
+    border: 0 none;
+    background: none;
+    width: 32px;
+    height: 25px;
+}
+
+.secondaryToolbarButton {
+    padding: 0;
+    border: 0;
+    color: #5a5a5a;
+    font-size: 16px;
+    min-height: 32px;
+    height: 32px;
+    line-height: 32px;
+    user-select: none;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+.toolbarButton > span,
+#toolbarViewerRight .toolbarButton#viewFind > span,
+#toolbarViewerRight .toolbarButton#secondaryToolbarToggle > span {
+    display: none;
+}
+
+#toolbarViewerRight .toolbarButton#viewFind,
+#toolbarViewerRight .toolbarButton#secondaryToolbarToggle {
+    width: 48px;
+    margin-right: 0;
+}
+
+@media all and (max-width: 768px) {
+    .toolbarButton,
+    #toolbarViewerRight .toolbarButton,
+    #toolbarViewerRight .toolbarButton#viewFind,
+    #toolbarViewerRight .toolbarButton#secondaryToolbarToggle {
+        width: 44px;
+    }
+}
+
+#toolbarViewerRight .toolbarButton {
+    width: auto;
+}
+
+#toolbarViewerRight .toolbarButton > span {
+    font-size: 16px;
+    height: 48px;
+    line-height: 48px;
+    vertical-align: top;
+    display: inline-block;
+    margin-left: -4px;
+    text-align: left;
+}
+
+#toolbarViewerRight .toolbarButton {
+    /* width: 48px; */
+    margin-right: 12px;
+}
+
+@media all and (max-width: 960px) {
+    #toolbarViewerRight .toolbarButton {
+        width: 48px;
+        margin-right: 0;
+    }
+
+    #toolbarViewerRight .toolbarButton > span {
+        display: none;
+    }
+}
+
+.toolbarButton[disabled],
+.secondaryToolbarButton[disabled],
+.overlayButton[disabled] {
+    opacity: 0.5;
+}
+
+.toolbarButton[disabled]:hover,
+.secondaryToolbarButton[disabled]:hover {
+    color: #5a5a5a;
+    cursor: not-allowed;
+}
+
+.splitToolbarButton.toggled .toolbarButton {
+    margin: 0;
+}
+
+.splitToolbarButton:hover > .toolbarButton,
+.splitToolbarButton:focus > .toolbarButton,
+.splitToolbarButton.toggled > .toolbarButton {
+    background-color: transparent;
+    background-image: none;
+    background-clip: initial;
+    border: none;
+    border-color: transparent;
+    box-shadow: none;
+    transition-property: color;
+    transition-duration: 300ms;
+    transition-timing-function: ease;
+}
+
+.toolbarButton.textButton {
+    background-color: hsla(0, 0%, 0%, 0.12);
+    background-image: linear-gradient(hsla(0, 0%, 100%, 0.05), hsla(0, 0%, 100%, 0));
+    background-clip: padding-box;
+    border: 1px solid hsla(0, 0%, 0%, 0.35);
+    border-color: hsla(0, 0%, 0%, 0.32) hsla(0, 0%, 0%, 0.38) hsla(0, 0%, 0%, 0.42);
+    box-shadow: 0 1px 0 hsla(0, 0%, 100%, 0.05) inset, 0 0 1px hsla(0, 0%, 100%, 0.15) inset,
+        0 1px 0 hsla(0, 0%, 100%, 0.05);
+    -webkit-transition-property: background-color, border-color, box-shadow;
+    -webkit-transition-duration: 150ms;
+    -webkit-transition-timing-function: ease;
+    transition-property: background-color, border-color, box-shadow;
+    transition-duration: 150ms;
+    transition-timing-function: ease;
+}
+
+.overlayButton:hover,
+.overlayButton:focus,
+.toolbarButton.textButton:hover,
+.toolbarButton.textButton:focus {
+    background-color: hsla(0, 0%, 0%, 0.2);
+    box-shadow: 0 1px 0 hsla(0, 0%, 100%, 0.05) inset, 0 0 1px hsla(0, 0%, 100%, 0.15) inset,
+        0 0 1px hsla(0, 0%, 0%, 0.05);
+    z-index: 199;
+}
+
+.dropdownToolbarButton:hover,
+.dropdownToolbarButton:focus,
+#pageNumber:hover,
+#pageNumber:focus {
+    outline: none;
+    background-color: transparent;
+    box-shadow: none;
+    border: 1px solid #1890ff;
+    z-index: 199;
+}
+
+.splitToolbarButton > .toolbarButton:hover,
+.splitToolbarButton > .toolbarButton:focus {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.splitToolbarButton > .toolbarButton {
+    position: relative;
+}
+
+html[dir="ltr"] .splitToolbarButton > .toolbarButton:first-child,
+html[dir="rtl"] .splitToolbarButton > .toolbarButton:last-child {
+    position: relative;
+    margin: 0;
+    margin-right: -1px;
+    border-top-left-radius: 2px;
+    border-bottom-left-radius: 2px;
+    border-right-color: transparent;
+}
+
+html[dir="ltr"] .splitToolbarButton > .toolbarButton:last-child,
+html[dir="rtl"] .splitToolbarButton > .toolbarButton:first-child {
+    position: relative;
+    margin: 0;
+    margin-left: -1px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-left-color: transparent;
+}
+
+.splitToolbarButtonSeparator {
+    width: 1px;
+    height: 24px;
+    z-index: 99;
+    display: inline-block;
+    background-color: #e5e5e5;
+    box-shadow: none;
+    padding: 0;
+    margin: 12px 0;
+}
+
+@media (max-width: 640px) {
+    .splitToolbarButtonSeparator {
+        margin: 12px 0;
+    }
+}
+
+html[dir="ltr"] .splitToolbarButtonSeparator {
+    float: left;
+}
+
+html[dir="rtl"] .splitToolbarButtonSeparator {
+    float: right;
+}
+
+.splitToolbarButton:hover > .splitToolbarButtonSeparator,
+.splitToolbarButton.toggled > .splitToolbarButtonSeparator {
+    padding: 0px 0;
+    margin: 12px 0;
+}
+
+.secondaryToolbarButton,
+.overlayButton {
+    min-width: 16px;
+    padding: 2px 6px 0;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    color: hsla(0, 0%, 100%, 0.8);
+    font-size: 12px;
+    line-height: 14px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    /* Opera does not support user-select, use <... unselectable="on"> instead */
+    cursor: default;
+    -webkit-transition-property: background-color, border-color, box-shadow;
+    -webkit-transition-duration: 150ms;
+    -webkit-transition-timing-function: ease;
+    transition-property: background-color, border-color, box-shadow;
+    transition-duration: 150ms;
+    transition-timing-function: ease;
+}
+
+.dropdownToolbarButton {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    /* Opera does not support user-select, use <... unselectable="on"> instead */
+    cursor: default;
+    margin-top: 11px;
+    width: 96px;
+    min-width: 96px;
+    background: none;
+    box-shadow: none;
+    color: #5a5a5a;
+    font-size: 14px;
+    line-height: 24;
+    height: 24px;
+    padding: 0;
+    border-radius: 5px;
+    border: 1px solid #e5e5e5;
+    overflow: hidden;
+    -webkit-transition-property: border-color;
+    -webkit-transition-duration: 300ms;
+    -webkit-transition-timing-function: ease;
+    transition-property: border-color;
+    transition-duration: 300ms;
+    transition-timing-function: ease;
+}
+
+html[dir="ltr"] .overlayButton {
+    margin: 3px 2px 4px 0;
+}
+
+html[dir="ltr"] .toolbarButton {
+    margin: 0;
+}
+
+html[dir="rtl"] .overlayButton {
+    margin: 3px 0 4px 2px;
+}
+
+html[dir="rtl"] .toolbarButton {
+    margin: 0;
+}
+
+.overlayButton {
+    background-color: hsla(0, 0%, 0%, 0.12);
+    background-image: linear-gradient(hsla(0, 0%, 100%, 0.05), hsla(0, 0%, 100%, 0));
+    background-clip: padding-box;
+    border: 1px solid hsla(0, 0%, 0%, 0.35);
+    border-color: hsla(0, 0%, 0%, 0.32) hsla(0, 0%, 0%, 0.38) hsla(0, 0%, 0%, 0.42);
+    box-shadow: 0 1px 0 hsla(0, 0%, 100%, 0.05) inset, 0 0 1px hsla(0, 0%, 100%, 0.15) inset,
+        0 1px 0 hsla(0, 0%, 100%, 0.05);
+}
+
+.secondaryToolbarButton:hover,
+.secondaryToolbarButton:focus,
+.secondaryToolbarButton.toggled,
+.secondaryToolbarButton:hover:active,
+.secondaryToolbarButton.toggled:hover:active {
+    background-color: transparent;
+    background-image: none;
+    border-color: transparent;
+    box-shadow: none;
+    transition-property: color;
+    transition-duration: 300ms;
+    transition-timing-function: linear;
+    color: #1890ff;
+}
+
+.toolbarButton:hover,
+.toolbarButton:focus,
+.toolbarButton:hover:active,
+.splitToolbarButton.toggled > .toolbarButton.toggled,
+.toolbarButton.toggled:hover:active {
+    background-color: transparent;
+    background-image: none;
+    border-color: transparent;
+    box-shadow: none;
+    transition-property: color;
+    transition-duration: 300ms;
+    transition-timing-function: ease;
+    color: #1890ff;
+}
+
+#toolbarSidebar .toolbarButton.toggled {
+    border-bottom: 2px solid #1890ff;
+    background-color: #e6f7ff;
+}
+
+.overlayButton:hover:active {
+    background-color: hsla(0, 0%, 0%, 0.2);
+    background-image: linear-gradient(hsla(0, 0%, 100%, 0.05), hsla(0, 0%, 100%, 0));
+    border-color: hsla(0, 0%, 0%, 0.35) hsla(0, 0%, 0%, 0.4) hsla(0, 0%, 0%, 0.45);
+    box-shadow: 0 1px 1px hsla(0, 0%, 0%, 0.1) inset, 0 0 1px hsla(0, 0%, 0%, 0.2) inset,
+        0 1px 0 hsla(0, 0%, 100%, 0.05);
+    -webkit-transition-property: background-color, border-color, box-shadow;
+    -webkit-transition-duration: 10ms;
+    -webkit-transition-timing-function: linear;
+    transition-property: background-color, border-color, box-shadow;
+    transition-duration: 10ms;
+    transition-timing-function: linear;
+}
+
+.dropdownToolbarButton {
+    float: left;
+    position: relative;
+}
+
+.dropdownToolbarButton:hover:active {
+    background-color: transparent;
+    background-image: none;
+    border-color: #1890ff;
+    box-shadow: none;
+    -webkit-transition-property: border-color;
+    -webkit-transition-duration: 300ms;
+    -webkit-transition-timing-function: linear;
+    transition-property: border-color;
+    transition-duration: 300ms;
+    transition-timing-function: linear;
+}
+
+.splitToolbarButton.toggled > .toolbarButton.toggled:hover:active {
+    background-color: hsla(0, 0%, 0%, 0.4);
+    border-color: hsla(0, 0%, 0%, 0.4) hsla(0, 0%, 0%, 0.5) hsla(0, 0%, 0%, 0.55);
+    box-shadow: 0 1px 1px hsla(0, 0%, 0%, 0.2) inset, 0 0 1px hsla(0, 0%, 0%, 0.3) inset,
+        0 1px 0 hsla(0, 0%, 100%, 0.05);
+}
+
+html[dir="ltr"] .dropdownToolbarButton {
+    background-position: 95%;
+}
+
+html[dir="rtl"] .dropdownToolbarButton {
+    background-position: 5%;
+}
+
+.dropdownToolbarButton > select {
+    margin: 0;
+    border: none;
+    color: #5a5a5a;
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0;
+    width: 96px;
+    min-width: 96px;
+}
+
+.dropdownToolbarButton > select > option {
+    background: #fff;
+}
+
+#customScaleOption {
+    display: none;
+}
+
+#pageWidthOption {
+    border-bottom: 1px rgba(255, 255, 255, 0.5) solid;
+}
+
+html[dir="ltr"] .toolbarButton:first-child,
+html[dir="rtl"] .toolbarButton:last-child {
+    margin-left: 0px;
+}
+
+html[dir="ltr"] .splitToolbarButton:first-child,
+html[dir="rtl"] .splitToolbarButton:last-child {
+    margin-left: 0px;
+}
+
+html[dir="ltr"] .toolbarButton:last-child,
+html[dir="rtl"] .toolbarButton:first-child {
+    margin-right: 0px;
+}
+
+html[dir="ltr"] .splitToolbarButton:last-child,
+html[dir="rtl"] .splitToolbarButton:first-child {
+    margin-right: 0px;
+}
+
+.toolbarButtonSpacer {
+    width: 30px;
+    display: inline-block;
+    height: 1px;
+}
+
+html[dir="ltr"] #findPrevious {
+    margin-left: 0;
+}
+
+html[dir="ltr"] #findNext {
+    margin-right: 0;
+}
+
+html[dir="rtl"] #findPrevious {
+    margin-right: 0;
+}
+
+html[dir="rtl"] #findNext {
+    margin-left: 0;
+}
+
+.toolbarButton.zoomIn,
+.toolbarButton.zoomOut,
+.toolbarButton.pageUp,
+.toolbarButton.pageDown {
+    font-size: 18px;
+}
+
+.secondaryToolbarButton::before {
+    font-size: 20px;
+    width: 24px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+    top: 1px;
+    position: absolute;
+    display: inline-block;
+}
+
+html[dir="ltr"] .secondaryToolbarButton::before {
+    left: 4px;
+}
+
+html[dir="rtl"] .secondaryToolbarButton::before {
+    right: 4px;
+}
+
+html[dir="ltr"] .toolbarButton#sidebarToggle::before {
+    content: "\e90d";
+}
+
+html[dir="rtl"] .toolbarButton#sidebarToggle::before {
+    content: "\e90d";
+}
+
+html[dir="ltr"] .toolbarButton#secondaryToolbarToggle::before {
+    content: "\e907";
+}
+
+html[dir="rtl"] .toolbarButton#secondaryToolbarToggle::before {
+    content: "\e907";
+}
+
+html[dir="ltr"] .toolbarButton.findPrevious::before {
+    content: "\e91b";
+}
+
+html[dir="rtl"] .toolbarButton.findPrevious::before {
+    content: "\e91b";
+}
+
+html[dir="ltr"] .toolbarButton.findNext::before {
+    content: "\e91a";
+}
+
+html[dir="rtl"] .toolbarButton.findNext::before {
+    content: "\e91a";
+}
+
+html[dir="ltr"] .toolbarButton.pageUp::before {
+    content: "\e90c";
+}
+
+html[dir="rtl"] .toolbarButton.pageUp::before {
+    content: "\e90f";
+}
+
+html[dir="ltr"] .toolbarButton.pageDown::before {
+    content: "\e90f";
+}
+
+html[dir="rtl"] .toolbarButton.pageDown::before {
+    content: "\e90c";
+}
+
+.toolbarButton.zoomOut::before {
+    content: "\e928";
+}
+
+.toolbarButton.zoomIn::before {
+    content: "\e929";
+}
+
+.toolbarButton.presentationMode::before,
+.secondaryToolbarButton.presentationMode::before {
+    content: "\e918";
+}
+
+.toolbarButton.print::before,
+.secondaryToolbarButton.print::before {
+    content: "\e90e";
+}
+
+.toolbarButton.openFile::before,
+.secondaryToolbarButton.openFile::before,
+.toolbarButton#KG_OpenLocalFile::before,
+.secondaryToolbarButton#secondaryKG_OpenLocalFile::before {
+    content: "\e909";
+}
+
+.toolbarButton.download::before,
+.secondaryToolbarButton.download::before {
+    content: "\e905";
+}
+
+.toolbarButton.bookmark,
+.secondaryToolbarButton.bookmark {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: none;
+    padding-top: 0px;
+    text-decoration: none;
+}
+
+.secondaryToolbarButton.bookmark {
+    padding-top: 0;
+    display: inline-block;
+}
+
+.secondaryToolbar.doorHanger,
+.secondaryToolbar.doorHangerRight {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+html[dir="rtl"] .secondaryToolbar.doorHanger:before,
+html[dir="ltr"] .secondaryToolbar.doorHangerRight:before,
+html[dir="rtl"] .secondaryToolbar.doorHanger:after,
+html[dir="ltr"] .secondaryToolbar.doorHangerRight:after {
+    display: none;
+}
+
+.bookmark[href="#"] {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.toolbarButton.bookmark::before,
+.secondaryToolbarButton.bookmark::before {
+    content: "\e919";
+}
+
+#viewThumbnail.toolbarButton::before {
+    content: "\e90a";
+}
+
+html[dir="ltr"] #viewOutline.toolbarButton::before {
+    content: "\e915";
+}
+
+html[dir="rtl"] #viewOutline.toolbarButton::before {
+    content: "\e915";
+}
+
+#viewAttachments.toolbarButton::before {
+    content: "\e900";
+}
+
+#viewFind.toolbarButton::before {
+    content: "\e913";
+}
+
+.toolbarButton.pdfSidebarNotification::after {
+    display: none;
+}
+
+html[dir="ltr"] .toolbarButton.pdfSidebarNotification::after {
+    left: 17px;
+}
+
+html[dir="rtl"] .toolbarButton.pdfSidebarNotification::after {
+    right: 17px;
+}
+
+.secondaryToolbarButton {
+    position: relative;
+    margin: 0 0 8px 0;
+    width: auto;
+    min-width: 100%;
+    white-space: normal;
+    padding: 0;
+    border: 0;
+    color: #5a5a5a;
+    font-size: 16px;
+    min-height: 32px;
+    height: 32px;
+    line-height: 32px;
+    user-select: none;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+html[dir="ltr"] .secondaryToolbarButton {
+    padding-left: 36px;
+    text-align: left;
+}
+
+html[dir="rtl"] .secondaryToolbarButton {
+    padding-right: 36px;
+    text-align: right;
+}
+
+html[dir="ltr"] .secondaryToolbarButton.bookmark {
+    padding-left: 36px;
+}
+
+html[dir="rtl"] .secondaryToolbarButton.bookmark {
+    padding-right: 36px;
+}
+
+.secondaryToolbarButton > span {
+    display: inline-block;
+}
+
+html[dir="ltr"] .secondaryToolbarButton > span {
+    padding-right: 0px;
+    margin-left: -4px;
+}
+
+html[dir="rtl"] .secondaryToolbarButton > span {
+    padding-left: 0px;
+}
+
+.secondaryToolbarButton.firstPage::before {
+    content: "\e921";
+}
+
+.secondaryToolbarButton.lastPage::before {
+    content: "\e920";
+}
+
+.toolbarButton.pageRotateCcw::before,
+.secondaryToolbarButton.rotateCcw::before {
+    content: "\e910";
+}
+
+.toolbarButton.pageRotateCw::before,
+.secondaryToolbarButton.rotateCw::before {
+    content: "\e911";
+}
+
+.secondaryToolbarButton.selectTool::before {
+    content: "\e91d";
+}
+
+.secondaryToolbarButton.handTool::before {
+    content: "\e91c";
+    font-size: 19px;
+}
+
+.secondaryToolbarButton.documentProperties::before {
+    content: "\e90b";
+}
+
+.verticalToolbarSeparator {
+    display: block;
+    padding: 8px 0;
+    margin: 8px 4px;
+    width: 1px;
+    background-color: hsla(0, 0%, 0%, 0.5);
+    box-shadow: 0 0 0 1px hsla(0, 0%, 100%, 0.08);
+}
+
+html[dir="ltr"] .verticalToolbarSeparator {
+    margin-left: 2px;
+}
+
+html[dir="rtl"] .verticalToolbarSeparator {
+    margin-right: 2px;
+}
+
+.horizontalToolbarSeparator {
+    display: block;
+    margin: 0 0 4px 0;
+    height: 1px;
+    width: 100%;
+    background-color: hsla(0, 0%, 0%, 0.5);
+    box-shadow: 0 0 0 1px hsla(0, 0%, 100%, 0.08);
+}
+
+.secondaryToolbar .horizontalToolbarSeparator {
+    margin: 16px 0;
+    box-shadow: none;
+    background-color: #e5e5e5;
+}
+
+.toolbarField {
+    border: 1px solid transparent;
+    border-color: hsla(0, 0%, 0%, 0.32) hsla(0, 0%, 0%, 0.38) hsla(0, 0%, 0%, 0.42);
+    outline-style: none;
+    color: #5a5a5a;
+    margin: 0;
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+    width: 48px;
+    padding: 0;
+    border-radius: 5px;
+    background-color: #fff;
+    background-image: none;
+    background-clip: initial;
+    border-color: transparent;
+    border: 1px solid #e5e5e5;
+    box-shadow: none;
+    transition-property: border-color, box-shadow;
+    transition-duration: 300ms;
+    transition-timing-function: ease;
+}
+
+.toolbarField[type="checkbox"] {
+    display: inline-block;
+    margin: 8px 0;
+}
+
+.toolbarField.pageNumber {
+    -moz-appearance: textfield; /* hides the spinner in moz */
+    min-width: 16px;
+    width: 40px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.toolbarField.pageNumber.visiblePageIsLoading {
+    background-image: url(images/loading-small.png);
+    background-repeat: no-repeat;
+    background-position: 1px;
+}
+
+.toolbarField.pageNumber::-webkit-inner-spin-button,
+.toolbarField.pageNumber::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.toolbarField:hover {
+    background-color: #fff;
+    border-color: #1890ff;
+    box-shadow: none;
+}
+
+.toolbarField:focus {
+    background-color: #fff;
+    border-color: #1890ff;
+}
+
+.toolbarLabel {
+    min-width: 16px;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    text-align: left;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    cursor: default;
+    color: #5a5a5a;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    height: 24px;
+    line-height: 24px;
+}
+
+#thumbnailView {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 254px;
+    box-sizing: border-box;
+    padding: 10px 48px 0 32px;
+}
+
+.thumbnail {
+    float: left;
+    margin-bottom: 5px;
+}
+
+#thumbnailView > a:last-of-type > .thumbnail {
+    margin-bottom: 10px;
+}
+
+#thumbnailView > a:last-of-type > .thumbnail:not([data-loaded]) {
+    margin-bottom: 9px;
+}
+
+.thumbnail:not([data-loaded]) {
+    border: 1px dashed rgba(255, 255, 255, 0.5);
+    margin: -1px -1px 4px -1px;
+}
+
+.thumbnailImage {
+    border: 1px solid transparent;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+    opacity: 0.8;
+    z-index: 99;
+    background-color: white;
+    background-clip: content-box;
+}
+
+.thumbnailSelectionRing {
+    border-radius: 2px;
+    padding: 7px;
+}
+
+a:focus > .thumbnail > .thumbnailSelectionRing > .thumbnailImage,
+.thumbnail:hover > .thumbnailSelectionRing > .thumbnailImage {
+    opacity: 0.9;
+}
+
+a:focus > .thumbnail > .thumbnailSelectionRing,
+.thumbnail:hover > .thumbnailSelectionRing {
+    background-color: hsla(0, 0%, 100%, 0.15);
+    background-image: linear-gradient(hsla(0, 0%, 100%, 0.05), hsla(0, 0%, 100%, 0));
+    background-clip: padding-box;
+    box-shadow: 0 1px 0 hsla(0, 0%, 100%, 0.05) inset, 0 0 1px hsla(0, 0%, 100%, 0.2) inset,
+        0 0 1px hsla(0, 0%, 0%, 0.2);
+    color: hsla(0, 0%, 100%, 0.9);
+}
+
+.thumbnail.selected > .thumbnailSelectionRing > .thumbnailImage {
+    box-shadow: 0 0 0 2px #1890ff;
+    opacity: 1;
+}
+
+.thumbnail.selected > .thumbnailSelectionRing {
+    background-color: hsla(0, 0%, 100%, 0.3);
+    background-image: linear-gradient(hsla(0, 0%, 100%, 0.05), hsla(0, 0%, 100%, 0));
+    background-clip: padding-box;
+    box-shadow: 0 1px 0 hsla(0, 0%, 100%, 0.05) inset, 0 0 1px hsla(0, 0%, 100%, 0.1) inset,
+        0 0 1px hsla(0, 0%, 0%, 0.2);
+    color: hsla(0, 0%, 100%, 1);
+}
+
+#outlineView,
+#attachmentsView,
+#kgAnnotationsView {
+    width: 254px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+#outlineView,
+#kgAnnotationsView,
+#attachmentsView {
+    padding: 8px 16px 8px 4px;
+}
+
+html[dir="ltr"] .outlineWithDeepNesting > .outlineItem,
+html[dir="ltr"] .annotationItem,
+html[dir="ltr"] .outlineItem > .outlineItems {
+    margin-left: 20px;
+}
+
+html[dir="rtl"] .outlineWithDeepNesting > .outlineItem,
+html[dir="rtl"] .annotationItem,
+html[dir="rtl"] .outlineItem > .outlineItems {
+    margin-right: 20px;
+}
+
+.outlineItem > a,
+.annotationItem > a,
+.attachmentsItem > button {
+    text-decoration: none;
+    display: inline-block;
+    min-width: 95%;
+    min-width: calc(100% - 4px); /* Subtract the right padding (left, in RTL mode) of the container. */
+    height: auto;
+    border-radius: 2px;
+    -moz-user-select: none;
+    white-space: normal;
+    color: #5a5a5a;
+    font-size: 14px;
+    line-height: 22px;
+    margin-bottom: 0;
+}
+
+.attachmentsItem > button {
+    border: 0 none;
+    background: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+html[dir="ltr"] .outlineItem > a,
+html[dir="ltr"] .annotationItem > a {
+    padding: 2px 0 5px 4px;
+}
+
+html[dir="ltr"] .attachmentsItem > button {
+    padding: 2px 0 3px 7px;
+    text-align: left;
+}
+
+html[dir="rtl"] .outlineItem > a,
+html[dir="ltr"] .annotationItem > a {
+    padding: 2px 4px 5px 0;
+}
+
+html[dir="rtl"] .attachmentsItem > button {
+    padding: 2px 7px 3px 0;
+    text-align: right;
+}
+
+.outlineItemToggler {
+    position: relative;
+    height: 0;
+    width: 0;
+    color: #5a5a5a;
+    font-size: 14px;
+}
+
+.outlineItemToggler::before {
+    content: "\e91a";
+    display: inline-block;
+    position: absolute;
+    height: 29px;
+    line-height: 29px;
+}
+
+html[dir="ltr"] .outlineItemToggler.outlineItemsHidden::before {
+    content: "\e90f";
+}
+
+html[dir="rtl"] .outlineItemToggler.outlineItemsHidden::before {
+    content: "\e90c";
+}
+
+.outlineItemToggler.outlineItemsHidden ~ .outlineItems {
+    display: none;
+}
+
+html[dir="ltr"] .outlineItemToggler {
+    float: left;
+}
+
+html[dir="rtl"] .outlineItemToggler {
+    float: right;
+}
+
+html[dir="ltr"] .outlineItemToggler::before {
+    right: 0px;
+    top: 0px;
+}
+
+html[dir="rtl"] .outlineItemToggler::before {
+    left: 0px;
+    top: 0px;
+}
+
+#sidebarContainer .toolbarButton.toggled:hover:active,
+.outlineItemToggler:hover,
+.outlineItemToggler:hover + a,
+.outlineItemToggler:hover ~ .outlineItems,
+.outlineItem > a:hover,
+.annotationItem > a:hover,
+.attachmentsItem > button:hover {
+    border-radius: 2px;
+    background-color: transparent;
+    background-image: none;
+    background-clip: initial;
+    box-shadow: none;
+    color: #1890ff;
+}
+
+.outlineItem.selected,
+.annotation.selected {
+    background-color: hsla(0, 0%, 100%, 0.08);
+    background-image: linear-gradient(hsla(0, 0%, 100%, 0.05), hsla(0, 0%, 100%, 0));
+    background-clip: padding-box;
+    box-shadow: 0 1px 0 hsla(0, 0%, 100%, 0.05) inset, 0 0 1px hsla(0, 0%, 100%, 0.1) inset,
+        0 0 1px hsla(0, 0%, 0%, 0.2);
+    color: hsla(0, 0%, 100%, 1);
+}
+
+.noResults {
+    font-size: 12px;
+    color: hsla(0, 0%, 100%, 0.8);
+    font-style: italic;
+    cursor: default;
+}
+
+/* TODO: file FF bug to support ::-moz-selection:window-inactive
+    so we can override the opaque grey background when the window is inactive;
+    see https://bugzilla.mozilla.org/show_bug.cgi?id=706209 */
+::selection {
+    background: rgba(0, 0, 255, 0.3);
+}
+
+::-moz-selection {
+    background: rgba(0, 0, 255, 0.3);
+}
+
+#errorWrapper {
+    background: none repeat scroll 0 0 #f55;
+    color: white;
+    left: 0;
+    position: absolute;
+    right: 0;
+    z-index: 1000;
+    padding: 3px;
+    font-size: 0.8em;
+}
+
+.loadingInProgress #errorWrapper {
+    top: 53px;
+}
+
+#errorMessageLeft {
+    float: left;
+}
+
+#errorMessageRight {
+    float: right;
+}
+
+#errorMoreInfo {
+    background-color: #fff;
+    color: black;
+    padding: 3px;
+    margin: 3px;
+    width: 98%;
+}
+
+.overlayButton {
+    width: auto;
+    margin: 3px 4px 2px 4px !important;
+    padding: 2px 6px 3px 6px;
+}
+
+#overlayContainer {
+    display: table;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: hsla(0, 0%, 0%, 0.2);
+    z-index: 40000;
+}
+
+#overlayContainer > * {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+#overlayContainer > .container,
+#overlayContainer > .kgcontainer {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.kg_dialog_header {
+    padding: 16px 24px 15px;
+    background: #fff;
+    border-bottom: 1px solid #f0f0f0;
+    border-radius: 4px 4px 0 0;
+    text-align: left;
+    position: relative;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.kg_dialog_title {
+    color: #101010;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.kg_dialog_close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    padding: 0;
+    color: rgba(0, 0, 0, 0.45);
+    background: transparent;
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    -webkit-transition: color 0.3s;
+    transition: color 0.3s;
+    width: 53px;
+    height: 53px;
+    font-size: 30px;
+    user-select: none;
+}
+
+.kg_dialog_close:focus,
+.kg_dialog_close:hover {
+    color: rgba(0, 0, 0, 0.85);
+}
+
+.KG_OverlayContainer > .container > .dialog,
+#overlayContainer > .container > .dialog {
+    color: #101010;
+    font-size: 14px;
+    line-height: 22px;
+    background-color: #fff;
+    background-image: none;
+    box-shadow: none;
+    border: none;
+    padding: 24px;
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 768px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+@media all and (max-width: 768px) {
+    .KG_OverlayContainer > .container > .dialog,
+    #overlayContainer > .container > .dialog {
+        padding: 16px 12px 12px;
+        max-width: calc(100vw - 16px);
+    }
+
+    .KG_OverlayContainer > .container > .kg_dialog_header,
+    #overlayContainer > .container > .kg_dialog_header {
+        max-width: calc(100vw - 16px);
+    }
+
+    .dialog .row {
+        margin: 8px 4px;
+        width: calc(100vw - 48px);
+    }
+
+}
+
+.dialog > .row {
+    display: block;
+    margin: 8px 16px;
+    width: calc(100% - 32px);
+}
+
+.dialog .row > p {
+    display: inline-block;
+    vertical-align: top;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dialog .row > span {
+    vertical-align: top;
+    display: inline-block;
+}
+
+.dialog .toolbarField {
+    margin: 5px 0;
+}
+
+.dialog .separator {
+    display: block;
+    margin: 16px 0;
+    height: 1px;
+    width: 100%;
+    background-color: #f0f0f0;
+    box-shadow: none;
+}
+
+.dialog .buttonRow {
+    text-align: center;
+    vertical-align: middle;
+}
+
+#overlayContainer > .kgcontainer > .kgdialog {
+    display: inline-block;
+    border-spacing: 4px;
+    color: black;
+    font-family: Helvetica, arial, sans-serif;
+    font-size: 14px;
+    line-height: 14px;
+    background-color: white; /* fallback */
+    border: 1px solid #999;
+    border-radius: 4px;
+    text-align: left;
+}
+
+.kgtitle {
+    padding: 12px 0;
+    font-size: 14px;
+    line-height: 14px;
+    font-weight: bold;
+    text-indent: 15px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.kgcontent {
+    padding: 15px;
+}
+
+.btn {
+    line-height: 1.5;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    padding: 0 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    width: 72px;
+    height: 34px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    position: relative;
+    -webkit-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
+    color: rgba(0, 0, 0, 0.65);
+    background-color: #fff;
+    border-color: #d9d9d9;
+}
+
+.custom_btn {
+    width: auto;
+    margin-right: 10px;
+}
+
+.custom_btn:last-child{
+    margin-right: 0px;
+}
+
+.btn,
+.btn:focus {
+    outline: 0;
+}
+
+.btn:hover,
+.btn:focus {
+    text-decoration: none;
+    color: #096dd9;
+    border-color: #096dd9;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1890ff;
+    border-color: #1890ff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    color: #fff;
+    background-color: #40a9ff;
+    border-color: #40a9ff;
+}
+
+.btn-border-primary {
+    color: #096dd9;
+    border-color: #096dd9;
+}
+
+.btn-text-primary {
+    color: #096dd9;
+    border: none;
+    box-shadow: none;
+}
+
+.kgInput {
+    -webkit-appearance: none;
+    font-family: "Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB",
+        "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol";
+    font-variant: tabular-nums;
+    box-sizing: border-box;
+    margin: 0;
+    list-style: none;
+    position: relative;
+    display: inline-block;
+    padding: 0 0 0 8px;
+    width: 100%;
+    height: 34px;
+    font-size: 14px;
+    line-height: 34px;
+    color: rgba(0, 0, 0, 0.65);
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    transition: all 0.3s;
+    overflow: visible;
+}
+
+textarea.kgInput {
+    outline: none;
+}
+
+.kgInput:hover,
+.kgInput:focus {
+    border: 1px solid #1890ff;
+}
+
+.kgInput.KG_Input_Error {
+    box-shadow: none;
+}
+
+.kgInput[disabled] {
+    background-color: #e9e9e9 !important;
+    border-color: #d9d9d9 !important;
+    color: #d9d9d9 !important;
+    cursor: not-allowed;
+}
+
+#documentPropertiesOverlay > .dialog {
+    text-align: left;
+}
+
+#documentPropertiesOverlay #fileType {
+    color: #1890ff;
+    border: 2px solid #1890ff;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline;
+    padding: 1px 3px;
+}
+
+@media all and (min-width: 768px) {
+    #documentPropertiesOverlay > .kg_dialog_header,
+    #documentPropertiesOverlay > .dialog {
+        width: 450px;
+    }
+}
+
+#documentPropertiesOverlay .row > * {
+    min-width: 100px;
+}
+
+html[dir="ltr"] #documentPropertiesOverlay .row > span {
+    text-align: right;
+}
+
+html[dir="rtl"] #documentPropertiesOverlay .row > span {
+    text-align: left;
+}
+
+#documentPropertiesOverlay .row > span {
+    width: 80px;
+    min-width: 80px;
+    word-wrap: break-word;
+}
+
+#documentPropertiesOverlay .row > p {
+    word-wrap: break-word;
+    width: calc(100% - 85px);
+    max-width: calc(100vw - 85px) !important;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#documentPropertiesOverlay .buttonRow {
+    margin-top: 10px;
+}
+
+.clearBoth {
+    clear: both;
+}
+
+.fileInput {
+    background: white;
+    color: black;
+    margin-top: 5px;
+    visibility: hidden;
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
+#PDFBug {
+    background: none repeat scroll 0 0 white;
+    border: 1px solid #666;
+    position: fixed;
+    top: 32px;
+    right: 0;
+    bottom: 0;
+    font-size: 10px;
+    padding: 0;
+    width: 300px;
+}
+
+#PDFBug .controls {
+    background: #eee;
+    border-bottom: 1px solid #666;
+    padding: 3px;
+}
+
+#PDFBug .panels {
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    position: absolute;
+    right: 0;
+    top: 27px;
+}
+
+#PDFBug button.active {
+    font-weight: bold;
+}
+
+.debuggerShowText {
+    background: none repeat scroll 0 0 yellow;
+    color: blue;
+}
+
+.debuggerHideText:hover {
+    background: none repeat scroll 0 0 yellow;
+}
+
+#PDFBug .stats {
+    font-family: courier;
+    font-size: 10px;
+    white-space: pre;
+}
+
+#PDFBug .stats .title {
+    font-weight: bold;
+}
+
+#PDFBug table {
+    font-size: 10px;
+}
+
+#viewer.textLayer-visible .textLayer {
+    opacity: 1;
+}
+
+#viewer.textLayer-visible .canvasWrapper {
+    background-color: rgb(128, 255, 128);
+}
+
+#viewer.textLayer-visible .canvasWrapper canvas {
+    mix-blend-mode: screen;
+}
+
+#viewer.textLayer-visible .textLayer > div {
+    background-color: rgba(255, 255, 0, 0.1);
+    color: black;
+    border: solid 1px rgba(255, 0, 0, 0.5);
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+#viewer.textLayer-hover .textLayer > div:hover {
+    background-color: white;
+    color: black;
+}
+
+#viewer.textLayer-shadow .textLayer > div {
+    background-color: rgba(255, 255, 255, 0.6);
+    color: black;
+}
+
+.grab-to-pan-grab {
+    cursor: url("images/grab.cur"), move !important;
+    cursor: -webkit-grab !important;
+    cursor: -moz-grab !important;
+    cursor: grab !important;
+}
+
+.grab-to-pan-grab *:not(input):not(textarea):not(button):not(select):not(:link) {
+    cursor: inherit !important;
+}
+
+.grab-to-pan-grab:active,
+.grab-to-pan-grabbing {
+    cursor: url("images/grabbing.cur"), move !important;
+    cursor: -webkit-grabbing !important;
+    cursor: -moz-grabbing !important;
+    cursor: grabbing !important;
+
+    position: fixed;
+    background: transparent;
+    display: block;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    z-index: 50000; /* should be higher than anything else in PDF.js! */
+}
+
+@page {
+    margin: 0;
+}
+
+#printContainer {
+    display: none;
+}
+
+#svgCanvas{
+    display: none;
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top:12px;
+    z-index: -1;
+    overflow: hidden;
+}
+
+#kg_removeDocSign {
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index:300;
+}
+
+svg {
+    display: block;
+}
+
+@media screen and (min-resolution: 2dppx) {
+    /* Rules for Retina screens */
+    .toolbarButton::before {
+        -webkit-transform: none;
+        transform: none;
+        top: 0;
+    }
+
+    .secondaryToolbarButton::before {
+        -webkit-transform: none;
+        transform: none;
+        top: 0;
+    }
+
+    html[dir="ltr"] .toolbarButton::before,
+    html[dir="rtl"] .toolbarButton::before {
+        left: -1px;
+    }
+
+    html[dir="ltr"] .secondaryToolbarButton::before {
+        left: -2px;
+    }
+
+    html[dir="rtl"] .secondaryToolbarButton::before {
+        left: 186px;
+    }
+
+    .toolbarField.pageNumber.visiblePageIsLoading,
+    #findInput[data-status="pending"] {
+        background-image: url(images/loading-small@2x.png);
+        background-size: 16px 17px;
+    }
+
+    .dropdownToolbarButton {
+        background: url(images/toolbarButton-menuArrows@2x.png) no-repeat;
+        background-size: 7px 16px;
+    }
+
+    html[dir="ltr"] .toolbarButton#sidebarToggle::before {
+        content: "\e90d";
+    }
+
+    html[dir="rtl"] .toolbarButton#sidebarToggle::before {
+        content: "\e90d";
+    }
+
+    html[dir="ltr"] .toolbarButton#secondaryToolbarToggle::before {
+        content: "\e907";
+    }
+
+    html[dir="rtl"] .toolbarButton#secondaryToolbarToggle::before {
+        content: "\e907";
+    }
+
+    html[dir="ltr"] .toolbarButton.findPrevious::before {
+        content: "\e91b";
+    }
+
+    html[dir="rtl"] .toolbarButton.findPrevious::before {
+        content: "\e91b";
+    }
+
+    html[dir="ltr"] .toolbarButton.findNext::before {
+        content: "\e91a";
+    }
+
+    html[dir="rtl"] .toolbarButton.findNext::before {
+        content: "\e91a";
+    }
+
+    html[dir="ltr"] .toolbarButton.pageUp::before {
+        content: "\e91b";
+    }
+
+    html[dir="rtl"] .toolbarButton.pageUp::before {
+        content: "\e91b";
+    }
+
+    html[dir="ltr"] .toolbarButton.pageDown::before {
+        content: "\e91a";
+    }
+
+    html[dir="rtl"] .toolbarButton.pageDown::before {
+        content: "\e91a";
+    }
+
+    .toolbarButton.zoomIn::before {
+        content: "\e929";
+    }
+
+    .toolbarButton.zoomOut::before {
+        content: "\e928";
+    }
+
+    .toolbarButton.presentationMode::before,
+    .secondaryToolbarButton.presentationMode::before {
+        content: "\e918";
+    }
+
+    .toolbarButton.print::before,
+    .secondaryToolbarButton.print::before {
+        content: "\e90e";
+    }
+
+    .toolbarButton.openFile::before,
+    .secondaryToolbarButton.openFile::before,
+    .toolbarButton#KG_OpenLocalFile::before,
+    .secondaryToolbarButton#secondaryKG_OpenLocalFile::before {
+        content: "\e909";
+    }
+
+    .toolbarButton.download::before,
+    .secondaryToolbarButton.download::before {
+        content: "\e905";
+    }
+
+    .toolbarButton.bookmark::before,
+    .secondaryToolbarButton.bookmark::before {
+        content: "\e919";
+    }
+
+    #viewThumbnail.toolbarButton::before {
+        content: "\e90a";
+    }
+
+    html[dir="ltr"] #viewOutline.toolbarButton::before {
+        content: "\e915";
+    }
+
+    html[dir="rtl"] #viewOutline.toolbarButton::before {
+        content: "\e915";
+    }
+
+    #viewAttachments.toolbarButton::before {
+        content: "\e900";
+    }
+
+    #viewFind.toolbarButton::before {
+        content: "\e913";
+    }
+
+    .secondaryToolbarButton.firstPage::before {
+        content: "\e921";
+    }
+
+    .secondaryToolbarButton.lastPage::before {
+        content: "\e920";
+    }
+
+    .secondaryToolbarButton.rotateCcw::before {
+        content: "\e910";
+    }
+
+    .secondaryToolbarButton.rotateCw::before {
+        content: "\e911";
+    }
+
+    .secondaryToolbarButton.selectTool::before {
+        content: "\e91d";
+    }
+
+    .secondaryToolbarButton.handTool::before {
+        content: "\e91c";
+    }
+
+    .secondaryToolbarButton.documentProperties::before {
+        content: "\e90b";
+    }
+
+    .outlineItemToggler::before {
+        top: -1px;
+        content: "\e91a";
+    }
+
+    html[dir="ltr"] .outlineItemToggler.outlineItemsHidden::before {
+        content: "\e90f";
+    }
+
+    html[dir="rtl"] .outlineItemToggler.outlineItemsHidden::before {
+        content: "\e90c";
+    }
+
+    html[dir="ltr"] .outlineItemToggler::before {
+        right: 0;
+    }
+
+    html[dir="rtl"] .outlineItemToggler::before {
+        left: 0;
+    }
+}
+
+@media print {
+    /* General rules for printing. */
+    body {
+        background: transparent none;
+    }
+
+    /* Rules for browsers that don't support mozPrintCallback. */
+    #sidebarContainer,
+    #secondaryToolbar,
+    .toolbar,
+    #loadingBox,
+    #errorWrapper,
+    .textLayer {
+        display: none;
+    }
+
+    #viewerContainer {
+        overflow: visible;
+    }
+
+    #mainContainer,
+    #viewerContainer,
+    .page,
+    .page canvas {
+        position: static;
+        padding: 0;
+        margin: 0;
+    }
+
+    .page {
+        float: left;
+        display: none;
+        border: none;
+        box-shadow: none;
+        background-clip: content-box;
+        background-color: white;
+    }
+
+    .page[data-loaded] {
+        display: block;
+    }
+
+    .fileInput {
+        display: none;
+    }
+
+    /* Rules for browsers that support PDF.js printing */
+    body[data-pdfjsprinting] #outerContainer {
+        display: none;
+    }
+
+    body[data-pdfjsprinting] #printContainer {
+        display: block;
+    }
+
+    #printContainer {
+        height: 100%;
+    }
+
+    /* wrapper around (scaled) print canvas elements */
+    #printContainer > div {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 1px;
+        height: 1px;
+        overflow: visible;
+        page-break-after: always;
+        page-break-inside: avoid;
+    }
+
+    #printContainer canvas,
+    #printContainer img {
+        display: block;
+    }
+}
+
+.visibleLargeView,
+.visibleMediumView,
+.visibleSmallView {
+    display: none;
+}
+
+@media all and (max-width: 1040px) {
+    #outerContainer.sidebarMoving #toolbarViewerMiddle,
+    #outerContainer.sidebarOpen #toolbarViewerMiddle {
+        display: block;
+        margin: 0;
+        left: 50%;
+        position: absolute;
+        transform: translateX(-50%);
+        padding-left: calc(100vw - 100%);
+    }
+}
+
+@media all and (max-width: 980px) {
+    .sidebarMoving .hiddenLargeView,
+    .sidebarOpen .hiddenLargeView {
+        display: none;
+    }
+
+    .sidebarMoving .visibleLargeView,
+    .sidebarOpen .visibleLargeView {
+        display: inherit;
+    }
+}
+
+@media all and (max-width: 900px) {
+    #toolbarViewerMiddle {
+        display: block;
+        margin: 0;
+        left: 50%;
+        position: absolute;
+        transform: translateX(-50%);
+        padding-left: calc(100vw - 100%);
+    }
+
+    .sidebarMoving .hiddenMediumView,
+    .sidebarOpen .hiddenMediumView {
+        display: none;
+    }
+
+    .sidebarMoving .visibleMediumView,
+    .sidebarOpen .visibleMediumView {
+        display: inherit;
+    }
+}
+
+@media all and (max-width: 840px) {
+    #sidebarContainer {
+        top: 48px;
+        z-index: 100;
+    }
+
+    .loadingInProgress #sidebarContainer {
+        top: 43px;
+    }
+
+    html[dir="ltr"] #outerContainer.sidebarOpen > #mainContainer {
+        left: 0;
+    }
+
+    html[dir="rtl"] #outerContainer.sidebarOpen > #mainContainer {
+        right: 0;
+    }
+
+    #outerContainer .hiddenLargeView,
+    #outerContainer .hiddenMediumView {
+        display: inherit;
+    }
+
+    #outerContainer .visibleLargeView,
+    #outerContainer .visibleMediumView {
+        display: none;
+    }
+}
+
+@media all and (max-width: 770px) {
+    #outerContainer .hiddenLargeView {
+        display: none;
+    }
+
+    #outerContainer .visibleLargeView {
+        display: inherit;
+    }
+}
+
+@media all and (max-width: 700px) {
+    #outerContainer .hiddenMediumView {
+        display: none;
+    }
+
+    #outerContainer .visibleMediumView {
+        display: inherit;
+    }
+}
+
+@media all and (max-width: 640px) {
+    .hiddenSmallView,
+    .hiddenSmallView * {
+        display: none;
+    }
+
+    .visibleSmallView {
+        display: inherit;
+    }
+
+    .toolbarButtonSpacer {
+        width: 0;
+    }
+
+    html[dir="ltr"] .findbar {
+        left: 38px;
+    }
+
+    html[dir="rtl"] .findbar {
+        right: 38px;
+    }
+}
+
+@media all and (max-width: 535px) {
+    #scaleSelectContainer {
+        display: none;
+    }
+}
+
+#kgTextToSealOverlay .kgdialog .tab {
+    display: block;
+    font-size: 14px;
+    float: left;
+    border: 1px solid #999;
+    border-bottom-color: white;
+    width: 80px;
+    text-align: center;
+    height: 25px;
+    line-height: 25px;
+}
+
+#kgTextToSealOverlay .kgdialog .tab span {
+    display: block;
+    cursor: pointer;
+}
+
+#kgTextToSealOverlay .kgdialog .tab .selected {
+    color: #1890ff;
+    font-weight: 500;
+}
+
+#textToSealContainer input,
+#indicateSealContainer input {
+    width: 219px;
+}
+
+#textToSealContainer label,
+#indicateSealContainer label {
+    width: 70px;
+    display: inline-block;
+    text-align: right;
+}
+
+#textToSealCanvasContainer,
+#indicateSealCanvasContainer,
+#invariantSealCanvasContainer {
+    border: 1px solid #e5e5e5;
+    width: 240px;
+    height: 240px;
+    margin: 10px 0 10px 50%;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+#textToSealCanvas,
+#indicateSealCanvas,
+#invariantSealCanvas {
+    margin-top: 50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+#textToSealCanvas {
+    width: 100%;
+    height: calc((204 / 340) * 240px);
+}
+
+#indicateSealCanvas {
+    width: 100%;
+    height: calc((170 / 340) * 240px);
+}
+
+#invariantSealCanvas {
+    width: 50%;
+    height: calc(((132 * 0.5) / 210) * 240px);
+}
+
+.menuVerifySeal,
+.menuDeleteSeal {
+    display: block;
+    width: 62px;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 35px;
+    padding: 0 15px;
+}
+
+.menuVerifySeal:hover,
+.menuVerifySeal:focus,
+.menuVerifySeal:active,
+.menuDeleteSeal:hover,
+.menuDeleteSeal:focus,
+.menuDeleteSeal:active {
+    background-color: #d9d9d9;
+}
+
+.custom-rotateCcw,
+.custom-rotateCw{
+    display: 'inline-block';
+    width:48px;
+    height:48px;
+}
+
+@media all and (max-width: 640px) {
+    .verifyItem span {
+        width: 230px;
+    }
+
+    .kgcontent {
+        padding: 10px;
+    }
+}
+
+.tempStampSection {
+    cursor: move;
+    z-index: 100;
+    border: 1px dashed black;
+}
+
+.stampAnnotation {
+    border: 1px dashed transparent;
+}
+
+.tempStampSection:hover {
+    border-color: #f5222d;
+}
+
+.stampAnnotation:hover {
+    border-color: #000;
+    z-index: 2;
+}
+
+.tempStampSection .deleteTempStampSection,
+.tempStampSection .rotateTempStampSection {
+    position: absolute;
+    cursor: pointer;
+    text-align: center;
+    user-select: none;
+}
+
+.tempStampSection .deleteTempStampSection img,
+.tempStampSection .rotateTempStampSection img {
+    width: 100%;
+    height: 100%;
+}
+
+#viewKgAnnotations.toolbarButton::before {
+    content: "\e914";
+}
+
+#stamp-mobile-tip {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: black;
+    color: white;
+    display: none;
+    opacity: 0.6;
+    width: 100%;
+    text-indent: 20px;
+}
+
+#stamp-mobile-tip > span {
+    height: 50px;
+    line-height: 50px;
+}
+
+#stamp-mobile-tip > div {
+    display: block;
+    float: right;
+    margin-top: 12px;
+    margin-right: 20px;
+}
+
+#stamp-mobile-tip > div > img {
+    width: 24px;
+    height: 24px;
+}
+
+#kgPagingSealOverlay input {
+    vertical-align: middle;
+}
+
+#kgPagingSealOverlay input[type="radio"],
+#kgWatermarkOverlay input[type="radio"] {
+    margin-right: 6px;
+}
+
+#kgWatermarkOverlay #kgWatermarkFileConfig {
+    height: 32px;
+}
+
+#kgWatermarkOverlay select[name="rotate"],
+#kgWatermarkOverlay select[name="font"] {
+    width: 100px;
+}
+
+#kgPagingSealOverlay input[type="number"] {
+    width: 48px;
+    font-size: 14px;
+    height: 20px;
+}
+
+#kgPagingSealOverlay fieldset,
+#kgWatermarkOverlay fieldset {
+    padding: 12px 16px;
+    border: 1px solid #e5e5e5;
+    margin-bottom: 12px;
+}
+
+#kgPagingSealOverlay .kgcontent fieldset div,
+#kgWatermarkOverlay .kgcontent fieldset div {
+    margin-bottom: 6px;
+    min-height: 24px;
+    line-height: 24px;
+}
+
+#kgPagingSealOverlay .kgcontent fieldset div:last-child,
+#kgWatermarkOverlay .kgcontent fieldset div:last-child {
+    margin: 0;
+}
+
+#kgWatermarkOverlay label {
+    margin-right: 6px;
+}
+
+#kgWatermarkOverlay input[type="text"],
+#kgWatermarkOverlay input[type="number"],
+#kgWatermarkOverlay select {
+    width: 72px;
+    vertical-align: middle;
+}
+
+#kgWatermarkOverlay input[type="file"] {
+    width: 0;
+    opacity: 0;
+}
+
+#kgWatermarkOverlay input[name="kgWatermarkFilename"],
+#kgWatermarkOverlay input[name="kgWatermarkText"] {
+    width: 150px;
+}
+
+#kgWatermarkOverlay input[type="radio"] {
+    height: 32px;
+}
+
+#kgWatermarkOverlay button,
+#kgWatermarkOverlay input[type="radio"] {
+    vertical-align: middle;
+}
+
+#KGGuideTipContainer {
+    color: #fff;
+    background-color: #4299e1;
+    padding: 15px 35px 15px 15px;
+    border-radius: 4px;
+    position: fixed;
+    top: 46px;
+    right: 43px;
+    box-shadow: 4px 4px 5px #888;
+    font-size: 14px;
+}
+
+@media screen and (max-width: 640px) {
+    #KGGuideTipContainer {
+        top: 44px;
+        right: 36px;
+    }
+}
+
+@media print {
+    #KGGuideTipContainer {
+        display: none;
+    }
+}
+
+#KGGuideTipContainer:before,
+#KGGuideTipContainer:after {
+    content: "";
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid #4299e1;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    position: absolute;
+    top: -18px;
+    right: 9px;
+}
+
+#KGGuideTipCloseBtn {
+    position: relative;
+    right: -21px;
+    padding: 0;
+    cursor: pointer;
+    background: 0 0;
+    border: 0;
+    float: right;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+#KGGuideTipCloseBtn span {
+    color: #fff;
+}
+
+#KGGuideTipContent {
+    list-style-type: none;
+    margin: 6px 0;
+}
+
+#KGGuideTipContent span {
+    line-height: 21px;
+    font-size: 13px;
+}
+
+#KGGuideTipContent img {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+
+#KGGuideTipFooter {
+    text-align: right;
+    font-size: 13px;
+}
+
+#KGGuideTipFooter span {
+    cursor: pointer;
+    margin-left: 6px;
+}
+
+.kg_copyright {
+    border-top: 1px solid #e5e5e5;
+    padding: 16px 24px;
+    width: 240px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 14px;
+    line-height: 26px;
+    color: #5a5a5a;
+    background-color: #fff;
+}
+
+.kg_copyright_label {
+    display: inline-block;
+    width: 56px;
+    vertical-align: top;
+    text-align: right;
+}
+
+.kg_copyright_status,
+.kg_copyright_company,
+.kg_copyright_time {
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+}
+
+.kg_copyright_company {
+    width: 170px;
+}
+
+.kg_copyright_status {
+    font-weight: bold;
+    border-width: 2px;
+    border-style: solid;
+    padding: 2px;
+    border-radius: 4px;
+    font-size: 14px;
+    height: 16px;
+    line-height: 16px;
+    margin-top: 1px;
+}
+
+.kg_copyright_status_success {
+    color: #52c41a;
+    border-color: #52c41a;
+}
+
+.kg_copyright_status_error {
+    color: #ff4d4f;
+    border-color: #ff4d4f;
+}
+
+.kg_copyright_status_warn {
+    color: #faad14;
+    border-color: #faad14;
+}
+
+@media all and (min-width: 768px) {
+    #KG_ProductInfoOverlay > .kg_dialog_header,
+    #KG_ProductInfoOverlay > .dialog {
+        width: 500px;
+    }
+}
+
+.kg_productInfo_title {
+    font-size: 32px;
+    height: 48px;
+    line-height: 48px;
+    font-weight: bold;
+    color: #101010;
+    text-align: center;
+}
+
+.kg_productInfo_version {
+    color: #606060;
+    text-align: center;
+}
+
+#KG_ProductInfoOverlay > .dialog > .row > span {
+    text-align: right;
+}
+
+.kg_productInfo_unit span,
+.kg_productInfo_time span,
+.kg_productInfo_copyright span,
+.kg_productInfo_warning span {
+    width: 56px;
+    min-width: 56px;
+}
+
+#KG_ProductInfoOverlay > .dialog > .row > p {
+    width: calc(100% - 56px - 14px);
+    max-width: calc(100% - 56px - 14px) !important;
+    text-align: justify;
+}
+
+.kg_productInfo_copyright > p > a {
+    color: #101010;
+    cursor: pointer;
+    text-decoration: none;
+    transition: .3s color;
+}
+
+#KG_ProductInfoOverlay .dialog > .row.kg_productInfo_warning p {
+    white-space: normal;
+}
+
+.secondaryToolbarButton#KG_ProductInfo::before {
+    content: "\e92f";
+    font-size: 18px;
+}
+
+.toolbarButton#stamp::before,
+.toolbarButton#KG_Ukey::before,
+.toolbarButton#KG_iWebAuthUkey::before,
+.secondaryToolbarButton#secondaryKG_iWebAuthUkey::before,
+.secondaryToolbarButton#secondaryKG_Ukey::before,
+.secondaryToolbarButton#secondaryStamp::before,
+.toolbarButton#KG_SecretSeal::before,
+.secondaryToolbarButton#secondaryKG_SecretSeal::before {
+    content: "\e901";
+}
+
+.toolbarButton#KG_Annotation::before {
+    content: "\e908";
+}
+
+.secondaryToolbarButton#secondaryKG_Annotation:before {
+    content: "\e908";
+}
+
+.toolbarButton#kgSignature::before,
+.toolbarButton#kgDocSign::before,
+.toolbarButton#KG_PersonSign::before {
+    content: "\e906";
+}
+
+.secondaryToolbarButton#secondaryKgSignature::before,
+.secondaryToolbarButton#secondaryKgDocSign::before,
+.secondaryToolbarButton#secondaryKG_PersonSign::before {
+    content: "\e906";
+}
+
+.toolbarButton#KG_Download::before {
+    content: "\e905";
+}
+
+.secondaryToolbarButton#secondaryKG_Download::before {
+    content: "\e905";
+}
+
+.toolbarButton#kgScan::before,
+.toolbarButton#KG_iWebAuthScan::before,
+.secondaryToolbarButton#secondaryKgScan::before,
+.secondaryToolbarButton#secondarykgScan_continuity::before,
+.secondaryToolbarButton#secondarykgScan_pagingSeal::before,
+.secondaryToolbarButton#secondarykgScan_singlePageSeal::before,
+.secondaryToolbarButton#secondaryKG_iWebAuthScan::before,
+.toolbarButton#kgScanFjrs::before,
+.secondaryToolbarButton#secondaryKgScanFjrs::before {
+    content: "\e912";
+}
+
+#kgpasswordOverlay > .dialog,
+#kgpasswordOverlay > .kg_dialog_header {
+    width: 300px;
+}
+
+#kgpasswordOverlay .kg_error_msg {
+    margin-left: 46px;
+}
+
+#kgpasswordOverlay .kg_checkbox_wrapper {
+    margin-left: 46px;
+}
+
+#kgpassword {
+    width: 200px;
+}
+
+.kg_error_msg {
+    display: block;
+    height: 24px;
+    line-height: 24px;
+    text-align: left;
+    visibility: hidden;
+    color: #e91e1e;
+}
+
+.kg_tip_msg{
+    display: none;
+    height: 24px;
+    line-height: 24px;
+    text-align: left;
+    color: #e91e1e;
+    margin-left: 46px;
+}
+
+
+#KG_AlertPromptOverlay > .dialog,
+#KG_AlertPromptOverlay > .kg_dialog_header {
+    width: 280px;
+}
+
+.KG_CustomModal_Content
+.KG_AlertPrompt_Content {
+    text-align: left;
+    font-size: 14px;
+    line-height: 22px;
+    word-break: break-all;
+}
+
+#selectSealOverlay > .dialog,
+#selectSealOverlay > .kg_dialog_header {
+    width: 303px;
+}
+
+#selectSealOverlay input[type="checkbox"] {
+    float: left;
+    margin-top: 7px;
+    margin-right: 4px;
+}
+
+#selectSealOverlay .kg_checkbox_wrapper:before {
+    margin-top: 7px;
+}
+
+#selectSealOverlay .KG_Form_Label {
+  margin-left: 20px;
+  margin-right: 0;
+}
+
+#selectSealOverlay .kgInput {
+  width: 156px;
+  height: 28px;
+  line-height: 28px;
+}
+
+#selectSealOverlay select.kgInput {
+  padding-right: 24px;
+}
+
+#selectSealOverlay .KG_Form_Item {
+  position: relative;
+}
+
+#selectSealOverlay .KG_Form_Item::after {
+  content: "\e91a";
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-weight: bold;
+  color: #101010;
+
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media screen and (max-width: 768px) {
+  #selectSealOverlay .KG_Form_Item::after {
+    right: 26px;
+  }
+}
+
+@media all and (min-width: 768px) {
+    #KG_PagingSealOverlay > .dialog,
+    #KG_PagingSealOverlay > .kg_dialog_header {
+        width: 532px;
+    }
+}
+
+#kg-seal-left,
+#kg-seal-right {
+    width: 32px;
+    height: 182px;
+    font-size: 24px;
+    cursor: pointer;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#kg-seal-left[disabled],
+#kg-seal-right[disabled] {
+    opacity: 0.5;
+}
+
+#kg-seal-left:hover,
+#kg-seal-right:hover {
+    color: #1890ff;
+}
+
+#kg-seal-left[disabled]:hover,
+#kg-seal-right[disabled]:hover {
+    color: #5a5a5a;
+    cursor: not-allowed;
+}
+
+#kg-seal-left::before {
+    content: "\e90c";
+}
+
+#kg-seal-right::before {
+    content: "\e90f";
+}
+
+#textToSeal::before {
+    content: "\e92c";
+}
+
+#secondaryTextToSeal::before {
+    content: "\e92c";
+}
+
+#exportAnnotations::before {
+    content: "\e92a";
+}
+
+#secondaryExportAnnotations::before {
+    content: "\e92a";
+}
+
+#docSave::before {
+    content: "\e92b";
+}
+
+#secondaryDocSave::before {
+    content: "\e92b";
+}
+
+#docSaveAs::before {
+    content: "\e905";
+}
+
+#secondaryDocSaveAs::before {
+    content: "\e905";
+}
+
+#KG_WatermarkToolbarBtn::before {
+    content: "\e90a";
+}
+
+#secondaryKG_WatermarkToolbarBtn::before {
+    content: "\e90a";
+}
+
+#kgTipOverlay > .dialog {
+    border-radius: 4px;
+    width: 200px;
+    padding: 16px 32px;
+}
+
+@-webkit-keyframes loadingCircle {
+    from {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    to {
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes loadingCircle {
+    from {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    to {
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@-o-keyframes loadingCircle {
+    from {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    to {
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes loadingCircle {
+    from {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    to {
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+#kgTipMsg:before {
+    content: "\e924";
+    vertical-align: text-top;
+    font-size: 16px;
+    display: inline-block;
+    -webkit-animation: loadingCircle 1s infinite linear;
+    -moz-animation: loadingCircle 1s infinite linear;
+    -o-animation: loadingCircle 1s infinite linear;
+    animation: loadingCircle 1s infinite linear;
+}
+
+#KG_AdditionTextOverlay > .dialog,
+#KG_AdditionTextOverlay > .kg_dialog_header {
+    width: 708px;
+}
+
+/* 文字签批 start */
+#KG_AnnotationOverlay >.kg_dialog_header,
+#KG_AnnotationOverlay > .dialog{
+    width: 768px;
+}
+
+#KG_AnnotationOverlay{
+    overflow: hidden;
+}
+
+#KG_AnnotationOverlay >.kg_dialog_footer{
+    width: 768px;
+    background:white;
+    margin:0px auto;
+    padding-bottom:10px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+#kg-AnnotationSignature{
+    box-sizing: border-box;
+}
+
+#KG_AnnotationOverlay >.kg_dialog_footer >.btn{
+    line-height: 34px;
+}
+
+#KG_AnnotationOverlay div.btn[disabled] {
+    background-color: #e9e9e9 !important;
+    border-color: #d9d9d9 !important;
+    color: #d9d9d9 !important;
+    cursor: not-allowed;
+}
+/* 文字签批 end */
+
+
+/* signaturePad style start */
+#KG_SignaturePadOverlay > .kg_dialog_header,
+#KG_SignaturePadOverlay > .dialog {
+    width: 768px;
+}
+
+#KG_SignaturePadOverlay div.btn[disabled] {
+    background-color: #e9e9e9 !important;
+    border-color: #d9d9d9 !important;
+    color: #d9d9d9 !important;
+    cursor: not-allowed;
+}
+
+#KG_SignaturePadOverlay > .dialog {
+    height: 450px;
+}
+
+.kgSignatureWrapper {
+    padding: 24px;
+    width: 768px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    background: #fff;
+}
+
+#kgSignatureCanvas {
+    background-color: #fff;
+    background-size: contain;
+    background-position: center;
+}
+
+@media screen and (max-width: 768px) {
+    #KG_SignaturePadOverlay > .kg_dialog_header,
+    #KG_SignaturePadOverlay > .dialog {
+        display: none;
+    }
+
+    #KG_AnnotationOverlay >.kg_dialog_footer{
+        max-width: calc(100vw - 16px);
+        background:white;
+        margin:0px auto;
+        padding-bottom:10px;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+}
+
+#kgSignatureBoard {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10001;
+}
+
+#sign-msg-apply {
+    bottom: calc(50% - 233px);
+    left: calc(50% + 24px);
+    line-height: 34px;
+}
+
+#sign-msg-cancel {
+    bottom: calc(50% - 233px);
+    right: calc(50% - 8px);
+    line-height: 34px;
+}
+
+#sign-msg-apply,
+#sign-msg-cancel,
+#sign-msg-black,
+#sign-msg-blue,
+#sign-msg-red {
+    position: fixed;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
+
+#KG_AnnotationOverlay > .kg_dialog_footer{
+    position: relative;
+}
+
+#annotation-clear{
+    font-size: 20px;
+    position: absolute;
+    right: 26px;
+    bottom: 3px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    font-size: 36px;
+    text-align: center;
+    line-height: 48px;
+    transition: color 0.3s;
+}
+
+#sign-msg-clear {
+    font-size: 20px;
+    position: fixed;
+    left: calc(50% + 308px);
+    bottom: calc(50% - 238px);
+    border-radius: 5px;
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    font-size: 36px;
+    text-align: center;
+    line-height: 48px;
+    transition: color 0.3s;
+}
+
+#annotation-clear::before,
+#sign-msg-clear::before {
+    content: "\e92d";
+}
+
+#annotation-clear.active,
+#annotation-clear:hover,
+#sign-msg-clear.active,
+#sign-msg-clear:hover {
+    color: #ff4d4f;
+}
+
+#sign-msg-black,
+#sign-msg-blue,
+#sign-msg-red {
+    left: 14px;
+    width: 28px;
+    height: 28px;
+}
+
+#sign-msg-black.selected,
+#sign-msg-blue.selected,
+#sign-msg-red.selected {
+    left: 8px;
+    width: 40px;
+    height: 40px;
+}
+
+#sign-msg-black {
+    background-image: url(images/signaturePad-black.png);
+    top: calc(50% + 201px);
+    left: calc(50% - 288px);
+}
+
+#sign-msg-black.selected {
+    background-image: url(images/signaturePad-black-selected.png);
+    top: calc(50% + 195px);
+    left: calc(50% - 288px);
+}
+
+#sign-msg-blue {
+    background-image: url(images/signaturePad-blue.png);
+    top: calc(50% + 201px);
+    left: calc(50% - 218px);
+}
+
+#sign-msg-blue.selected {
+    background-image: url(images/signaturePad-blue-selected.png);
+    top: calc(50% + 195px);
+    left: calc(50% - 224px);
+}
+
+#sign-msg-red {
+    background-image: url(images/signaturePad-red.png);
+    top: calc(50% + 201px);
+    left: calc(50% - 158px);
+}
+
+#sign-msg-red.selected {
+    background-image: url(images/signaturePad-red-selected.png);
+    top: calc(50% + 195px);
+    left: calc(50% - 158px);
+}
+
+#sign-msg-thick {
+    width: 48px;
+    height: 48px;
+    position: fixed;
+    top: calc(50% + 192px);
+    left: calc(50% - 358px);
+    text-align: center;
+    line-height: 48px;
+    font-size: 24px;
+    transition: color 0.3s;
+    cursor: pointer;
+}
+
+#sign-msg-thick-text {
+font-size: 14px;
+height: 48px;
+line-height: 48px;
+}
+
+#sign-msg-thick::before {
+    content: "\e92e";
+}
+
+#sign-msg-thick.active,
+#sign-msg-thick:hover {
+    color: #1890ff;
+}
+
+#sign-msg-thick-tip.doorHanger {
+    border: none;
+}
+
+#sign-msg-thick-thin,
+#sign-msg-thick-crude {
+    position: absolute;
+    top: calc(50% - 8px);
+    font-size: 14px;
+    line-height: 48px;
+    height: 48px;
+}
+
+#sign-msg-thick-thin {
+    left: 24px;
+}
+
+#sign-msg-thick-crude {
+    right: 24px;
+}
+
+#sign-msg-thick-tip.doorHanger:before,
+#sign-msg-thick-tip.doorHanger:after {
+    border-top-color: #fff;
+    border-bottom-color: transparent;
+    top: 100%;
+    left: 38px;
+}
+
+#sign-msg-thick-tip {
+    position: fixed;
+    top: calc(50% + 98px);
+    left: calc(50% - 370px);
+    width: 336px;
+    height: 86px;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: -1px 0px 2px -2px rgba(0, 0, 0, 0.16), -3px 0px 6px 0px rgba(0, 0, 0, 0.12),
+    -5px 0px 12px 4px rgba(0, 0, 0, 0.09);
+}
+
+#sign-msg-thick-slide {
+    width: 236px;
+    height: 1px;
+    position: absolute;
+    left: 50px;
+    top: calc(50% + 16px);
+    background-color: rgb(0,0,0,0.45);
+}
+
+#sign-msg-thick-drop {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #fff;
+    position: absolute;
+    top: calc(50% - 7px);
+    border: 2px solid #1890ff;
+}
+
+.sign-msg-thick-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border: 2px solid #d5d5d5;
+    margin-left: 20px;
+    border-radius: 50%;
+    background: #fff;
+    position: relative;
+    top: -7px;
+}
+
+.sign-msg-thick-dot:first-child {
+    margin-left: 0;
+}
+
+@media screen and (max-width: 768px) {
+    #sign-msg-apply {
+        bottom: 64px;
+        right: 12px;
+        left: auto;
+        background-image: url(images/signaturePad-apply.png);
+    }
+
+    #sign-msg-apply[disabled] {
+        display: none;
+    }
+
+    #sign-msg-cancel {
+        bottom: 12px;
+        right: 12px;
+        background-image: url(images/signaturePad-close.png);
+    }
+
+    #sign-msg-apply,
+    #sign-msg-cancel {
+        transform: rotate(90deg);
+        width: 40px;
+        height: 40px;
+    }
+
+    #sign-msg-clear {
+        left: 4px;
+        bottom: 6px;
+        transform: rotate(90deg);
+    }
+
+    #sign-msg-black,
+    #sign-msg-blue,
+    #sign-msg-red {
+        left: 14px;
+        width: 28px;
+        height: 28px;
+    }
+
+    #sign-msg-black.selected,
+    #sign-msg-blue.selected,
+    #sign-msg-red.selected {
+        left: 8px;
+        width: 40px;
+        height: 40px;
+    }
+
+    #sign-msg-black {
+        top: 98px;
+    }
+
+    #sign-msg-black.selected {
+        top: 91px;
+    }
+
+    #sign-msg-blue {
+        top: 168px;
+    }
+
+    #sign-msg-blue.selected {
+        top: 161px;
+    }
+
+    #sign-msg-red {
+        top: 238px;
+    }
+
+    #sign-msg-red.selected {
+        top: 231px;
+    }
+
+    #sign-msg-thick {
+        top: 24px;
+        left: 4px;
+        transform: rotate(90deg);
+    }
+
+    #sign-msg-thick-tip {
+        top: 136px;
+        left: -50px;
+        transform: rotate(90deg);
+    }
+
+    #sign-msg-thick-slide {
+        left: 50px;
+        top: calc(50% + 16px);
+    }
+}
+
+/* signaturePad style end */
+
+/* 修改 radio 和 checkbox 样式 start */
+
+
+.kg_checkbox_wrapper input[type="checkbox"],
+.kg_radio_wrapper input[type="radio"] {
+    visibility: hidden;
+    margin-right: 4px;
+}
+
+.kg_checkbox_wrapper,
+.kg_radio_wrapper {
+    position: relative;
+    cursor: pointer;
+    height: 16px;
+}
+
+.kg_checkbox_wrapper::before,
+.kg_radio_wrapper::before {
+    font-family: "icomoon" !important;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #5a5a5a;
+    visibility: visible;
+}
+
+.kg_checkbox_wrapper::before {
+    content: '\ea53';
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+}
+
+.kg_radio_wrapper::before {
+    content: '\ea56';
+    width: 14px;
+    height: 14px;
+    font-size: 14px;
+}
+
+.kg_checkbox_wrapper.kg_checkbox_wrapper-checked:before {
+    content: '\ea52';
+    color: #1890ff;
+}
+
+.kg_radio_wrapper.kg_radio_wrapper-checked:before {
+    content: '\ea54';
+    color: #1890ff;
+}
+
+.KG_StampContinuity_Tip.doorHanger{
+    top: -92px;
+    opacity: 0;
+    padding: 8px;
+    width: 214px;
+    border: none;
+    position: absolute;
+    border-radius: 4px;
+    pointer-events: none;
+    transition: opacity 200ms;
+    background-color: rgba(0, 0, 0, 0.7);
+    box-shadow: -1px 0px 2px -2px rgba(0, 0, 0, 0.16), -3px 0px 6px 0px rgba(0, 0, 0, 0.12),
+    -5px 0px 12px 4px rgba(0, 0, 0, 0.09);
+}
+.KG_StampContinuity_Tip.doorHanger:before,
+.KG_StampContinuity_Tip.doorHanger:after {
+    border-top-color: rgba(0, 0, 0, 0.4);
+    border-bottom-color: transparent;
+    top: 100%;
+    left: 114px !important;
+}
+
+.KG_StampContinuity_Tip_Text{
+    color: #fff;
+    word-break: break-all;
+    display: inline-block;
+}
+
+/* 修改 radio 和 checkbox 样式 end */
+
+.kg_pageNum{
+    width: 30px;
+    border-radius: 3px;
+    background: rgba(0,0,0,0.3);
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    color: white;
+    display: inline-block;
+    font-size: 12px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    opacity: 0;
+    transform-origin: bottom left;
+    transition: all 500ms;
+    letter-spacing: .5px;
+    pointer-events: none;
+}
+
+
+@media screen and (min-width:0\0) {
+    /* 兼容 IE9 , IE10 ,IE11 */
+   #continuity-range{
+       line-height: 26px!important;
+   }
+   #printServiceOverlay progress{
+        width: 100% !important;
+    }
+}
+
+/* ===============新增样式=================== */
+#viewerContainer{
+    background-color: #565656;
+}
+#thumbnailView{
+    background: #4d4d4d;
+}
+#toolbarSidebar{
+    background-color: #f5f5f5;
+}
+#outlineView{
+    background: #4d4d4d;
+}
+#outlineView a{
+    color: #fff;
+}
+.delSealNode{
+    display: none !important;
+}
+#rightMenu{
+    display: none !important;
+}

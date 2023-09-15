@@ -1,0 +1,45 @@
+.kg-fontFamily{
+  font-family:"Times New Roman",Georgia,Serif!important;
+}
+
+.en-label{
+	min-width:30%!important;
+	text-align: left!important;	
+}
+.en-value{
+	max-width:70%!important;
+}
+.mobile-value{
+	margin-left:30%!important;	
+}
+.en-sm{
+	position: relative;
+    min-height: 1px;
+    float: left;
+}
+.en-password-l{
+	width:25%!important;
+}
+.en-password-r{
+	width:41.66666667%!important;
+}
+.en-addDate{
+	width:80%!important;
+}
+.en-remenberPwd{
+	width:80%!important;
+}
+.en-verificationButton{
+	width:70px!important;
+}
+.en-tip{
+	right:70px!important;
+}
+@media screen and (max-width: 700px){
+	.en-value{
+		margin-left: 90px!important;
+	}
+	.mf-0{
+		margin-left: 0!important;
+	}
+}

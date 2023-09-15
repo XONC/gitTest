@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" tag="<%= VERSION %>" branch="<%= BRANCH %>">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico">
+    <title>
+      <%= TITLE %>
+    </title>
+    <!-- 阿里图标字体 ---->
+    <!--<link rel="stylesheet" href="./static/iconfont/self/iconfont.css">-->
+    <!-- portal端 -->
+    <link rel="stylesheet" href="/static/iconfont/other/iconfont.css">
+    <!--项目icon-->
+    <link rel="stylesheet" href="//at.alicdn.com/t/c/font_3899036_flctgoe1lwa.css">
+
+  <script type="text/javascript">
+        document.write(
+            '<script type="text/javascript" src="/static/config.js?_t=' +
+            new Date().getTime() +
+            '"><\/script>'
+        );
+    </script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+    <!-- <script type="text/javascript" src="<%= BASE_URL %>static/cdn/jquery-1.12.4.min.js" charset="utf-8"></script> -->
+    <script src="/static/cdn/jquery/jquery-1.8.3.min.js" charset="utf-8"></script>
+    <script src="/static/cdn/signaturePdf/rs/rsseal.js" charset="utf-8"></script>
+    <script src="/static/cdn/signaturePdf/rs/JSRESTful.js" charset="utf-8"></script>
+    <script>
+      function loadjscssfile(filename, filetype) {
+        if (filetype == "js") {
+          var fileref = document.createElement('script')
+          fileref.setAttribute("type", "text/javascript")
+          fileref.async = false
+          fileref.setAttribute("src", filename)
+        } else if (filetype == "css") {
+          var fileref = document.createElement("link")
+          fileref.setAttribute("rel", "stylesheet")
+          fileref.setAttribute("type", "text/css")
+          fileref.setAttribute("href", filename)
+        }
+
+        if (typeof fileref != "undefined") {
+          if (filetype == "js") {
+            document.body.appendChild(fileref)
+          } else if (filetype == "css") {
+            document.getElementsByTagName("head")[0].appendChild(fileref)
+          }
+        }
+      }
+      function removejscssfile(filename, filetype) {
+        var targetelement = (filetype == "js") ? "script" : (filetype == "css") ? "link" : "none"
+        var targetattr = (filetype == "js") ? "src" : (filetype == "css") ? "href" : "none"
+        var allsuspects = document.getElementsByTagName(targetelement)
+        for (var i = allsuspects.length; i >= 0; i--) {
+          if (allsuspects[i] && allsuspects[i].getAttribute(targetattr) != null && allsuspects[i].getAttribute(targetattr).indexOf(filename) != -1) {
+            allsuspects[i].parentNode.removeChild(allsuspects[i])
+          }
+        }
+      }
+      var fileList1 = {
+        'js': ["kinsec/kinsec_html_seal.js"]
+      }
+      var fileList2 = {
+        'js': [
+          // "kinggrid/languages/jquery.i18n.properties.min.js",
+          // "kinggrid/core/kinggrid.min.js",
+          // "kinggrid/core/kinggrid.plus.min.js",
+          // "kinggrid/dialog/artDialog/dialog.min.js",
+          // "kinggrid/signature.min.js",
+          // "kinggrid/signature.pc.min.js",
+          // "kinggrid/jquery.qrcode.min.js",
+          // "kinggrid/qrcode.min.js",
+          "signaturePdf/kg/promise.min.js",
+          "signaturePdf/kg/core/kg-xhr.js",
+          "signaturePdf/kg/kg-KG_HARD_EXT.js",
+          "signaturePdf/rs/FJRS_JSRESTful.js",
+          "rs/coludSocket.js",
+          "rs/clientSocket.js"
+        ],
+        'css': [
+          "kinggrid/dialog/artDialog/ui-dialog.css",
+          "kinggrid/core/kinggrid.plus.css",
+          "kinggrid/css/search.css"
+        ]
+      }
+      function jsFile(type, url) {
+        if (type == 'kinsec') {
+          fileList1.js.forEach(function (item) {
+            loadjscssfile(url + item, "js")
+          })
+        } else if (type == 'kinggrid') {
+          fileList1.js.forEach(function (item) {
+            removejscssfile(url + item, "js")
+          })
+          fileList2.css.forEach(function (item) {
+            loadjscssfile(url + item, "css")
+          })
+          fileList2.js.forEach(function (item) {
+            loadjscssfile(url + item, "js")
+          })
+        }
+      }
+      var CaType = globalConfig.signtConfig.caType === "kinsec" ? 'kinsec' : 'kinggrid'
+      jsFile(CaType, '/static/cdn/')
+    </script>
+</body>
+
+</html>

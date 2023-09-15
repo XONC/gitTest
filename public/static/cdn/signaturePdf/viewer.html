@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<!--
+Copyright 2012 Mozilla Foundation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Adobe CMap resources are covered by their own copyright but the same license:
+
+    Copyright 1990-2015 Adobe Systems Incorporated.
+
+See https://github.com/adobe-type-tools/cmap-resources
+-->
+<html dir="ltr" mozdisallowselectionprint moznomarginboxes>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1">
+<meta name="google" content="notranslate">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>可信电子文件签署</title>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link href="UiWeb/css/bootstrap.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="viewer.css">
+    <style>
+        .container-fluid .center-block {
+            width: auto;
+        }
+        .kg_copyright,#secondaryToolbarWrapper{
+            display: none;
+        }
+    </style>
+
+
+
+<!-- This snippet is used in production (included from viewer.html) -->
+<link rel="resource" type="application/l10n" href="locale/locale.properties">
+<script src="viewer.js"></script>
+    <script src="rs/JSRESTful.js"></script>
+    <script src="rs/axios.min.js"></script>
+    <script src="rs/coludSocket.js"></script>
+    <script src="rs/FJRS_JSRESTful.js"></script>
+    <script src="rs/rsseal.js"></script>
+</head>
+
+<body tabindex="1" class="loadingInProgress">
+    <div id="outerContainer">
+
+
+       <!--  <nav class="navbar navbar-default" role="navigation" style="
+      margin-bottom: 0px;position: fixed;top: 0;z-index: 99999;width: 100%;">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#example-navbar-collapse">
+                        <span class="sr-only">切换导航</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">可信电子文件签署</a>
+                </div>
+                <div class="collapse navbar-collapse" id="example-navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#" onclick="showpdf('1.pdf',this)">合同协议</a></li>
+                        <li class=""><a href="#" onclick="showpdf('2.pdf',this)">评标报告</a></li>
+                        <li class=""><a href="#" onclick="showpdf('3.pdf',this)">文档审批</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav> -->
+
+        <!-- <div class="navbar navbar-info navbar-fixed-bottom" style="bottom: 70px;width:600px;">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <button type="button" class="btn btn-default center-block" data-toggle="modal" data-target="#myModal4">参数配置</button>
+                    <button type="button" class="btn btn-default center-block" onclick="Config(1)" >一键初始化成公采签配置</button>
+                    <button type="button" class="btn btn-default center-block" onclick="Config(2)" >一键初始化成瑞签云配置</button>
+                    <br/>
+                    <br/>
+                    <button type="button" class="btn btn-default center-block" onclick="key_stamp()">介质盖章</button>
+                    <button type="button" class="btn btn-default center-block" onclick="key_stampxy()">介质坐标盖章</button>
+                    <button type="button" class="btn btn-default center-block" onclick="key_stamptext()">介质关键字盖章</button>
+                    <br/>
+                    <br/>
+                    <button type="button" class="btn btn-default center-block" data-toggle="modal" onclick="yunSM_stamp()">
+                        扫码盖章
+                    </button>
+                    <button type="button" class="btn btn-default center-block" data-toggle="modal"
+                            onclick="yunSM_stamp(1)">
+                        扫码换章
+                    </button>
+                    <button type="button" class="btn btn-default center-block" data-toggle="modal" onclick="yunSM_stampxy()">
+                        扫码坐标盖章
+                    </button>
+                    <button type="button" class="btn btn-default center-block" data-toggle="modal" onclick="yunSM_stamptext()">
+                        扫码关键字盖章
+                    </button>
+                    <br/>
+                    <br/>
+                    <button type="button" class="btn btn-default center-block" data-toggle="modal" data-target="#myModal3"
+                            onclick="yun_stamp()">云证盖章
+                    </button>
+                    <button type="button" class="btn btn-default center-block" data-toggle="modal" data-target="#myModal3"
+                            onclick="yun_stampxy()">云证坐标盖章
+                    </button>
+                    <button type="button" class="btn btn-default center-block" data-toggle="modal" data-target="#myModal3"
+                            onclick="yun_stamptext()">云证关键字盖章
+                    </button>
+                    <br/>
+                    <br/>
+                    <button type="button" class="btn btn-default center-block" onclick="sm_stamp()">扫码盖章（客户端）</button>
+                    <button type="button" class="btn btn-default center-block" onclick="rsPrint()">打印</button>
+                   <button type="button" class="btn btn-warning center-block btn-lg" onclick="rsDownload()">下载</button> 
+                    <button type="button" class="btn btn-default center-block" onclick="restore()">还原</button>
+                </div>
+            </div>
+        </div>
+         -->
+
+        <div id="sidebarContainer" class="hidden">
+            <div id="toolbarSidebar">
+                <div class="splitToolbarButton toggled">
+                    <button id="viewThumbnail" class="toolbarButton toggled" title="Show Thumbnails"
+                        data-l10n-id="thumbs">
+                        <span data-l10n-id="thumbs_label">Thumbnails</span>
+                    </button>
+                    <button id="viewOutline" class="toolbarButton"
+                        title="Show Document Outline (double-click to expand/collapse all items)"
+                        data-l10n-id="document_outline">
+                        <span data-l10n-id="document_outline_label">Document Outline</span>
+                    </button>
+                    <button id="viewAttachments" class="toolbarButton" title="Show Attachments"
+                        data-l10n-id="attachments">
+                        <span data-l10n-id="attachments_label">Attachments</span>
+                    </button>
+                    <button id="viewKgAnnotations" class="toolbarButton" title="show Annotations"
+                        data-l10n-id="annotations">
+                        <span data-l10n-id="annotations_label">Annotations</span>
+                    </button>
+                </div>
+            </div>
+            <div id="sidebarContent">
+                <div id="thumbnailView"></div>
+                <div id="outlineView" class="hidden"></div>
+                <div id="attachmentsView" class="hidden"></div>
+                <div id="kgAnnotationsView" class="hidden"></div>
+            </div>
+        </div> <!-- sidebarContainer -->
+
+        <div id="mainContainer">
+            <div class="findbar hidden doorHanger" id="findbar">
+                <div id="findbarInputContainer">
+                    <div id="kg_findIcon" class="kg_icon"></div>
+                    <input id="findInput" class="toolbarField" title="Find" placeholder="Find in document…"
+                        tabindex="91" data-l10n-id="find_input" autocomplete="off">
+                    <div class="splitToolbarButton">
+                        <button id="findPrevious" class="toolbarButton findPrevious"
+                            title="Find the previous occurrence of the phrase" tabindex="92"
+                            data-l10n-id="find_previous">
+                            <span data-l10n-id="find_previous_label">Previous</span>
+                        </button>
+                        <button id="findNext" class="toolbarButton findNext"
+                            title="Find the next occurrence of the phrase" tabindex="93" data-l10n-id="find_next">
+                            <span data-l10n-id="find_next_label">Next</span>
+                        </button>
+                    </div>
+                    <span id="findResultsCount" class="toolbarLabel hidden"></span>
+                </div>
+
+                <div id="findbarMessageContainer">
+                    <span id="findMsg" class="toolbarLabel"></span>
+                </div>
+
+                <div id="findbarOptionsContainer">
+                    <div class="kg_checkbox_wrapper">
+                        <input type="checkbox" id="findHighlightAll" class="toolbarField" tabindex="94">
+                        <label for="findHighlightAll" class="toolbarLabel" data-l10n-id="find_highlight">Highlight all</label>
+                    </div>
+                    <div class="kg_checkbox_wrapper">
+                        <input type="checkbox" id="findMatchCase" class="toolbarField" tabindex="95">
+                        <label for="findMatchCase" class="toolbarLabel" data-l10n-id="find_match_case_label">Match case</label>
+                    </div>
+                </div>
+            </div> <!-- findbar -->
+
+            <div id="secondaryToolbar" class="secondaryToolbar hidden doorHangerRight">
+                <div id="secondaryToolbarButtonContainer">
+                    <div id="secondaryToolbarWrapper">
+                        <!-- 电子签章 -->
+                        <button id="secondaryStamp" hidden class="secondaryToolbarButton" title="Stamp" data-l10n-id="stamp">
+                            <span data-l10n-id="stamp_label">Stamp</span>
+                        </button>
+
+                        <!-- 文字批注 -->
+                        <button id="secondaryKG_Annotation" hidden class="secondaryToolbarButton" title="Annotation" data-l10n-id="annotation">
+                            <span data-l10n-id="annotation_label" class='icon-annotation'>Annotation</span>
+                        </button>
+
+                        <!-- 预盖章 -->
+                        <button id="secondaryKG_PrepareStamp" hidden class="secondaryToolbarButton" title="PrepareStamp" data-l10n-id="prepareStamp">
+                            <span data-l10n-id="prepareStamp_label">PrepareStamp</span>
+                        </button>
+
+                        <!-- 暗章 -->
+                        <button id="secondaryKG_SecretSeal" hidden class="secondaryToolbarButton" title="SecretSeal" data-l10n-id="secretSeal">
+                            <span data-l10n-id="secretSeal_label">SecretSeal</span>
+                        </button>
+
+                        <!-- 批示章 -->
+                        <button id="secondaryKG_IndicateSeal" hidden class="secondaryToolbarButton" title="KG_IndicateSeal" data-l10n-id="indicateSeal">
+                            <span data-l10n-id="indicateSeal_label">IndicateSeal</span>
+                        </button>
+
+                        <!-- 手写签名 -->
+                        <button id="secondaryKgSignature" hidden class="secondaryToolbarButton" title="Signature" data-l10n-id="signature">
+                            <span data-l10n-id="signature_label">Signature</span>
+                        </button>
+
+                        <!-- 全文签批 -->
+                        <button id="secondaryKgDocSign" hidden class="secondaryToolbarButton" title="DocSign" data-l10n-id="docSign">
+                            <span data-l10n-id="docSign_label">DocSign</span>
+                        </button>
+
+                        <!-- 下载文档 -->
+                        <button id="secondaryKG_Download" hidden class="secondaryToolbarButton" title="Download" data-l10n-id="download">
+                            <span data-l10n-id="download_label">Download</span>
+                        </button>
+
+                        <!-- iWebAuth 扫码签 -->
+                        <button id="secondaryKG_iWebAuthScan" hidden class="secondaryToolbarButton" title="iWebAuthScan" data-l10n-id="iWebAuthScan">
+                        <span data-l10n-id="iWebAuthScan_label">Scan</span>
+                        </button>
+
+                        <!-- iWebAuth 密钥签 -->
+                        <button id="secondaryKG_iWebAuthUkey" hidden class="secondaryToolbarButton" title="iWebAuthUkey" data-l10n-id="iWebAuthUkey">
+                            <span data-l10n-id="iWebAuthUkey_label">Ukey</span>
+                        </button>
+
+                        <!-- uKey盖章 -->
+                        <button id="secondaryKG_Ukey" hidden class="secondaryToolbarButton" title="Ukey" data-l10n-id="Ukey">
+                            <span data-l10n-id="Ukey_label">uKey盖章</span>
+                        </button> 
+
+                        <!-- 扫码签 - 企业签章 -->
+                        <button id="secondaryKgScan" hidden class="secondaryToolbarButton" title="CompanySeal" data-l10n-id="companySeal">
+                            <span data-l10n-id="companySeal_label">CompanySeal</span>
+                        </button>
+
+                        <!-- 福建瑞术 - 扫码签章 -->
+                        <button id="secondaryKgScanFjrs" hidden class="secondaryToolbarButton" title="CompanySeal" data-l10n-id="companySeal">
+                          <span data-l10n-id="companySeal_label">CompanySeal</span>
+                        </button>
+
+                        <!-- 扫码签 - 单页签章 -->
+                        <button id="secondarykgScan_singlePageSeal" hidden class="secondaryToolbarButton" title="CompanySinglePageSeal"  data-l10n-id="companySinglePageSeal">
+                            <span data-l10n-id="companySinglePageSeal_label">companySinglePageSeal</span>
+                        </button>
+
+                        <!-- 扫码签 - 多页签章 -->
+                        <button id="secondarykgScan_continuity" hidden class="secondaryToolbarButton" title="CompanySignContinuity"  data-l10n-id="companySignContinuity">
+                            <span data-l10n-id="companySignContinuity_label">companySignContinuity</span>
+                        </button>
+
+                        <!-- 扫码签 - 骑缝签章 -->
+                        <button id="secondarykgScan_pagingSeal" hidden class="secondaryToolbarButton" title="CompanySignPagingSeal" data-l10n-id="companySignPagingSeal">
+                            <span data-l10n-id="companySignPagingSeal_label">companySignPaging</span>
+                        </button>
+
+                        <!-- 扫码签 - 个人签名 -->
+                        <button id="secondaryKG_PersonSign" hidden class="secondaryToolbarButton" title="PersonSign"  data-l10n-id="personSign">
+                            <span data-l10n-id="personSign_label">PersonSign</span>
+                        </button>
+
+                        <!-- 打开本地文件 -->
+                        <button id="secondaryKG_OpenLocalFile" hidden class="secondaryToolbarButton" title="OpenLocalFile" data-l10n-id="openLocalFile">
+                            <span data-l10n-id="openLocalFile_label">OpenLocalFile</span>
+                        </button>
+
+                        <!-- 转文章 -->
+                        <button id="secondaryTextToSeal" hidden class="secondaryToolbarButton" title="Text To Seal" data-l10n-id="textToSeal">
+                            <span data-l10n-id="textToSeal_label">Text To Seal</span>
+                        </button>
+
+                        <!-- 导出批注 -->
+                        <button id="secondaryExportAnnotations" hidden class="secondaryToolbarButton" title="Export Annotations" data-l10n-id="exportAnnotations">
+                            <span data-l10n-id="exportAnnotations_label">Export Annotations</span>
+                        </button>
+
+                        <!-- 保存文档 -->
+                        <button id="secondaryDocSave" hidden class="secondaryToolbarButton" title="Save" data-l10n-id="save">
+                            <span data-l10n-id="save_label">Save</span>
+                        </button>
+
+                        <!-- 另存为 -->
+                        <button id="secondaryDocSaveAs" hidden class="secondaryToolbarButton" title="Save As" data-l10n-id="saveAs">
+                            <span data-l10n-id="saveAs_label">Save As</span>
+                        </button>
+
+                        <!-- 添加水印 -->
+                        <button id="secondaryKG_WatermarkToolbarBtn" hidden class="secondaryToolbarButton" title="Watermark" data-l10n-id="watermark">
+                            <span data-l10n-id="watermark_label">watermark</span>
+                        </button>
+
+                        <!-- <button id="secondaryPresentationMode" class="secondaryToolbarButton presentationMode visibleLargeView"
+                                title="Switch to Presentation Mode" tabindex="51" data-l10n-id="presentation_mode">
+                            <span data-l10n-id="presentation_mode_label">Presentation Mode</span>
+                        </button> -->
+
+                        <!-- <button id="secondaryOpenFile" class="secondaryToolbarButton openFile visibleLargeView"
+                                title="Open File" tabindex="52" data-l10n-id="open_file">
+                            <span data-l10n-id="open_file_label">Open</span>
+                        </button> -->
+
+                        <!-- 打印 -->
+                        <button id="secondaryPrint" class="secondaryToolbarButton print" title="Print" data-l10n-id="print" hidden>
+                            <span data-l10n-id="print_label">Print</span>
+                        </button>
+
+                        <!-- <button id="secondaryDownload" class="secondaryToolbarButton download visibleMediumView" title="Download"
+                                tabindex="54" data-l10n-id="download">
+                            <span data-l10n-id="download_label">Download</span>
+                        </button> -->
+
+                        <!-- <a href="#" id="secondaryViewBookmark" class="secondaryToolbarButton bookmark visibleSmallView"
+                            title="Current view (copy or open in new window)" tabindex="55" data-l10n-id="bookmark">
+                            <span data-l10n-id="bookmark_label">Current View</span>
+                        </a> -->
+                    </div>
+                    <div class="horizontalToolbarSeparator"></div>
+
+                    <button id="firstPage" class="secondaryToolbarButton firstPage" title="Go to First Page"
+                            tabindex="56" data-l10n-id="first_page">
+                        <span data-l10n-id="first_page_label">Go to First Page</span>
+                    </button>
+                    <button id="lastPage" class="secondaryToolbarButton lastPage" title="Go to Last Page" tabindex="57"
+                            data-l10n-id="last_page">
+                        <span data-l10n-id="last_page_label">Go to Last Page</span>
+                    </button>
+
+                    <div class="horizontalToolbarSeparator" id="pageRotatePeparator"></div>
+
+                    <button id="pageRotateCw" class="secondaryToolbarButton rotateCw"
+                            title="Rotate Clockwise" tabindex="58" data-l10n-id="page_rotate_cw">
+                        <span data-l10n-id="page_rotate_cw_label">Rotate Clockwise</span>
+                    </button>
+                    <button id="pageRotateCcw" class="secondaryToolbarButton rotateCcw"
+                            title="Rotate Counterclockwise" tabindex="59" data-l10n-id="page_rotate_ccw">
+                        <span data-l10n-id="page_rotate_ccw_label">Rotate Counterclockwise</span>
+                    </button>
+
+                    <div class="horizontalToolbarSeparator hiddenMediumView"></div>
+
+                    <button id="cursorSelectTool" class="secondaryToolbarButton selectTool toggled hiddenMediumView"
+                        title="Enable Text Selection Tool" tabindex="60" data-l10n-id="cursor_text_select_tool">
+                        <span data-l10n-id="cursor_text_select_tool_label">Text Selection Tool</span>
+                    </button>
+                    <button id="cursorHandTool" class="secondaryToolbarButton handTool hiddenMediumView" title="Enable Hand Tool"
+                            tabindex="61" data-l10n-id="cursor_hand_tool">
+                        <span data-l10n-id="cursor_hand_tool_label">Hand Tool</span>
+                    </button>
+
+                    <div class="horizontalToolbarSeparator"></div>
+
+                    <button id="documentProperties" class="secondaryToolbarButton documentProperties"
+                            title="Document Properties…" tabindex="62" data-l10n-id="document_properties">
+                        <span data-l10n-id="document_properties_label">Document Properties…</span>
+                    </button>
+
+                    <button id="KG_ProductInfo" class="secondaryToolbarButton" data-l10n-id="product_info" title="Product Info">
+                        <span data-l10n-id="product_info_label">Product Info</span>
+                    </button>
+                </div>
+                <div class="kg_copyright">
+                    <!-- <div class="kg_copyright_item">
+                        <span class="kg_copyright_label">授权状态</span>：<span class="kg_copyright_status kg_copyright_status_success">已授权</span>
+                    </div> -->
+                    <div class="kg_copyright_item">
+                        <span class="kg_copyright_label" data-l10n-id="copyright_company_label">授权单位</span>：<span class="kg_copyright_company"></span>
+                    </div>
+                    <div class="kg_copyright_item">
+                        <span class="kg_copyright_label" data-l10n-id="copyright_company_time">过期时间</span>：<span class="kg_copyright_time"></span>
+                    </div>
+                </div>
+            </div> <!-- secondaryToolbar -->
+
+            <div class="toolbar">
+                <div id="toolbarContainer">
+                    <div id="toolbarViewer">
+                        <div id="toolbarViewerLeft">
+                            <button id="sidebarToggle" class="toolbarButton" title="Toggle Sidebar" tabindex="11"
+                                    data-l10n-id="toggle_sidebar">
+                                <span data-l10n-id="toggle_sidebar_label">Toggle Sidebar</span>
+                            </button>
+                        </div>
+                        <div id="toolbarViewerRight">
+                            <div id="toolbarWrapper" class="hidden">
+                                <!-- 电子签章 -->
+                                <button id="stamp" hidden class="toolbarButton kg_disabled" title="Stamp" disabled data-l10n-id="stamp">
+                                    <span data-l10n-id="stamp_label">Stamp</span>
+                                </button>
+
+                                <!-- 文字批注 -->
+                                <button id="KG_Annotation" hidden class="toolbarButton" title="Annotation" data-l10n-id="annotation">
+                                    <span data-l10n-id="annotation_label">Annotation</span>
+                                </button>
+
+                                <!-- 预盖章 -->
+                                <button id="KG_PrepareStamp" hidden class="toolbarButton" title="PrepareStamp" data-l10n-id="prepareStamp">
+                                    <span data-l10n-id="prepareStamp_label">PrepareStamp</span>
+                                </button>
+
+                                <!-- 暗章 -->
+                                <button id="KG_SecretSeal" hidden class="toolbarButton" title="SecretSeal" data-l10n-id="secretSeal">
+                                    <span data-l10n-id="secretSeal_label">SecretSeal</span>
+                                </button>
+
+                                <!-- 批示章 -->
+                                <button id="KG_IndicateSeal" hidden class="toolbarButton" title="IndicateSeal" data-l10n-id="indicateSeal">
+                                    <span data-l10n-id="indicateSeal_label">IndicateSeal</span>
+                                </button>
+
+                                <!-- 手写签名 -->
+                                <button id="kgSignature" hidden class="toolbarButton" title="Signature" data-l10n-id="signature">
+                                    <span data-l10n-id="signature_label">Signature</span>
+                                </button>
+
+                                <!-- 全文签批 -->
+                                <button id="kgDocSign" hidden class="toolbarButton" title="DocSign" data-l10n-id="docSign">
+                                    <span data-l10n-id="docSign_label">DocSign</span>
+                                </button>
+
+                                <!-- 下载文档 -->
+                                <button id="KG_Download" hidden class="toolbarButton" title="Download" data-l10n-id="download">
+                                    <span data-l10n-id="download_label">Download</span>
+                                </button>
+
+                                <!-- iWebAuth 扫码签 -->
+                                <button id="KG_iWebAuthScan" hidden class="toolbarButton kg_disabled" title="iWebAuthScan" data-l10n-id="iWebAuthScan">
+                                <span data-l10n-id="iWebAuthScan_label">Scan</span>
+                                </button>
+
+                                <!-- iWebAuth ukey签 -->
+                                <button id="KG_iWebAuthUkey" hidden class="toolbarButton kg_disabled" title="iWebAuthUkey" data-l10n-id="iWebAuthUkey">
+                                    <span data-l10n-id="iWebAuthUkey_label">Ukey</span>
+                                </button>
+
+                                <!-- uKey盖章 -->
+                                <button id="KG_Ukey" hidden class="toolbarButton kg_disabled" title="Ukey"  data-l10n-id="Ukey">
+                                    <span data-l10n-id="Ukey_label">uKey盖章</span>
+                                </button> 
+
+                                <!-- 扫码签 - 企业签章 -->
+                                <button id="kgScan" hidden class="toolbarButton" title="CompanySeal" data-l10n-id="companySeal">
+                                    <span data-l10n-id="companySeal_label">CompanySeal</span>
+                                </button>
+
+                                <!-- 福建瑞术 - 扫码签 -->
+                                <button id="kgScanFjrs" hidden class="toolbarButton" title="CompanySeal" data-l10n-id="companySeal">
+                                  <span data-l10n-id="companySeal_label">CompanySeal</span>
+                                </button>
+
+                                <!-- 扫码签 - 多页签章 -->
+                                <button id="kgScan_continuity" hidden class="toolbarButton" title="CompanySignContinuity" data-l10n-id="companySignContinuity">
+                                    <span data-l10n-id="companySignContinuity_label">companySignContinuity</span>
+                                </button>
+
+                                <!-- 扫码签 - 骑缝签章 -->
+                                <button id="kgScan_pagingSeal" hidden class="toolbarButton" title="CompanySignPagingSeal" data-l10n-id="companySignPagingSeal">
+                                    <span data-l10n-id="companySignPagingSeal_label">companySignPaging</span>
+                                </button>
+                                <!-- 扫码签 - 单页签章 -->
+                                <button id="kgScan_singlePageSeal" hidden class="toolbarButton" title="CompanySinglePageSeal" data-l10n-id="companySinglePageSeal">
+                                    <span data-l10n-id="companySinglePageSeal_label">companySinglePageSeal</span>
+                                </button>
+
+                                <!-- 扫码签 - 个人签名 -->
+                                <button id="KG_PersonSign" hidden class="toolbarButton" title="PersonSign" data-l10n-id="personSign">
+                                    <span data-l10n-id="personSign_label">PersonSign</span>
+                                </button>
+
+                                <!-- 打开本地文件 -->
+                                <button id="KG_OpenLocalFile" hidden class="toolbarButton" title="OpenLocalFile" data-l10n-id="openLocalFile">
+                                    <span data-l10n-id="openLocalFile_label">OpenLocalFile</span>
+                                </button>
+
+                                <!-- 转文章 -->
+                                <button id="textToSeal" hidden class="toolbarButton" title="TextToSeal" data-l10n-id="textToSeal">
+                                    <span data-l10n-id="textToSeal_label">TextToSeal</span>
+                                </button>
+
+                                <!-- 导出批注 -->
+                                <button id="exportAnnotations" hidden class="toolbarButton" title="Export Annotations" data-l10n-id="exportAnnotations">
+                                    <span data-l10n-id="exportAnnotations_label">Export Annotations</span>
+                                </button>
+
+                                <!-- 保存文档 -->
+                                <button id="docSave" hidden class="toolbarButton" title="Save" data-l10n-id="save">
+                                    <span data-l10n-id="save_label">Save</span>
+                                </button>
+
+                                <!-- 另存为 -->
+                                <button id="docSaveAs" hidden class="toolbarButton" title="Save As" data-l10n-id="saveAs">
+                                    <span data-l10n-id="saveAs_label">Save As</span>
+                                </button>
+
+                                <!-- 添加水印 -->
+                                <button id="KG_WatermarkToolbarBtn" hidden class="toolbarButton" title="Watermark" data-l10n-id="watermark">
+                                    <span data-l10n-id="watermark_label">Watermark</span>
+                                </button>
+
+                                <!-- <button id="presentationMode" style="display:none" class="toolbarButton presentationMode hiddenLargeView"
+                                        title="Switch to Presentation Mode" tabindex="31" data-l10n-id="presentation_mode">
+                                    <span data-l10n-id="presentation_mode_label">Presentation Mode</span>
+                                </button> -->
+
+                                <!-- <button id="openFile" style="display:none" class="toolbarButton openFile hiddenLargeView"
+                                        title="Open File" tabindex="32" data-l10n-id="open_file">
+                                    <span data-l10n-id="open_file_label">Open</span>
+                                </button> -->
+
+                                <!-- 打印 -->
+                                <button id="print" class="toolbarButton print" title="Print" data-l10n-id="print" hidden>
+                                    <span data-l10n-id="print_label">Print</span>
+                                </button>
+
+                                <!-- <button id="download" style="display:none" class="toolbarButton download hiddenMediumView"
+                                    title="Download" tabindex="34" data-l10n-id="download">
+                                    <span data-l10n-id="download_label">Download</span>
+                                </button> -->
+                                <!-- <a href="#" id="viewBookmark" class="toolbarButton bookmark hiddenSmallView" title="Current view (copy or open in new window)" tabindex="35" data-l10n-id="bookmark">
+                                    <span data-l10n-id="bookmark_label">Current View</span>
+                                </a> -->
+                                <button id="viewFind" class="toolbarButton kg_disabled" title="Find in Document" disabled tabindex="12"
+                                    data-l10n-id="findbar">
+                                    <span data-l10n-id="findbar_label">Find</span>
+                                </button>
+                            </div>
+                            <button id="secondaryToolbarToggle" class="toolbarButton kg_disabled" title="Tools" disabled tabindex="36"
+                                data-l10n-id="tools">
+                                <span data-l10n-id="tools_label">Tools</span>
+                            </button>
+                        </div>
+                        <div id="toolbarViewerMiddle">
+                            <div class="splitToolbarButton">
+                                <button class="toolbarButton pageUp hiddenSmallView" title="Previous Page" id="previous" tabindex="13"
+                                    data-l10n-id="previous">
+                                    <span data-l10n-id="previous_label">Previous</span>
+                                </button>
+                                <div class="hiddenLargeView" style="margin-top: 11px;float: left;">
+                                    <input type="number" id="pageNumber" class="toolbarField pageNumber" title="Page" value="1"
+                                        size="4" min="1" tabindex="15" data-l10n-id="page">
+                                    <span id="numPages" class="toolbarLabel"></span>
+                                </div>
+                                <button class="toolbarButton pageDown hiddenSmallView" title="Next Page" id="next" tabindex="14"
+                                    data-l10n-id="next">
+                                    <span data-l10n-id="next_label">Next</span>
+                                </button>
+                                <div class="splitToolbarButtonSeparator hiddenSmallView"></div>
+                                <button id="zoomOut" class="toolbarButton zoomOut" title="Zoom Out" tabindex="21"
+                                    data-l10n-id="zoom_out">
+                                    <span data-l10n-id="zoom_out_label">Zoom Out</span>
+                                </button>
+                                <div class="splitToolbarButtonSeparator visibleSmallView"></div>
+                                <span id="scaleSelectContainer" class="dropdownToolbarButton hiddenLargeView">
+                                    <select id="scaleSelect" title="Zoom" tabindex="23" data-l10n-id="zoom">
+                                        <option id="pageAutoOption" title="" value="auto" selected="selected"
+                                            data-l10n-id="page_scale_auto">Automatic Zoom</option>
+                                        <option id="pageActualOption" title="" value="page-actual"
+                                            data-l10n-id="page_scale_actual">Actual Size</option>
+                                        <option id="pageFitOption" title="" value="page-fit" data-l10n-id="page_scale_fit">
+                                            Page Fit</option>
+                                        <option id="pageWidthOption" title="" value="page-width"
+                                            data-l10n-id="page_scale_width">Page Width</option>
+                                        <option id="customScaleOption" title="" value="custom" disabled="disabled"
+                                            hidden="true"></option>
+                                        <option title="" value="0.5" data-l10n-id="page_scale_percent"
+                                            data-l10n-args='{ "scale": 50 }'>50%</option>
+                                        <option title="" value="0.75" data-l10n-id="page_scale_percent"
+                                            data-l10n-args='{ "scale": 75 }'>75%</option>
+                                        <option title="" value="1" data-l10n-id="page_scale_percent"
+                                            data-l10n-args='{ "scale": 100 }'>100%</option>
+                                        <option title="" value="1.25" data-l10n-id="page_scale_percent"
+                                            data-l10n-args='{ "scale": 125 }'>125%</option>
+                                        <option title="" value="1.5" data-l10n-id="page_scale_percent"
+                                            data-l10n-args='{ "scale": 150 }'>150%</option>
+                                        <option title="" value="2" data-l10n-id="page_scale_percent"
+                                            data-l10n-args='{ "scale": 200 }'>200%</option>
+                                        <option title="" value="3" data-l10n-id="page_scale_percent"
+                                            data-l10n-args='{ "scale": 300 }'>300%</option>
+                                        <option title="" value="4" data-l10n-id="page_scale_percent"
+                                            data-l10n-args='{ "scale": 400 }'>400%</option>
+                                    </select>
+                                </span>
+                                <button id="zoomIn" class="toolbarButton zoomIn" title="Zoom In" tabindex="22"
+                                    data-l10n-id="zoom_in">
+                                    <span data-l10n-id="zoom_in_label">Zoom In</span>
+                                </button>
+                                <button class="toolbarButton pageRotateCw" title="顺时针旋转" hidden></button>
+                                <button class="toolbarButton pageRotateCcw" title="逆时针旋转" hidden></button>
+                            </div>
+                        </div>
+
+                        <div id="toolbarIWebAuth" hidden>
+                            <span id='iWebAuth_Provider'></span>
+                            <span id='iWebAuth_Toggle'>切换</span>
+                        </div>
+                    </div>
+                    <div id="loadingBar">
+                        <div class="progress">
+                            <div class="glimmer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <menu type="context" id="viewerContextMenu">
+                <menuitem id="contextFirstPage" label="First Page" data-l10n-id="first_page">
+                </menuitem>
+                <menuitem id="contextLastPage" label="Last Page" data-l10n-id="last_page">
+                </menuitem>
+                <menuitem id="contextPageRotateCw" label="Rotate Clockwise" data-l10n-id="page_rotate_cw">
+                </menuitem>
+                <menuitem id="contextPageRotateCcw" label="Rotate Counter-Clockwise" data-l10n-id="page_rotate_ccw">
+                </menuitem>
+            </menu>
+
+            <div id="viewerContainer" tabindex="0">
+                <svg id="svgCanvas"></svg>
+                <div id="viewer" class="pdfViewer"></div>
+            </div>
+
+            <div id="errorWrapper" hidden="true">
+                <div id="errorMessageLeft">
+                    <span id="errorMessage"></span>
+                    <button id="errorShowMore" data-l10n-id="error_more_info">
+                        More Information
+                    </button>
+                    <button id="errorShowLess" data-l10n-id="error_less_info" hidden="true">
+                        Less Information
+                    </button>
+                </div>
+                <div id="errorMessageRight">
+                    <button id="errorClose" data-l10n-id="error_close">
+                        Close
+                    </button>
+                </div>
+                <div class="clearBoth"></div>
+                <textarea id="errorMoreInfo" hidden="true" readonly="readonly"></textarea>
+            </div>
+        </div> <!-- mainContainer -->
+
+        <div id="overlayContainer" class="hidden">
+            <div id="passwordOverlay" class="container hidden">
+                <div class="dialog">
+                    <div class="row">
+                        <p id="passwordText" data-l10n-id="password_label">Enter the password to open this PDF file:</p>
+                    </div>
+                    <form class="row">
+                        <input type="password" id="password" class="toolbarField" autocomplete="false">
+                    </form>
+                    <div class="buttonRow">
+                        <button id="passwordCancel" class="overlayButton"><span
+                                data-l10n-id="password_cancel">Cancel</span></button>
+                        <button id="passwordSubmit" class="overlayButton"><span
+                                data-l10n-id="password_ok">OK</span></button>
+                    </div>
+                </div>
+            </div>
+            <div id="documentPropertiesOverlay" class="container hidden">
+                <div class="kg_dialog_header">
+                    <div class="kg_dialog_title">文档属性</div>
+                    <button id="documentPropertiesClose" class="kg_dialog_close">×</button>
+                </div>
+                <div class="dialog">
+                    <div class="row">
+                        <span data-l10n-id="document_properties_file_name">File name:</span>
+                        <p id="fileNameField">-</p>
+                    </div>
+                    <div class="row">
+                        <span data-l10n-id="document_properties_file_size">File size:</span>
+                        <p id="fileSizeField">-</p>
+                    </div>
+                    <div class="row">
+                        <span data-l10n-id="document_properties_file_type">文档类型:</span>
+                        <p id="fileType">-</p>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="row">
+                        <span data-l10n-id="document_properties_title">Title:</span>
+                        <p id="titleField">-</p>
+                    </div>
+                    <div class="row">
+                        <span data-l10n-id="document_properties_author">Author:</span>
+                        <p id="authorField">-</p>
+                    </div>
+                    <div class="row">
+                        <span data-l10n-id="document_properties_subject">Subject:</span>
+                        <p id="subjectField">-</p>
+                    </div>
+                    <div class="row">
+                        <span data-l10n-id="document_properties_keywords">Keywords:</span>
+                        <p id="keywordsField">-</p>
+                    </div>
+                    <div class="row">
+                        <span data-l10n-id="document_properties_creation_date">Creation Date:</span>
+                        <p id="creationDateField">-</p>
+                    </div>
+                    <div class="row">
+                        <span data-l10n-id="document_properties_modification_date">Modification Date:</span>
+                        <p id="modificationDateField">-</p>
+                    </div>
+                    <div class="row">
+                        <span data-l10n-id="document_properties_creator">Creator:</span>
+                        <p id="creatorField">-</p>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="row" hidden>
+                        <span data-l10n-id="document_properties_producer">PDF Producer:</span>
+                        <p id="producerField">-</p>
+                    </div>
+                    <div class="row" hidden>
+                        <span data-l10n-id="document_properties_version">PDF Version:</span>
+                        <p id="versionField">-</p>
+                    </div>
+                    <div class="row">
+                        <span data-l10n-id="document_properties_page_count">Page Count:</span>
+                        <p id="pageCountField">-</p>
+                    </div>
+                </div>
+            </div>
+            <div id="printServiceOverlay" class="container hidden">
+                <div class="dialog" style="width: 240px; padding: 16px 24px;">
+                    <div class="row">
+                        <span data-l10n-id="print_progress_message">Preparing document for printing…</span>
+                    </div>
+                    <div class="row">
+                        <progress value="0" max="100"></progress>
+                        <span data-l10n-id="print_progress_percent" data-l10n-args='{ "progress": 0 }'
+                            class="relative-progress">0%</span>
+                    </div>
+                    <div class="buttonRow">
+                        <button id="printCancel" class="btn"><span data-l10n-id="print_progress_close">Cancel</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="kgpasswordOverlay" class="container hidden">
+                <div class="kg_dialog_header">
+                    <div class="kg_dialog_title" data-l10n-id="password_title">请输入密码</div>
+                    <button class="kg_dialog_close">×</button>
+                </div>
+                <div class="dialog">
+                    <form style="text-align:left;">
+                        <label for="kgpassword" data-l10n-id="password">密码：</label>
+                        <input type="password" id="kgpassword" autocomplete="new-password" class="kgInput">
+                        <span class="kg_tip_msg" id ="kg_tip_msg">提示信息</span>
+                        <span class="kg_error_msg" data-l10n-id="password_empty">密码不能为空</span>
+                    </form>
+                    <div class="kg_checkbox_wrapper">
+                        <input type="checkbox" id="rememberPwd">
+                        <span style="line-height:16px;font-size:14px;position:absolute;text-indent:5px" data-l10n-id="password_remember">记住密码，七天内不再显示</span>
+                    </div>
+                    <div style="margin-top: 18px;text-align: center;">
+                        <button id="kgpasswordCancel" class="btn" data-l10n-id="password_cancel">取 消</button>
+                        <button id="kgpasswordSubmit" class="btn btn-primary" style="margin-left: 15px;" data-l10n-id="password_ok">确 定</button>
+                    </div>
+                </div>
+            </div>
+            <div id="selectSealOverlay" class="container hidden">
+                <div class="kg_dialog_header">
+                    <div class="kg_dialog_title" data-l10n-id="selectSeal_title">选择印章</div>
+                    <button class="kg_dialog_close">×</button>
+                </div>
+                <div class="dialog">
+                    <div style="background-color:white;text-align:center;">
+                        <div style="display:inline-block;">
+                            <div id="kg-seal-left" class="kg_icon"></div>
+                        </div>
+                        <div style="display:inline-block;">
+                            <div
+                                style="display:table-cell;vertical-align:middle;text-align:center;width:180px;height:180px;border: 1px solid #e5e5e5;">
+                                <img id="sealImg" alt="0" src="" style="max-width:150px;max-height:150px" />
+                            </div>
+                        </div>
+                        <div style="display:inline-block;">
+                            <div id="kg-seal-right" class="kg_icon"></div>
+                        </div>
+                        <div style="margin: 8px 0;">
+                            <label id="kg-seal-idx" style="margin-right: 4px;"></label>/<label id="kg-seal-totalNumb" style="margin-left: 4px;"></label>
+                        </div>
+                    </div>
+                    <div class="KG_Form_Item" id="kg_companySelectContainer" style="display: none;">
+                      <label class="KG_Form_Label">企业名称：</label>
+                      <select class="kgInput" id="kg_companySelect"></select>
+                    </div>
+                    <div class="kg_checkbox_wrapper"
+                         style="height: 30px; position: relative; margin-left: 20px;"
+                         id="continuity-stamp-wrapper">
+                         <div class="KG_StampContinuity_Tip doorHanger">
+                            <span class="KG_StampContinuity_Tip_Text">
+                                勾选该选项，盖章功能为“点击一次盖章，文档所有页相同位置自动加盖当前选择的印章”
+                            </span>
+                        </div>
+                        <input type="checkbox" id="continuity-stamp">
+                        <div style="line-height:30px;font-size:14px;float:left;margin: 0 6px;"
+                            data-l10n-id="continuity_stamp"
+                            id="KG_StampContinuity">
+                            一次定位连续多页签章
+                        </div>
+                        <div style="float:left;">
+                            <input type="text" id="continuity-range" class="kgInput"
+                                style="width: 60px;height: 28px;line-height: 28px;">
+                        </div>
+                    </div>
+                    <div class="kg_checkbox_wrapper"
+                         style="height: 30px; position: relative; margin-left: 20px;display: none;"
+                         id="addition-text-wrapper">
+                        <input type="checkbox" id="addition-text">
+                        <div style="line-height:30px;font-size:14px;float:left;margin: 0 6px;"
+                            data-l10n-id="addition_text">
+                            附加文字
+                        </div>
+                        <div style="float:left;">
+                            <button type="button" id="show-addition-config" class="btn btn-text-primary"
+                                style="display: none;margin-top: 3px;height: 24px;width: 48px;padding: 0;"
+                                data-l10n-id="config">设置</button>
+                        </div>
+                    </div>
+                    <div class="kg_checkbox_wrapper"
+                         style="height: 30px; position: relative; margin-left: 20px;display: none;"
+                         id="paging-seal-wrapper">
+                        <input type="checkbox" id="paging-seal">
+                        <div style="line-height:30px;font-size:14px;float:left;margin: 0 6px;"
+                            data-l10n-id="paging_seal">
+                            骑缝章
+                        </div>
+                        <div style="float:left;">
+                            <button type="button" id="paging-seal-config" class="btn btn-text-primary"
+                                style="display: none;margin-top: 3px;height: 24px;width: 48px;padding: 0;"
+                                data-l10n-id="config">设置</button>
+                        </div>
+                    </div>
+                    <div id='kg_exitSessionContainer' style="display: none;">
+                        <button id="kg_exitSession" class="btn" style='width:auto' data-l10n-id="exit_session">退出会话模式</button>
+                    </div>
+                    <div style="margin-top:15px;text-align:center;">
+                        <button id="selectSealCancel" class="btn" data-l10n-id="password_cancel">取 消</button>
+                        <button id="selectSealSubmit" class="btn btn-primary"  data-l10n-id="password_ok" style="margin-left: 15px;">确 定</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="kgTipOverlay" class="container hidden">
+                <div class="dialog">
+                    <div id="kgTipMsg" class="kg_icon">
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+            <div id="kgConfirmOverlay" class="kgcontainer hidden">
+                <div class="kgdialog">
+                    <div class="kgtitle">提示</div>
+                    <div class="kgcontent">
+                        <p style="text-align:left;width:250px;font-size: 14px;line-height: 18px;">确认盖章吗？</p>
+                        <div style="margin-top:10px;text-align: center;">
+                            <button id="kgConfirmPromptCancel" class="btn">取消</button>
+                            <button id="kgConfirmPromptOk" class="btn btn-primary">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="kgTextToSealOverlay" class="kgcontainer hidden">
+                <div class="kgdialog">
+                    <div class="kgtitle" style="position:relative;"></div>
+                    <div class="kgcontent" style="width: 600px;padding-top:5px;padding-bottom:0;position:relative;">
+                        <div id="kgTextToSealTabs"
+                            style="position:relative;height:26px;border-bottom:1px solid #999;margin-bottom:15px">
+                            <span class="tab" style="border-top-left-radius:3px;border-bottom-color: #fff;">
+                                <span id="showTextToSeal" class="selected" data-l10n-id="textToSeal_tab_textToSeal">转文章</span>
+                            </span>
+                            <span class="tab" style="margin-left:-1px;border-bottom-color: #fff;">
+                                <span id="showIndicateSeal" data-l10n-id="textToSeal_tab_indicateSeal">批示章</span>
+                            </span>
+                            <span class="tab"
+                                style="margin-left:-1px;border-top-right-radius: 3px;border-bottom-color: rgb(153, 153, 153);">
+                                <span id="showInvariantSeal" data-l10n-id="textToSeal_tab_invariantSeal">固定章</span>
+                            </span>
+                        </div>
+                        <!--转文章-->
+                        <div id="textToSealContainer" style="display: block">
+                            <label for="textToSealText" data-l10n-id="textToSeal_content">戳记内容：</label>
+                            <input type="text" id="textToSealText" class="kgInput" style="margin: 0 10px 10px 0;" maxlength="10">
+                            <label for="textToSealNum" data-l10n-id="textToSeal_number">批示序号：</label>
+                            <input type="text" id="textToSealNum" class="kgInput" style="margin: 0 0 10px 0;" maxlength="8">
+                            <label for="textToSealDate" data-l10n-id="textToSeal_date">批示日期：</label>
+                            <input type="text" id="textToSealDate" class="kgInput" style="margin: 0 10px 0 0;">
+                            <label for="textToSealColor" data-l10n-id="textToSeal_color">印章颜色：</label>
+                            <input type="text" id="textToSealColor" class="kgInput jscolor" style="margin: 0" value="2c2cff">
+                            <div id="textToSealCanvasContainer">
+                                <canvas width="340" height="204" id="textToSealCanvas"></canvas>
+                            </div>
+                        </div>
+                        <!--批示章-->
+                        <div id="indicateSealContainer" style="display: none">
+                            <label for="indicateSealText" data-l10n-id="textToSeal_content">戳记内容：</label>
+                            <input type="text" id="indicateSealText" class="kgInput" style="margin: 0 10px 10px 0;" maxlength="3">
+                            <label for="indicateSealNum" data-l10n-id="textToSeal_number">批示序号：</label>
+                            <input type="text" id="indicateSealNum" class="kgInput" style="margin: 0 0 10px 0;" maxlength="6">
+                            <label for="indicateSealDate" data-l10n-id="textToSeal_date">批示日期：</label>
+                            <input type="text" id="indicateSealDate" class="kgInput" style="margin: 0 10px 0 0;">
+                            <label for="indicateSealColor" data-l10n-id="textToSeal_color">印章颜色：</label>
+                            <input type="text" id="indicateSealColor" class="kgInput jscolor" style="margin: 0" value="2c2cff">
+                            <div id="indicateSealCanvasContainer">
+                                <canvas width="340" height="170" id="indicateSealCanvas"></canvas>
+                            </div>
+                        </div>
+                        <!--固定章-->
+                        <div id="invariantSealContainer" style="display: none">
+                            <div id="invariantSealCanvasContainer">
+                                <canvas width="210" height="132" id="invariantSealCanvas"></canvas>
+                            </div>
+                        </div>
+                        <div style="margin: 50px 0 10px;text-align: center;">
+                            <button id="kgTextToSealCancel" class="btn" data-l10n-id="password_cancel">取消</button>
+                            <button id="kgTextToSealOk" class="btn btn-primary" data-l10n-id="password_ok">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 产品信息 -->
+            <div id="KG_ProductInfoOverlay" class="container hidden">
+                <div class="kg_dialog_header">
+                    <div class="kg_dialog_title" data-l10n-id="product_info_label">产品信息</div>
+                    <button class="kg_dialog_close">×</button>
+                </div>
+                <div class="dialog">
+                    <div class="row kg_productInfo_title">可信电子文件签署</div>
+                    <div class="row kg_productInfo_version">V3.1.0.182</div>
+                    <div class="separator"></div>
+                    <div class="row kg_productInfo_unit">
+                        <span data-l10n-id="product_info_unit">授权单位</span>：<p></p>
+                    </div>
+                    <div class="row kg_productInfo_time">
+                        <span data-l10n-id="product_info_time">过期时间</span>：<p></p>
+                    </div>
+                    <div class="row kg_productInfo_copyright">
+                        <span data-l10n-id="product_info_copyright">版权所有</span>：<p><a href="http://www.kinggrid.com/" target="_blank"></a></p>
+                    </div>
+                    <div class="row kg_productInfo_warning">
+                        <span data-l10n-id="product_info_warning">警告</span>：<p data-l10n-id="product_info_warning_info">本计算机程序受著作权法和国际公约的保护，未经授权擅自复制或散布本程序的部分或全部，将承受严厉的民事和刑事处罚，对已知的违反者将给予法律范围内的全面制裁。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- overlayContainer -->
+
+        <!-- 印章附加文字 -->
+        <div class="KG_OverlayContainer hidden">
+            <div id="KG_AdditionTextOverlay" class="container hidden"></div>
+        </div>
+
+        <!-- 验证码 -->
+        <div class="KG_OverlayContainer hidden">
+            <div id="KG_CaptchaOverlay" class="container hidden"></div>
+        </div>
+
+        <!-- 骑缝章 -->
+        <div class="KG_OverlayContainer hidden">
+            <div id="KG_PagingSealOverlay" class="container hidden"></div>
+        </div>
+
+        <!-- 添加水印 -->
+        <div class="KG_OverlayContainer hidden">
+            <div id="KG_WatermarkOverlay" class="container hidden"></div>
+        </div>
+
+        <!-- 提示弹框 -->
+        <div class="KG_OverlayContainer hidden" style="z-index: 50000">
+            <div id="KG_AlertPromptOverlay" class="container hidden"></div>
+        </div>
+
+         <!-- 进度条弹框 -->
+         <div class="KG_OverlayContainer hidden">
+            <div id="KG_ProgressPromptOverlay" class="container hidden"></div>
+        </div>
+
+        <!-- 区块链核验 -->
+        <div class="KG_OverlayContainer hidden" style="z-index: 45000">
+            <div id="KG_BlockChainPromptOverlay" class="container hidden"></div>
+        </div>
+
+        <!-- 印章验证弹框 -->
+        <div class="KG_OverlayContainer hidden">
+            <div id="KG_VerifySealPromptOverlay" class="container hidden"></div>
+        </div>
+
+        <!-- 二维码弹框 -->
+        <div class="KG_OverlayContainer hidden">
+            <div id="KG_QrCodeOverlay" class="container hidden"></div>
+        </div>
+
+        <!-- 福建瑞术 二维码弹框 -->
+        <div class="KG_OverlayContainer hidden">
+          <div id="KG_FJRS_QrCodeOverlay" class="container hidden"></div>
+        </div>
+
+        <!-- 证书有效期验证弹框 -->
+        <div class="KG_OverlayContainer hidden">
+            <div id="KG_CertValidityOverlay" class="container hidden"></div>
+        </div>
+
+        <!-- 批示章弹框 -->
+        <div class="KG_OverlayContainer hidden">
+            <div id="KG_IndicateSealOverlay" class="container hidden">
+                <div class="kg_dialog_header">
+                    <div class="kg_dialog_title" data-l10n-id="indicateSeal_label"></div>
+                    <button class="kg_dialog_close">×</button>
+                </div>
+                <div class="dialog">
+                    <form>
+                        <label>领导姓名：</label>
+                        <input type="text" class="kgInput" maxlength="3">
+                        <label>批示序号：</label>
+                        <input type="text" class="kgInput" maxlength="6">
+                        <label>批示日期：</label>
+                        <input type="text" class="kgInput">
+                        <label>批示颜色：</label>
+                        <input type="text" class="kgInput jscolor">
+                        <div class="KG_IndicateSeal-canvas">
+                            <canvas width="320" height="180"></canvas>
+                        </div>
+                        <div class="KG_Form_Footer">
+                            <button type="button" class="btn" data-l10n-id="password_cancel"></button>
+                            <button type="submit" class="btn btn-primary" data-l10n-id="password_ok"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- 手写板 -->
+        <div class="KG_OverlayContainer hidden">
+            <div id="KG_SignaturePadOverlay" class="container hidden">
+                <div class="kg_dialog_header">
+                    <div class="kg_dialog_title" data-l10n-id="signature_title">手写签名</div>
+                    <button class="kg_dialog_close">×</button>
+                </div>
+                <div class="dialog"></div>
+                <!-- 手写签名 -->
+                <canvas id="kgSignatureCanvas">
+                    Your browser does not support the HTML5 canvas tag.
+                </canvas>
+                <!-- 手写板操作按钮 -->
+                <div id="kgSignatureBoard">
+                    <div id="sign-msg-apply" disabled></div>
+                    <div id="sign-msg-cancel"></div>
+                    <div id="sign-msg-thick" class="kg_icon"></div>
+                    <div id="sign-msg-thick-tip" class="doorHanger" style="display: none;">
+                        <span id="sign-msg-thick-text" data-l10n-id="signature_tip">拖拽改变笔画粗细</span>
+                        <span id="sign-msg-thick-thin" data-l10n-id="signature_thin">细</span>
+                        <div id="sign-msg-thick-slide">
+                            <div class="sign-msg-thick-dot"></div><div class="sign-msg-thick-dot"></div><div class="sign-msg-thick-dot"></div><div class="sign-msg-thick-dot"></div><div class="sign-msg-thick-dot"></div><div class="sign-msg-thick-dot"></div><div class="sign-msg-thick-dot"></div><div class="sign-msg-thick-dot"></div>
+                            <div id="sign-msg-thick-drop">
+                                <div id="sign-msg-thick-drop-tip"></div>
+                            </div>
+                        </div>
+                        <span id="sign-msg-thick-crude" data-l10n-id="signature_crude">粗</span>
+                    </div>
+                    <div id="sign-msg-black" data-color="black" class="selected"></div>
+                    <div id="sign-msg-blue" data-color="blue"></div>
+                    <div id="sign-msg-red" data-color="red"></div>
+                    <div id="sign-msg-clear" class="kg_icon"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 文字批注 -->
+        <div class="KG_OverlayContainer hidden">
+            <div id="KG_AnnotationOverlay" class="container hidden">
+                <div class="kg_dialog_header">
+                    <div class="kg_dialog_title" data-l10n-id="annotation_title">文本批注</div>
+                    <button class="kg_dialog_close">×</button>
+                </div>
+                <!-- 文字批注面板 -->
+                <div id="kg-AnnotationBoard"></div>
+                <!-- 手写签批面板 -->
+                <canvas id="kg-AnnotationSignature">
+                    Your browser does not support the HTML5 canvas tag.
+                </canvas>
+                <div class="kg_dialog_footer">
+                    <div id="annotation-cancel"></div>
+                    <div id="annotation-apply" disabled></div>
+                    <div id="annotation-clear" class="kg_icon"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全文签批工具 -->
+    <div class="hidden">
+        <div id='KG_DocSignToolOverlay' class="container hidden"></div>
+    </div>
+
+    <!-- 盖章确认提示框 -->
+    <div id="KG_StampConfirmOverlay" class="hidden"></div>
+
+    <!-- 添加水印前的提示框 -->
+    <div id="KG_WatermarkConfirmOverlay" class="hidden"></div>
+
+    <!-- 全文签批确认提示框 -->
+    <div id="KG_DocSignConfirmOverlay" class="hidden"></div>
+
+    <!-- 文本域修改提示框 -->
+    <div id="KG_TextConfirmOverlay" class="hidden"></div>
+
+    <!-- 操作指引弹框 -->
+    <div id="KG_GuideTipOverlay" class="doorHanger hidden" hidden>
+        <div class="KG_GuideTip_Title"></div>
+        <div class="KG_GuideTip_Content"></div>
+        <div class="KG_Clearfix">
+            <button class="btn btn-primary KG_GuideTip_Next" data-l10n-id="guideTip_next">下一步</button>
+            <button class="btn KG_GuideTip_Close" data-l10n-id="guideTip_close">关闭</button>
+            <a href="javascript:" class="KG_GuideTip_NeverShow" data-l10n-id="guideTip_neverShow">不再显示</a>
+        </div>
+    </div>
+
+    </div> <!-- outerContainer -->
+
+    <div id="printContainer"></div>
+
+    <!-- 移动端 -->
+    <div id="stamp-mobile-tip">
+        <span>请点击你需要盖章的位置</span>
+        <div>
+            <img id="stamp-mobile-cancel" src="./images/x.png" alt="">
+        </div>
+    </div>
+
+
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true"
+         style="top: 100px;">
+        <div class="modal-dialog">
+            <div class="modal-content" id="l1ogin3">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel2">密钥盘认证</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="pKeysn">密钥盘</label>
+                    <input id="pKeysn" class="form-control" placeholder="请输入密钥盘" title="" type="text"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info btn-lg" onclick='yStamp()'>确 定</button>
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">取 消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+         style="top: 100px;">
+        <div class="modal-dialog">
+            <div class="modal-content" id="l1ogin">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">身份确认</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="pesID">账号</label>
+                    <input id="pesID" class="form-control" placeholder="请填写您在手机证书受理平台注册的帐号" title=""
+                           type="text"/>
+                    <br/>
+                    <label for="mobilePhone">手机号码</label>
+                    <input id="mobilePhone" class="form-control" placeholder="请填写手机号码" title="" type="text"/>
+                    <br/>
+                    <label for="pwd">密码</label>
+                    <input id="pwd" class="form-control" placeholder="请填写密码" title="" type="password"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info btn-lg" onclick='aStamp()'>确 定</button>
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">取 消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true"
+         style="top: 100px;">
+        <div class="modal-dialog">
+            <div class="modal-content" id="l1ogin1">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel1">身份确认</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="idcard">身份证号</label>
+                    <input id="idcard" class="form-control" placeholder="请填写身份证号" title="" type="text"/>
+                    <br/>
+                    <label for="pName">姓名</label>
+                    <input id="pName" class="form-control" placeholder="请填写姓名" title="" type="text"/>
+                    <br/>
+                    <input id="isFace" type="checkbox"/><label for="isFace">人脸识别</label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info btn-lg" onclick='fStamp()'>确 定</button>
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">取 消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true"
+         style="top: 100px;">
+        <div class="modal-dialog">
+            <div class="modal-content" id="l1ogin2">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel3">token认证</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="token">token</label>
+                    <input id="token" class="form-control" placeholder="请输入token" title="" type="text"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info btn-lg" onclick='tStamp()'>确 定</button>
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">取 消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3" aria-hidden="true"
+         style="top: 100px;">
+        <div class="modal-dialog">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title">参数配置</h4>
+                </div>
+                <div class="modal-body">
+                    <label for="cmd">命令标识</label>
+                    <input id="cmd" class="form-control" placeholder="请输入命令标识" title="" type="text"/>
+                    <br> <br>
+                    <label for="val">命令标识对应的值:</label>
+                    <input id="val" class="form-control" placeholder="请输入命令标识对应的值" title="" type="text"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info btn-lg" onclick='configSet()'>确 定</button>
+                    <button type="button" class="btn btn-default btn-lg" data-dismiss="modal">取 消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</body>
+
+</html>
+<script src="UiWeb/js/jquery-3.5.0.min.js"></script>
+<script src="UiWeb/js/bootstrap.min.js"></script>
+<script src="kg/promise.min.js"></script>
+<script src="kg/core/kg-xhr.js"></script>
+<script src="kg/kg-KG_HARD_EXT.js"></script>
+<script src="../../config.js"></script>
+<script type="text/javascript">
+  var extParams = {
+      readOnly: false,
+      //mobile : "1",
+      disableDelete: false
+  }
+
+
+  // RS_ConfigParameters('rsigncloud', 'http://114.115.208.11:9090/rssigncloud/post.json')
+  // RS_ConfigParameters('rsigncloud', 'http://114.115.203.41:8080/rssigncloud/post.json')
+  // rsInitByBussName("/pdf", "3.pdf", "BSGCY", extParams);
+
+  //rsInit("../pdf", "3.pdf", "7AB3DC44B59B472A8093E3B6C37EB2DC", extParams);
+  // rsInit("/pdf", "3.pdf", "68AD9CEF35EE445492D2991884792B3E", extParams);
+  // kgInit("/pdf", "3.pdf", "3E0AB16A02F84037AD6818C85E7DF1B7", extParams);
+  // kgInit("/pdf", "3.pdf", "162584F13E64471093554D531B95C9A8", extParams);
+
+  function showpdf(fileName, that) {
+      KGPdfViewerWebApp.open(fileName);
+      $(that).parent().addClass('active').siblings().removeClass('active');
+  }
+
+  // 初始化配置
+  function Config(type){
+      if(type ==1){
+          RS_ConfigParameters('authCode','162584F13E64471093554D531B95C9A8')
+          RS_ConfigParameters('rsigncloud', 'http://114.115.203.41:8080/rssigncloud/post.json')
+      }else if(type ==2){
+          RS_ConfigParameters('authCode','162584F13E64471093554D531B95C9A8')
+          RS_ConfigParameters('rsigncloud', 'http://114.115.208.11:9090/rssigncloud/post.json')
+      }
+      window.KGPdfViewerWebApp.PDFViewerApplication.KGAlertPrompt.open('初始化配置成功')
+  }
+
+  // 验章tab面板设置
+  KGPdfViewerWebApp.defaultVerifyOptionByPDF._map = {
+      seal: {
+          value: 'seal',
+          title: "签章信息"
+      },
+      cert: {
+          value: 'cert',
+          title: "证书信息"
+      }
+  }
+
+  function key_stamp() {
+      keyStamp();
+  }
+
+  function key_stampxy() {
+      keyStampxy("1-5", 400, 600);
+  }
+
+  function key_stamptext() {
+      keyStamptext("1-3", "目录");
+  }
+
+  function sm_stamp() {
+      smStamp();
+  }
+
+  function yunSM_stamp(type) {
+      SMStamp(type);
+  }
+
+  function yunSM_stampxy() {
+      SMStampxy("1-1", 400, 600);
+  }
+
+  function yunSM_stamptext() {
+      SMStamptext("1-3", "目录");
+  }
+
+  function yun_stamp() {
+      yunStamp();
+  }
+
+  function yun_stampxy() {
+      yunStampxy("1-1", 400, 600);
+  }
+
+  function yun_stamptext() {
+      yunStamptext("1-3", "目录");
+  }
+
+  function yStamp() {
+      var pKeysn = $("#pKeysn").val();
+      if (!pKeysn) {
+          alert("密钥盘不能为空");
+          return;
+      }
+      $("#myModal3").modal('hide');
+      $("#pKeysn").val("");
+      stampByKeySn(pKeysn);
+  }
+
+  function aStamp() {
+      var t = +new Date()
+      var account = $("#pesID").val();
+      if (!account) {
+          alert("账号不能为空");
+          return;
+      }
+      var mobilePhone = $("#mobilePhone").val();
+      if (!mobilePhone) {
+          alert("手机号码不能为空");
+          return;
+      }
+      var pwd = $("#pwd").val();
+      if (!pwd) {
+          alert("密码不能为空");
+          return;
+      }
+      $("#myModal").modal('hide');
+      $("#pesID").val("");
+      $("#mobilePhone").val("");
+      $("#pwd").val("");
+      var url = "../getKeySn?account=" + account + "&mobilePhone=" + mobilePhone + "&password=" + pwd + "&t=" + t;
+      if (window.XMLHttpRequest) {
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function () {//服务器返回值的处理函数，此处使用匿名函数进行实现
+              if (xhr.readyState == 4 && xhr.status == 200) {//
+                  var data = xhr.responseText;
+                  data = eval("(" + data + ")");
+                  if (data.keySn) {
+                      stampByKeySn(data.keySn, "123456");
+                  } else {
+                      alert(data.msg);
+                  }
+              }
+          };
+          xhr.open('GET', url);
+          xhr.send(null);
+      } else {
+          alert("当前浏览器不支持，请更换.");
+      }
+  }
+
+  function fStamp() {
+      var idcard = $("#idcard").val();
+      if (!idcard) {
+          alert("身份证号不能为空");
+          return;
+      }
+      var pName = $("#pName").val();
+      if (!pName) {
+          alert("姓名不能为空");
+          return;
+      }
+      var isFace = $("#isFace").is(':checked');
+      $("#myModal1").modal('hide');
+      $("#idcard").val("");
+      $("#pName").val("");
+      if (isFace) {
+          alert("人脸识别功能暂未开通");
+      } else {
+          stampByKeySn(idcard, "123456");
+      }
+  }
+
+  function tStamp() {
+      var t = +new Date()
+      var token = $("#token").val();
+      if (!token) {
+          alert("token不能为空");
+          return;
+      }
+      $("#myModal2").modal('hide');
+      $("#token").val("");
+      var url = "../getKeySnByToken?token=" + token + "&t=" + t;
+      if (window.XMLHttpRequest) {
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function () {//服务器返回值的处理函数，此处使用匿名函数进行实现
+              if (xhr.readyState == 4 && xhr.status == 200) {//
+                  var data = xhr.responseText;
+                  data = eval("(" + data + ")");
+                  if (data.keySn) {
+                      stampByKeySn(data.keySn, "123456");
+                  } else {
+                      alert(data.msg);
+                  }
+              }
+          };
+          xhr.open('GET', url);
+          xhr.send(null);
+      } else {
+          alert("当前浏览器不支持，请更换.");
+      }
+  }
+
+  function rsPrint() {
+      window.print()
+  }
+
+  function restore() {
+      var t = +new Date()
+      var url = "../reset?t=" + t;
+      if (window.XMLHttpRequest) {
+          var xhr = new XMLHttpRequest();
+          xhr.onreadystatechange = function () {//服务器返回值的处理函数，此处使用匿名函数进行实现
+              if (xhr.readyState == 4 && xhr.status == 200) {//
+                  window.location.reload();
+              }
+          };
+          xhr.open('GET', url);
+          xhr.send(null);
+      } else {
+          alert("Your browser does not support XMLHttpRequest Object.");
+      }
+  }
+
+  function  configSet() {
+      var cmd = $("#cmd").val();
+      var val = $("#val").val();
+      RS_ConfigParameters(cmd, val)
+      if(cmd == 'authCode'||cmd == 'bussName'){
+          KGPdfViewerWebApp.appCode = localStorage.getItem('rs_authCode');
+      }
+      $("#myModal4").modal('hide');
+      $("#cmd").val('');
+      $("#val").val('');
+  }
+</script>
