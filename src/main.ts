@@ -27,3 +27,4 @@ app.use(globalComponents,{})
 app.mount('#app')
 
 console.log('cherry-pick-test')
+console.log('sss')
