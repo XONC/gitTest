@@ -7,15 +7,15 @@ import { buildTree, verifyResIsSuccess, clone } from '@/utils/util'
 import { ElMessage } from 'element-plus'
 import { responseKey } from '@/global/constant'
 import gatewayConfig from '@/global/gateway-config' // 引入网关
-import type {UserInfo} from '@/types/type'
+import type {UserInfo, Menu, MenuOrg} from '@/types/type'
 
 const isLogin = window.globalConfig.systemTemp.isLogin
 export const useUserStore = defineStore('user', {
   state: () => ({
     userInfo: {} as UserInfo,
     roles: [],
-    menuList: [],
-    menuOrg: [],
+    menuList: [] as Menu[],
+    menuOrg: [] as MenuOrg[],
     isInitMenu: false,
     access_token: getToken() || '',
     refresh_token: getStore({
@@ -42,7 +42,6 @@ export const useUserStore = defineStore('user', {
               return Promise.reject('error')
             } else {
               data[tokenTypeKey] = 'Bearer ' + data[tokenTypeKey];
-              console.log(data[tokenTypeKey])
               this.SET_ACCESS_TOKEN(data[tokenTypeKey])
               window.localStorage.loginGrantType = userInfo.grant_type;
               resolve(data)
@@ -101,6 +100,7 @@ export const useUserStore = defineStore('user', {
                 ...menuItem
               }
             })
+            console.log('menuData',menuData)
             // 从根节点取出数据
             this.SET_OrgMENU(menuData)
              // 移除根菜单节点
@@ -175,7 +175,6 @@ export const useUserStore = defineStore('user', {
     },
     // 原mutations 方法
     SET_ACCESS_TOKEN (access_token) {
-      console.log(this)
       this.access_token = access_token
     },
     SET_MENU(menu) {

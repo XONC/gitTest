@@ -9,3 +9,11 @@ export function getUrlConfigByUrlCode(params) {
     params
   })
 }
+
+export function getUserAndAttRangeAll(params) {
+  return request({
+    url: `${pspBaseUrl}/v1/attrange/getUserAndAttRangeAll`,
+    method: 'GET',
+    params
+  })
+}

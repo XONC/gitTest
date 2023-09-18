@@ -18,8 +18,8 @@ export const routes = [
     component: Layout,
     children: [
       {
-        path: '/test',
-        component: _import('test/index', 'views'),
+        path: '/demo',
+        component: _import('demo/index', 'views'),
       }
     ]
   }

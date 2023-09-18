@@ -116,7 +116,7 @@ export const useCommonStore = defineStore('common', {
       })
     },
     // 设置侧边栏展状态
-    SET_COLLAPSE(isCollapse) {
+    SET_COLLAPSE(isCollapse?:boolean) {
       if (isCollapse) {
         this.isCollapse = isCollapse
       } else {

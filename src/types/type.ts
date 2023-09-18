@@ -29,3 +29,27 @@ export interface UserInfo {
   orgAddress: string;
   avatar?: string;
 }
+export interface MenuOrg {
+  buttons: [],
+  component: string,
+  funId: string,
+  funPId: string,
+  functionName: string,
+  functionParam: string,
+  functionUrl:string,
+  icon?: string,
+  label: string,
+  name: string,
+  orderId: 2,
+  path: string,
+  query: string,
+  remark: string,
+  subarea: string,
+  url: string,
+  javaEvent: string
+}
+export type Menu = Omit<MenuOrg, 'javaEvent'> & {
+  children?: MenuOrg[]
+} 
+
+

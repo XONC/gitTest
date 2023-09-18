@@ -16,12 +16,12 @@ let gateway = ''
 if (ENV) {
   gateway = '/gateway'
 }
-const blockList = []
-const isInWhiteList = function(errorCode, whiteListConfig = []) {
+const blockList:string[] = []
+const isInWhiteList = function(errorCode, whiteListConfig: Array<string | RegExp> = []) {
   return (
     whiteListConfig.filter(rule => {
       if (Object.prototype.toString.call(rule) === '[object RegExp]') {
-        return rule.test(errorCode)
+        return (rule as RegExp).test(errorCode)
       } else {
         return rule === errorCode
       }
@@ -32,6 +32,7 @@ const isInWhiteList = function(errorCode, whiteListConfig = []) {
 // 刷新token
 const toRefreshToken = () => {
   const user = useUserStore()
+  //@ts-ignore
   refreshToken().then((res) => {
     if (res.data.code && res.data.code !== '200') {
       // 超时跳转登录页
@@ -52,7 +53,7 @@ axios.interceptors.request.use(
     /**
      * 为防止ie浏览器缓存，针对get请求在params中添加时间戳
      * */
-    if (config.method.toLocaleUpperCase() === 'GET') {
+    if (config.method && config.method.toLocaleUpperCase() === 'GET') {
       const _t = new Date().getTime()
       if (typeof config.params === 'object') {
         config.params._t = _t
@@ -91,13 +92,11 @@ axios.interceptors.response.use(
      * 当数据存在code字段并且不等于success时提示错误信息
      * 并且在不提示的白名单中时统一提示
      * */
-    console.log('res',res)
-    if (!blockList.includes(res.config.url)) {
+    if (res.config.url && !blockList.includes(res.config.url)) {
       if (res.data.code === '5563' || res.data.code === '2200008') {
          // token过期=>刷新
          toRefreshToken();
       } else if (res.data.code === '5560' || res.data.code === '510') {
-        console.log('res11')
          // 5560=>access_token无效；510=>登录信息不存在或已过期
          user.LogOut()
       } else if (
@@ -115,7 +114,6 @@ axios.interceptors.response.use(
         })
       }
     }
-    console.log('res12')
     return res
   },
   error => {
