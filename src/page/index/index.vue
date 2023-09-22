@@ -20,7 +20,8 @@
 import headerBar from './headerBar/index.vue'
 import {useCommonStore} from '@/stores/common'
 import { computed, reactive, watch,ref,watchEffect } from 'vue';
-const {subAppLoading, sidebar, isCollapse} = useCommonStore()
+import {storeToRefs} from "pinia";
+const {subAppLoading, sidebar, isCollapse} = storeToRefs(useCommonStore())
 
 const loadingApp = ref(false)
 const classObj = computed(()=>({
@@ -32,7 +33,7 @@ const loadingSet = (val)=> {
   loadingApp.value = val
 }
 watchEffect(()=> {
-  loadingSet(subAppLoading)
+  loadingSet(subAppLoading.value)
 })
 </script>
 
@@ -41,8 +42,7 @@ watchEffect(()=> {
   height: 100%;
 }
 #routerWrap {
-  height: 100%;
-  //height: calc(100vh - 70px);
+  height: calc(100vh - 70px);
   position: relative;
   overflow: auto;
 }
@@ -51,7 +51,7 @@ watchEffect(()=> {
   box-shadow: 2px 2px 6px rgba(170,175,226,0.55);
   z-index: 1;
   height: $topHeight !important;
-  background: url('../../assets/imgs/bg/top_bg.png') no-repeat center center ;
+  background: url('../../assets/imgs/top_bg.png') no-repeat center center ;
   background-size: cover;
   color: #ffffff;
   padding: 0;

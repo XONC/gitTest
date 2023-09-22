@@ -33,18 +33,17 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import {ref, onMounted, toRefs} from 'vue'
 import { useUserStore } from '@/stores/user'
+import {storeToRefs} from "pinia";
 
-const { menuList } = useUserStore()
-
-onMounted(()=>{
-  console.log(menuList)
-})
+const { menuList } = storeToRefs(useUserStore())
 const activeIndex = ref('1')
 const handleSelect = (key, keyPath) => {
   console.log(key, keyPath)
 }
+onMounted(()=>{
+})
 </script>
 <style lang="scss" scoped>
 .menu-list {

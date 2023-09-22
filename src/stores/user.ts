@@ -112,6 +112,7 @@ export const useUserStore = defineStore('user', {
             const treeData = buildTree(menuData, 'funId', 'funPId', 'children')
             // 从根节点取出数据
             this.SET_MENU(treeData)
+            console.log('menulist==>', this.menuList)
             resolve(treeData)
           } else {
             ElMessage({
