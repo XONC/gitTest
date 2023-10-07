@@ -25,3 +25,5 @@ app.use(createPinia())
 app.use(router)
 app.use(globalComponents,{})
 app.mount('#app')
+
+console.log('cherry-pick-test')
