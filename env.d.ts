@@ -7,5 +7,4 @@ declare global {  //设置全局属性
     myToken: string
   }
 
-
 }
